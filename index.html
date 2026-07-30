@@ -50,7 +50,7 @@
         .card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(79, 70, 229, 0.12); border-color: #8b5cf6; }
         .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .card-category { display: inline-block; background: #e0e7ff; color: #4f46e5; font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
-        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; transition: color 0.2s; padding: 4px; display: none; } /* Hidden unless admin logged in */
+        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; transition: color 0.2s; padding: 4px; display: none; }
         .btn-delete.admin-visible { display: inline-block; }
         .btn-delete:hover { color: #ef4444; }
         .card h3 { font-size: 18px; margin-bottom: 8px; color: #1e293b; font-weight: 700; }
@@ -67,19 +67,25 @@
         /* Modal Popup Styles */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal { background: #ffffff; border-radius: 20px; max-width: 500px; width: 100%; padding: 30px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); transform: translateY(20px); transition: transform 0.3s ease; position: relative; }
+        .modal { background: #ffffff; border-radius: 20px; max-width: 650px; width: 100%; padding: 30px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); transform: translateY(20px); transition: transform 0.3s ease; position: relative; max-height: 90vh; overflow-y: auto; }
         .modal-overlay.active .modal { transform: translateY(0); }
         .modal-category { display: inline-block; background: #e0e7ff; color: #4f46e5; font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 6px; margin-bottom: 12px; text-transform: uppercase; }
         .modal h2 { font-size: 22px; color: #1e293b; margin-bottom: 12px; }
         .modal p { color: #475569; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
         .modal .price { font-size: 18px; margin-bottom: 24px; }
-        .modal-actions { display: flex; gap: 12px; }
+        
+        /* Preview Frame Container inside Modal */
+        .preview-container { margin-bottom: 20px; border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #f8fafc; text-align: center; padding: 10px; }
+        .preview-container img { max-width: 100%; max-height: 350px; object-fit: contain; border-radius: 8px; }
+        .preview-container iframe { width: 100%; height: 350px; border: none; border-radius: 8px; background: white; }
+
+        .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
         .btn-whatsapp { flex: 1; background-color: #25d366; color: white; text-align: center; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 15px; transition: background 0.2s; }
         .btn-whatsapp:hover { background-color: #20ba5a; }
         .btn-close { background-color: #e2e8f0; color: #475569; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .btn-close:hover { background-color: #cbd5e1; }
 
-        /* Upload Item Form Section (Hidden by default) */
+        /* Upload Item Form Section */
         .form-container { background: #ffffff; border: 2px solid #e0e7ff; border-radius: 16px; padding: 30px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.06); margin-top: 50px; display: none; }
         .form-container.admin-visible { display: block; }
         .form-group { margin-bottom: 20px; }
@@ -162,7 +168,7 @@
             <!-- Dynamic items load here -->
         </div>
 
-        <!-- Upload / Post New Item Form Section (Protected by Password) -->
+        <!-- Upload / Post New Item Form Section -->
         <div id="post-section" class="form-container">
             <h3 class="section-title" style="margin-bottom: 15px;">Admin Upload Panel: Post Material or List Item</h3>
             <form id="itemForm">
@@ -194,20 +200,28 @@
                         <input type="file" id="fileInput">
                     </div>
                 </div>
-                <button type="submit" class="btn-submit">Publish & Upload Item</button>
+                <button type="button" class="btn-submit" onclick="handleDirectPublish()">Publish & Upload Item</button>
             </form>
         </div>
     </div>
 
-    <!-- Detail View Modal Popup -->
+    <!-- Detail & Preview View Modal Popup -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal">
             <span class="modal-category" id="modalCategory">Category</span>
             <h2 id="modalTitle">Listing Title</h2>
+            
+            <!-- Dynamic Preview Box -->
+            <div id="modalPreviewContainer" class="preview-container" style="display: none;">
+                <!-- Preview elements injected via JS -->
+            </div>
+
             <p id="modalDescription">Detailed description goes here...</p>
             <div class="price" id="modalPrice">RWF 0</div>
+            
             <div class="modal-actions">
                 <a href="#" id="whatsappLink" target="_blank" class="btn-whatsapp">Inquire via WhatsApp</a>
+                <a id="modalDownloadBtn" href="#" download="" class="btn-download" style="display:none; text-decoration:none; text-align:center; padding:12px; border-radius:10px; font-weight:bold;">Download File</a>
                 <button class="btn-close" id="closeModal">Close</button>
             </div>
         </div>
@@ -258,9 +272,8 @@
         </div>
     </footer>
 
-    <!-- JavaScript with Password-Protected Admin Upload -->
+    <!-- JavaScript with Built-in File Preview System -->
     <script>
-        const itemForm = document.getElementById('itemForm');
         const productGrid = document.getElementById('productGrid');
         const searchInput = document.getElementById('searchInput');
         const catButtons = document.querySelectorAll('.cat-btn');
@@ -280,6 +293,8 @@
         const modalDescription = document.getElementById('modalDescription');
         const modalPrice = document.getElementById('modalPrice');
         const whatsappLink = document.getElementById('whatsappLink');
+        const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+        const modalPreviewContainer = document.getElementById('modalPreviewContainer');
 
         const supportNavBtn = document.getElementById('supportNavBtn');
         const supportModal = document.getElementById('supportModal');
@@ -290,7 +305,6 @@
         let uploadedFileName = "";
         let isAdminLoggedIn = localStorage.getItem('hubAdminAuth') === 'true';
 
-        // Check initial admin state
         if (isAdminLoggedIn) {
             postSection.classList.add('admin-visible');
             adminNavBtn.textContent = "🔓 Admin Logged In";
@@ -308,7 +322,7 @@
                 }
             } else {
                 let password = prompt("Enter Admin Password to access upload panel:");
-                if (password === "Hub2026Admin") { // You can change this password anytime here
+                if (password === "Hub2026Admin") {
                     localStorage.setItem('hubAdminAuth', 'true');
                     isAdminLoggedIn = true;
                     postSection.classList.add('admin-visible');
@@ -325,6 +339,9 @@
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert("Warning: This file is quite large. For best performance without errors, try uploading files under 2MB.");
+                }
                 uploadedFileName = file.name;
                 fileLabel.textContent = `📎 Selected: ${uploadedFileName}`;
                 
@@ -366,7 +383,6 @@
 
             filteredListings.forEach((item) => {
                 const originalIndex = listings.indexOf(item);
-
                 const card = document.createElement('div');
                 card.className = 'card';
                 
@@ -390,8 +406,8 @@
                     <div>
                         <div class="price">${item.price}</div>
                         <div class="card-actions">
-                            <button class="btn-view" onclick="openModal('${item.category.replace(/'/g, "\\'")}', '${item.title.replace(/'/g, "\\'")}', '${item.description.replace(/'/g, "\\'")}', '${item.price.replace(/'/g, "\\'")}')">Details</button>
-                            ${item.fileData ? `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download</a>` : `<button class="btn-download" onclick="openModal('${item.category.replace(/'/g, "\\'")}', '${item.title.replace(/'/g, "\\'")}', '${item.description.replace(/'/g, "\\'")}', '${item.price.replace(/'/g, "\\'")}')">Inquire</button>`}
+                            <button class="btn-view" onclick="openModal(${originalIndex})">Preview & Details</button>
+                            ${item.fileData ? `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download</a>` : `<button class="btn-download" onclick="openModal(${originalIndex})">Inquire</button>`}
                         </div>
                     </div>
                 `;
@@ -411,22 +427,86 @@
             }
         }
 
-        window.openModal = function(category, title, description, price) {
-            modalCategory.textContent = category;
-            modalTitle.textContent = title;
-            modalDescription.textContent = description;
-            modalPrice.textContent = price;
+        window.openModal = function(index) {
+            const item = listings[index];
+            modalCategory.textContent = item.category;
+            modalTitle.textContent = item.title;
+            modalDescription.textContent = item.description;
+            modalPrice.textContent = item.price;
             
-            const encodedMessage = encodeURIComponent(`Hello, I am interested in this item on Opportunity & Digital Hub: *${title}* (${price})`);
+            const encodedMessage = encodeURIComponent(`Hello, I am interested in this item on Opportunity & Digital Hub: *${item.title}* (${item.price})`);
             whatsappLink.href = `https://wa.me/250783230084?text=${encodedMessage}`;
+
+            // Handle Preview and Download Buttons in Modal
+            if (item.fileData && item.fileName) {
+                modalDownloadBtn.href = item.fileData;
+                modalDownloadBtn.setAttribute('download', item.fileName);
+                modalDownloadBtn.style.display = "block";
+
+                modalPreviewContainer.style.display = "block";
+                const lowerName = item.fileName.toLowerCase();
+
+                if (lowerName.endsWith('.jpg') || lowerName.endsWith('.jpeg') || lowerName.endsWith('.png') || lowerName.endsWith('.webp') || lowerName.endsWith('.gif')) {
+                    modalPreviewContainer.innerHTML = `<img src="${item.fileData}" alt="Uploaded Preview">`;
+                } else if (lowerName.endsWith('.pdf')) {
+                    modalPreviewContainer.innerHTML = `<iframe src="${item.fileData}" title="PDF Preview"></iframe>`;
+                } else {
+                    modalPreviewContainer.innerHTML = `<p style="padding: 20px; color: #475569; font-size: 14px;">📄 Attached File: <strong>${item.fileName}</strong><br><span style="font-size:12px; color:#64748b;">Click download below to view full contents on your device.</span></p>`;
+                }
+            } else {
+                modalPreviewContainer.style.display = "none";
+                modalDownloadBtn.style.display = "none";
+                modalPreviewContainer.innerHTML = "";
+            }
 
             detailModal.classList.add('active');
         }
 
-        window.filterByCategory = function(categoryName) {
-            currentFilter = categoryName;
-            updateActiveButton(categoryName);
-            renderListings(currentFilter, searchInput.value.toLowerCase());
+        window.handleDirectPublish = function() {
+            if (!isAdminLoggedIn) {
+                alert("Please log in as Admin first!");
+                return;
+            }
+
+            const titleVal = document.getElementById('title').value.trim();
+            const priceVal = document.getElementById('price').value.trim();
+            const descVal = document.getElementById('description').value.trim();
+            const categoryVal = document.getElementById('category').value;
+
+            if (!titleVal || !priceVal || !descVal) {
+                alert("Please fill in all required fields (Title, Price, and Description).");
+                return;
+            }
+
+            const newItem = {
+                category: categoryVal,
+                title: titleVal,
+                price: priceVal,
+                description: descVal,
+                fileName: uploadedFileName,
+                fileData: uploadedFiledata
+            };
+
+            try {
+                listings.unshift(newItem);
+                localStorage.setItem('hubListings', JSON.stringify(listings));
+            } catch (err) {
+                alert("Storage error: The file attached is too large for browser memory. Try publishing without a file or use a smaller file.");
+                return;
+            }
+
+            uploadedFiledata = null;
+            uploadedFileName = "";
+            fileLabel.textContent = "📁 Click here to select file from your device";
+            document.getElementById('title').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('description').value = '';
+
+            currentFilter = 'all';
+            updateActiveButton('all');
+            renderListings('all', searchInput.value.toLowerCase());
+            
+            alert("Item published successfully with live preview enabled!");
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
@@ -452,37 +532,6 @@
         });
 
         renderListings();
-
-        itemForm.addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            if (!isAdminLoggedIn) {
-                alert("Unauthorized action!");
-                return;
-            }
-
-            const newItem = {
-                category: document.getElementById('category').value,
-                title: document.getElementById('title').value,
-                price: document.getElementById('price').value,
-                description: document.getElementById('description').value,
-                fileName: uploadedFileName,
-                fileData: uploadedFiledata
-            };
-
-            listings.unshift(newItem);
-            localStorage.setItem('hubListings', JSON.stringify(listings));
-
-            uploadedFiledata = null;
-            uploadedFileName = "";
-            fileLabel.textContent = "📁 Click here to select file from your device";
-
-            currentFilter = 'all';
-            updateActiveButton('all');
-            renderListings('all', searchInput.value.toLowerCase());
-            
-            itemForm.reset();
-            window.scrollTo({ top: 400, behavior: 'smooth' });
-        });
 
         catButtons.forEach(btn => {
             btn.addEventListener('click', function() {
