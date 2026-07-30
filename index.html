@@ -191,7 +191,7 @@
                     <label for="category">Category</label>
                     <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
-                        <option value="Study Materials">Study Materials (Requires MTN MoMo payment for download)</option>
+                        <option value="Study Materials">Study Materials (Requires MTN MoMo payment for regular users)</option>
                         <option value="House for Rent">House for Rent</option>
                         <option value="Opportunities">Opportunities</option>
                     </select>
@@ -209,7 +209,7 @@
                     <textarea id="description" placeholder="Provide details about this listing or uploaded material..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Upload File / Image (Study materials will require MTN MoMo payment before download unlocks)</label>
+                    <label>Upload File / Image (Admin downloads freely; study materials require payment for public users)</label>
                     <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
                         <p id="fileLabel">📁 Click here to select file or image from your device</p>
                         <input type="file" id="fileInput">
@@ -231,7 +231,7 @@
             <p id="modalDescription">Detailed description goes here...</p>
             <div class="price" id="modalPrice">RWF 0</div>
             
-            <!-- MTN Payment Section (Injected for Study Materials) -->
+            <!-- MTN Payment Section (Injected for Study Materials when unpaid & not admin) -->
             <div id="paymentSection" style="display: none;" class="payment-box">
                 <h4>🔒 Secure Study Material Download</h4>
                 <p>To unlock and download this study material, please send payment via <strong>MTN Mobile Money</strong> to:</p>
@@ -296,7 +296,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript with MTN MoMo Study Material Payment Integration -->
+    <!-- JavaScript with Strict Admin & Paid User Download Restrictions -->
     <script>
         const productGrid = document.getElementById('productGrid');
         const searchInput = document.getElementById('searchInput');
@@ -356,7 +356,7 @@
                     postSection.classList.add('admin-visible');
                     adminNavBtn.textContent = "🔓 Admin Logged In";
                     renderListings(currentFilter, searchInput.value.toLowerCase());
-                    alert("Admin access granted! You can now upload items.");
+                    alert("Admin access granted! You can now download study materials freely and upload items.");
                     window.location.hash = "#post-section";
                 } else if (password !== null) {
                     alert("Incorrect password!");
@@ -432,8 +432,8 @@
                 let actionButtonHTML = '';
                 if (item.category === "Study Materials" && item.fileData) {
                     const isPaid = paidStudyMaterials[originalIndex];
-                    if (isPaid) {
-                        actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download (Unlocked)</a>`;
+                    if (isAdminLoggedIn || isPaid) {
+                        actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download (${isAdminLoggedIn ? 'Admin Access' : 'Unlocked'})</a>`;
                     } else {
                         actionButtonHTML = `<button class="btn-pay-download" onclick="openModal(${originalIndex})">Pay & Download (MTN)</button>`;
                     }
@@ -490,14 +490,14 @@
             const encodedMessage = encodeURIComponent(`Hello, I am interested in this item on Opportunity & Digital Hub: *${item.title}* (${item.price})`);
             whatsappLink.href = `https://wa.me/250783230084?text=${encodedMessage}`;
 
-            // Check if Study Material requires MTN Payment
+            // Strict Restriction Check for Study Materials
             if (item.category === "Study Materials" && item.fileData) {
-                if (paidStudyMaterials[index]) {
+                if (isAdminLoggedIn || paidStudyMaterials[index]) {
                     paymentSection.style.display = "none";
                     modalDownloadBtn.href = item.fileData;
                     modalDownloadBtn.setAttribute('download', item.fileName);
                     modalDownloadBtn.style.display = "block";
-                    modalDownloadBtn.textContent = "Download Unlocked File";
+                    modalDownloadBtn.textContent = isAdminLoggedIn ? "Download File (Admin Access)" : "Download Unlocked File";
                 } else {
                     paymentSection.style.display = "block";
                     modalDownloadBtn.style.display = "none";
@@ -540,7 +540,6 @@
                 return;
             }
 
-            // Simulate verification success for MTN number 0796051492
             paidStudyMaterials[currentModalItemIndex] = true;
             localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
 
@@ -600,7 +599,7 @@
             updateActiveButton('all');
             renderListings('all', searchInput.value.toLowerCase());
             
-            alert("Item published successfully! MTN MoMo download restriction applied for Study Materials.");
+            alert("Item published successfully with strict study material payment enforcement!");
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
