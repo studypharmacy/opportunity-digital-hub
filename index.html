@@ -14,8 +14,11 @@
         nav { background: linear-gradient(135deg, #4f46e5, #9333ea); color: white; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
         nav h1 { font-size: 20px; font-weight: bold; letter-spacing: 0.5px; }
         nav .nav-links { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
-        nav .nav-links a, nav .nav-links span { color: #f3e8ff; text-decoration: none; margin-left: 20px; font-size: 15px; font-weight: 500; transition: color 0.2s; cursor: pointer; }
+        nav .nav-links a, nav .nav-links span { color: #f3e8ff; text-decoration: none; margin-left: 15px; font-size: 14px; font-weight: 500; transition: color 0.2s; cursor: pointer; }
         nav .nav-links a:hover { color: #ffffff; text-decoration: underline; }
+
+        /* User Profile Pill */
+        .user-pill { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
 
         /* Hero Section / Search Header */
         .hero { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; text-align: center; padding: 50px 20px; box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05); }
@@ -100,6 +103,13 @@
         .btn-verify-pay { background: #f59e0b; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .btn-verify-pay:hover { background: #d97706; }
 
+        /* Auth Form Elements inside Modal */
+        .auth-form-group { margin-bottom: 15px; text-align: left; }
+        .auth-form-group label { display: block; font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 6px; }
+        .auth-form-group input { width: 100%; padding: 10px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+        .btn-auth-action { background: #4f46e5; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: 5px; }
+        .btn-auth-action:hover { background: #4338ca; }
+
         /* Upload Item Form Section */
         .form-container { background: #ffffff; border: 2px solid #e0e7ff; border-radius: 16px; padding: 30px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.06); margin-top: 50px; display: none; }
         .form-container.admin-visible { display: block; }
@@ -131,7 +141,9 @@
     <nav>
         <h1>Opportunity & Digital Hub</h1>
         <div class="nav-links">
+            <span id="userStatusNav"></span>
             <a href="#">Home</a>
+            <a id="authNavBtn" onclick="openAuthModal()">👤 Account / Login</a>
             <a id="adminNavBtn" onclick="toggleAdminLogin()">🔐 Admin Login</a>
             <a href="https://chat.whatsapp.com/E4wIwA477OjHOMJuA824hD?s=sh&p=a&ilr=0" target="_blank">WhatsApp Channel</a>
             <a id="supportNavBtn">Contact Support</a>
@@ -191,7 +203,7 @@
                     <label for="category">Category</label>
                     <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
-                        <option value="Study Materials">Study Materials (Requires MTN MoMo payment for regular users)</option>
+                        <option value="Study Materials">Study Materials (Requires MTN MoMo payment for download)</option>
                         <option value="House for Rent">House for Rent</option>
                         <option value="Opportunities">Opportunities</option>
                     </select>
@@ -209,7 +221,7 @@
                     <textarea id="description" placeholder="Provide details about this listing or uploaded material..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Upload File / Image (Admin downloads freely; study materials require payment for public users)</label>
+                    <label>Upload File / Image (Study materials will require MTN MoMo payment before download unlocks)</label>
                     <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
                         <p id="fileLabel">📁 Click here to select file or image from your device</p>
                         <input type="file" id="fileInput">
@@ -231,7 +243,7 @@
             <p id="modalDescription">Detailed description goes here...</p>
             <div class="price" id="modalPrice">RWF 0</div>
             
-            <!-- MTN Payment Section (Injected for Study Materials when unpaid & not admin) -->
+            <!-- MTN Payment Section (Injected for Study Materials) -->
             <div id="paymentSection" style="display: none;" class="payment-box">
                 <h4>🔒 Secure Study Material Download</h4>
                 <p>To unlock and download this study material, please send payment via <strong>MTN Mobile Money</strong> to:</p>
@@ -247,6 +259,22 @@
                 <a href="#" id="whatsappLink" target="_blank" class="btn-whatsapp">Inquire via WhatsApp</a>
                 <a id="modalDownloadBtn" href="#" download="" class="btn-download" style="display:none; text-decoration:none; text-align:center; padding:12px; border-radius:10px; font-weight:bold;">Download File</a>
                 <button class="btn-close" id="closeModal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth / Account Modal Popup -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal" style="max-width: 400px; text-align: center;">
+            <span class="modal-category" id="authModalCategory">User Account</span>
+            <h2 id="authModalTitle" style="font-size: 20px; margin-bottom: 15px;">Sign In to Your Account</h2>
+            
+            <div id="authContentContainer">
+                <!-- Injected via JS -->
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button class="btn-close" id="closeAuthModal" style="width: 100%;">Cancel</button>
             </div>
         </div>
     </div>
@@ -296,7 +324,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript with Strict Admin & Paid User Download Restrictions -->
+    <!-- JavaScript with User Account Creation & MTN MoMo Integration -->
     <script>
         const productGrid = document.getElementById('productGrid');
         const searchInput = document.getElementById('searchInput');
@@ -305,6 +333,8 @@
         const fileLabel = document.getElementById('fileLabel');
         const postSection = document.getElementById('post-section');
         const adminNavBtn = document.getElementById('adminNavBtn');
+        const authNavBtn = document.getElementById('authNavBtn');
+        const userStatusNav = document.getElementById('userStatusNav');
         
         const totalCountEl = document.getElementById('totalCount');
         const digitalCountEl = document.getElementById('digitalCount');
@@ -322,6 +352,11 @@
         const paymentSection = document.getElementById('paymentSection');
         const momoCodeInput = document.getElementById('momoCodeInput');
 
+        const authModal = document.getElementById('authModal');
+        const closeAuthModal = document.getElementById('closeAuthModal');
+        const authContentContainer = document.getElementById('authContentContainer');
+        const authModalTitle = document.getElementById('authModalTitle');
+
         const supportNavBtn = document.getElementById('supportNavBtn');
         const supportModal = document.getElementById('supportModal');
         const closeSupportModal = document.getElementById('closeSupportModal');
@@ -330,21 +365,35 @@
         let uploadedFiledata = null;
         let uploadedFileName = "";
         let currentModalItemIndex = null;
+        
         let paidStudyMaterials = JSON.parse(localStorage.getItem('paidStudyMaterials')) || {};
         let isAdminLoggedIn = localStorage.getItem('hubAdminAuth') === 'true';
+        let currentUser = JSON.parse(localStorage.getItem('hubCurrentUser')) || null;
 
-        if (isAdminLoggedIn) {
-            postSection.classList.add('admin-visible');
-            adminNavBtn.textContent = "🔓 Admin Logged In";
+        function updateNavbarAuth() {
+            if (currentUser) {
+                userStatusNav.innerHTML = `<span class="user-pill">👤 ${currentUser.name}</span>`;
+                authNavBtn.textContent = "Logout";
+            } else {
+                userStatusNav.innerHTML = "";
+                authNavBtn.textContent = "👤 Account / Login";
+            }
+            if (isAdminLoggedIn) {
+                postSection.classList.add('admin-visible');
+                adminNavBtn.textContent = "🔓 Admin Logged In";
+            } else {
+                postSection.classList.remove('admin-visible');
+                adminNavBtn.textContent = "🔐 Admin Login";
+            }
         }
+        updateNavbarAuth();
 
         window.toggleAdminLogin = function() {
             if (isAdminLoggedIn) {
                 if (confirm("Do you want to log out of Admin mode?")) {
                     localStorage.setItem('hubAdminAuth', 'false');
                     isAdminLoggedIn = false;
-                    postSection.classList.remove('admin-visible');
-                    adminNavBtn.textContent = "🔐 Admin Login";
+                    updateNavbarAuth();
                     renderListings(currentFilter, searchInput.value.toLowerCase());
                     alert("Logged out successfully.");
                 }
@@ -353,14 +402,113 @@
                 if (password === "Hub2026Admin") {
                     localStorage.setItem('hubAdminAuth', 'true');
                     isAdminLoggedIn = true;
-                    postSection.classList.add('admin-visible');
-                    adminNavBtn.textContent = "🔓 Admin Logged In";
+                    updateNavbarAuth();
                     renderListings(currentFilter, searchInput.value.toLowerCase());
-                    alert("Admin access granted! You can now download study materials freely and upload items.");
+                    alert("Admin access granted! You can now upload items.");
                     window.location.hash = "#post-section";
                 } else if (password !== null) {
                     alert("Incorrect password!");
                 }
+            }
+        }
+
+        window.openAuthModal = function(view = 'login') {
+            if (currentUser) {
+                if (confirm(`Logged in as ${currentUser.email}. Do you want to log out?`)) {
+                    localStorage.removeItem('hubCurrentUser');
+                    currentUser = null;
+                    updateNavbarAuth();
+                    renderListings(currentFilter, searchInput.value.toLowerCase());
+                    alert("Logged out of user account.");
+                }
+                return;
+            }
+
+            authModal.classList.add('active');
+            if (view === 'login') {
+                authModalTitle.textContent = "Sign In to Your Account";
+                authContentContainer.innerHTML = `
+                    <div class="auth-form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email...">
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password...">
+                    </div>
+                    <button class="btn-auth-action" onclick="handleLogin()">Sign In</button>
+                    <p style="font-size:13px; margin-top:15px; color:#64748b;">Don't have an account? <a href="#" onclick="openAuthModal('register')" style="color:#4f46e5; font-weight:bold; text-decoration:none;">Create one</a></p>
+                `;
+            } else {
+                authModalTitle.textContent = "Create New Account";
+                authContentContainer.innerHTML = `
+                    <div class="auth-form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="regName" placeholder="Enter your full name...">
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="regEmail" placeholder="Enter your email...">
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Password</label>
+                        <input type="password" id="regPassword" placeholder="Choose a password...">
+                    </div>
+                    <button class="btn-auth-action" onclick="handleRegister()">Register Account</button>
+                    <p style="font-size:13px; margin-top:15px; color:#64748b;">Already have an account? <a href="#" onclick="openAuthModal('login')" style="color:#4f46e5; font-weight:bold; text-decoration:none;">Sign In</a></p>
+                `;
+            }
+        }
+
+        window.handleRegister = function() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+
+            if (!name || !email || !password) {
+                alert("Please fill in all registration fields.");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('hubUsers')) || [];
+            if (users.find(u => u.email === email)) {
+                alert("An account with this email already exists!");
+                return;
+            }
+
+            const newUser = { name, email, password };
+            users.push(newUser);
+            localStorage.setItem('hubUsers', JSON.stringify(users));
+            localStorage.setItem('hubCurrentUser', JSON.stringify(newUser));
+            currentUser = newUser;
+
+            updateNavbarAuth();
+            authModal.classList.remove('active');
+            renderListings(currentFilter, searchInput.value.toLowerCase());
+            alert(`Account created successfully! Welcome, ${name}.`);
+        }
+
+        window.handleLogin = function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!email || !password) {
+                alert("Please enter email and password.");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('hubUsers')) || [];
+            const foundUser = users.find(u => u.email === email && u.password === password);
+
+            if (foundUser) {
+                localStorage.setItem('hubCurrentUser', JSON.stringify(foundUser));
+                currentUser = foundUser;
+                updateNavbarAuth();
+                authModal.classList.remove('active');
+                renderListings(currentFilter, searchInput.value.toLowerCase());
+                alert(`Welcome back, ${foundUser.name}!`);
+            } else {
+                alert("Invalid email or password. Please check your credentials or register a new account.");
             }
         }
 
@@ -431,9 +579,10 @@
                 
                 let actionButtonHTML = '';
                 if (item.category === "Study Materials" && item.fileData) {
-                    const isPaid = paidStudyMaterials[originalIndex];
+                    const userKey = currentUser ? currentUser.email : 'guest';
+                    const isPaid = paidStudyMaterials[originalIndex]?.[userKey];
                     if (isAdminLoggedIn || isPaid) {
-                        actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download (${isAdminLoggedIn ? 'Admin Access' : 'Unlocked'})</a>`;
+                        actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download File</a>`;
                     } else {
                         actionButtonHTML = `<button class="btn-pay-download" onclick="openModal(${originalIndex})">Pay & Download (MTN)</button>`;
                     }
@@ -490,14 +639,17 @@
             const encodedMessage = encodeURIComponent(`Hello, I am interested in this item on Opportunity & Digital Hub: *${item.title}* (${item.price})`);
             whatsappLink.href = `https://wa.me/250783230084?text=${encodedMessage}`;
 
-            // Strict Restriction Check for Study Materials
+            // Check if Study Material requires MTN Payment
             if (item.category === "Study Materials" && item.fileData) {
-                if (isAdminLoggedIn || paidStudyMaterials[index]) {
+                const userKey = currentUser ? currentUser.email : 'guest';
+                const isPaid = paidStudyMaterials[index]?.[userKey];
+                
+                if (isAdminLoggedIn || isPaid) {
                     paymentSection.style.display = "none";
                     modalDownloadBtn.href = item.fileData;
                     modalDownloadBtn.setAttribute('download', item.fileName);
                     modalDownloadBtn.style.display = "block";
-                    modalDownloadBtn.textContent = isAdminLoggedIn ? "Download File (Admin Access)" : "Download Unlocked File";
+                    modalDownloadBtn.textContent = "Download Unlocked File";
                 } else {
                     paymentSection.style.display = "block";
                     modalDownloadBtn.style.display = "none";
@@ -534,16 +686,27 @@
         }
 
         window.verifyMomoPayment = function() {
+            if (!currentUser) {
+                alert("Please create an account or sign in first before verifying payment so your download access is securely saved to your account!");
+                detailModal.classList.remove('active');
+                openAuthModal('login');
+                return;
+            }
+
             const code = momoCodeInput.value.trim();
             if (!code) {
                 alert("Please enter your MTN Mobile Money reference code or phone number to verify.");
                 return;
             }
 
-            paidStudyMaterials[currentModalItemIndex] = true;
+            const userKey = currentUser.email;
+            if (!paidStudyMaterials[currentModalItemIndex]) {
+                paidStudyMaterials[currentModalItemIndex] = {};
+            }
+            paidStudyMaterials[currentModalItemIndex][userKey] = true;
             localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
 
-            alert("Payment verified successfully via MTN Mobile Money! Download is now unlocked.");
+            alert(`Payment verified successfully via MTN Mobile Money for account ${currentUser.email}! Download is now unlocked.`);
             
             const item = listings[currentModalItemIndex];
             paymentSection.style.display = "none";
@@ -599,7 +762,7 @@
             updateActiveButton('all');
             renderListings('all', searchInput.value.toLowerCase());
             
-            alert("Item published successfully with strict study material payment enforcement!");
+            alert("Item published successfully! Access restricted to Admin and verified buyers.");
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
@@ -609,6 +772,15 @@
         detailModal.addEventListener('click', (e) => {
             if (e.target === detailModal) {
                 detailModal.classList.remove('active');
+            }
+        });
+
+        closeAuthModal.addEventListener('click', () => {
+            authModal.classList.remove('active');
+        });
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.classList.remove('active');
             }
         });
 
