@@ -93,11 +93,11 @@
         .btn-close { background-color: #e2e8f0; color: #475569; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .btn-close:hover { background-color: #cbd5e1; }
 
-        /* Payment Gateway Modal */
+        /* MomoPay Gateway Modal */
         .payment-box { background: #fffbeb; border: 2px solid #f59e0b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
         .payment-box h4 { color: #b45309; font-size: 16px; margin-bottom: 8px; font-weight: 700; }
         .payment-box p { font-size: 14px; color: #78350f; margin-bottom: 12px; }
-        .mtn-number { background: #fef3c7; padding: 8px 12px; border-radius: 8px; font-weight: bold; color: #d97706; display: inline-block; font-size: 16px; margin-bottom: 12px; }
+        .momopay-code { background: #fef3c7; padding: 8px 12px; border-radius: 8px; font-weight: bold; color: #d97706; display: inline-block; font-size: 16px; margin-bottom: 12px; }
         .code-input-group { display: flex; flex-direction: column; gap: 10px; }
         .code-input-group input { width: 100%; padding: 10px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
         .btn-verify-pay { background: #f59e0b; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; width: 100%; }
@@ -156,7 +156,7 @@
     <!-- Header Search Area -->
     <div class="hero">
         <h2>Find What You Need, Fast</h2>
-        <p>Browse goods, securely download paid or free study materials via MTN Mobile Money, and find houses for rent in Huye.</p>
+        <p>Browse goods, securely download paid study materials via MomoPay (1930905) or free study materials instantly, and find houses for rent in Huye.</p>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search products, study materials, or houses in Huye...">
         </div>
@@ -206,7 +206,7 @@
                     <label for="category">Category</label>
                     <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
-                        <option value="Study Materials">Study Materials (Paid items require MTN MoMo payment; 'Free' items download instantly)</option>
+                        <option value="Study Materials">Study Materials (Paid items require MomoPay 1930905 payment; 'Free' items download instantly without asking for payment)</option>
                         <option value="House for Rent">House for Rent</option>
                         <option value="Opportunities">Opportunities</option>
                     </select>
@@ -246,17 +246,17 @@
             <p id="modalDescription">Detailed description goes here...</p>
             <div class="price" id="modalPrice">RWF 0</div>
             
-            <!-- MTN Payment Section (Injected for Paid Study Materials) -->
+            <!-- MomoPay Section (Injected for Paid Study Materials) -->
             <div id="paymentSection" style="display: none;" class="payment-box">
-                <h4>🔒 MTN Mobile Money Secure Payment</h4>
+                <h4>🔒 MomoPay Secure Payment</h4>
                 <div id="userWalletInfo" class="wallet-badge">
-                    <span>MoMo Account Balance: <strong id="momoBalDisplay">RWF 10,000</strong></span>
+                    <span>Momo Account Balance: <strong id="momoBalDisplay">RWF 10,000</strong></span>
                     <button onclick="topUpWallet()" style="background:#059669; color:white; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:11px;">+ Top Up</button>
                 </div>
-                <p>Initiate payment from MTN MoMo account <strong>0796051492</strong>. Enter your MoMo PIN to authorize:</p>
+                <p>Transfer payment to MomoPay Code: <span class="momopay-code">1930905</span>. Enter your Momo PIN to authorize and unlock download:</p>
                 <div class="code-input-group">
-                    <input type="password" id="momoPinInput" maxlength="4" placeholder="Enter 4-digit MoMo PIN (e.g., 1234)">
-                    <button class="btn-verify-pay" onclick="verifyMomoPayment()">Authorize & Pay with MTN MoMo</button>
+                    <input type="password" id="momoPinInput" maxlength="4" placeholder="Enter 4-digit Momo PIN (e.g., 1234)">
+                    <button class="btn-verify-pay" onclick="verifyMomoPayment()">Authorize & Pay to MomoPay 1930905</button>
                 </div>
             </div>
 
@@ -302,7 +302,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Opportunity & Digital Hub</h4>
-                <p>Your ultimate platform for student services, study materials with automated MTN MoMo payment security, housing in Huye, and career opportunities.</p>
+                <p>Your ultimate platform for student services, study materials with automated MomoPay (1930905) payment security, housing in Huye, and career opportunities.</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -329,7 +329,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript with MTN MoMo PIN Payment & Free Item Support -->
+    <!-- JavaScript with MomoPay 1930905 Payment & Free Study Material Instant Access -->
     <script>
         const productGrid = document.getElementById('productGrid');
         const searchInput = document.getElementById('searchInput');
@@ -489,7 +489,7 @@
             localStorage.setItem('hubCurrentUser', JSON.stringify(newUser));
             currentUser = newUser;
 
-            // Initialize user wallet with 10,000 RWF MoMo funds for testing payment
+            // Initialize user wallet with 10,000 RWF Momo funds for testing payment to MomoPay 1930905
             if (!userWallets[email]) {
                 userWallets[email] = 10000;
                 localStorage.setItem('hubUserWallets', JSON.stringify(userWallets));
@@ -498,7 +498,7 @@
             updateNavbarAuth();
             authModal.classList.remove('active');
             renderListings(currentFilter, searchInput.value.toLowerCase());
-            alert(`Account created successfully! Welcome, ${name}. Your MTN MoMo account is linked (0796051492).`);
+            alert(`Account created successfully! Welcome, ${name}. Your Momo account is linked for payments to MomoPay 1930905.`);
         }
 
         window.handleLogin = function() {
@@ -533,12 +533,12 @@
 
         window.topUpWallet = function() {
             if (!currentUser) return;
-            const amount = prompt("Enter amount to top up to your MoMo account (RWF):", "5000");
+            const amount = prompt("Enter amount to top up to your Momo account (RWF):", "5000");
             if (amount && !isNaN(amount)) {
                 userWallets[currentUser.email] = (userWallets[currentUser.email] || 0) + parseInt(amount);
                 localStorage.setItem('hubUserWallets', JSON.stringify(userWallets));
                 momoBalDisplay.textContent = `RWF ${userWallets[currentUser.email].toLocaleString()}`;
-                alert(`MoMo account credited successfully! New balance: RWF ${userWallets[currentUser.email].toLocaleString()}`);
+                alert(`Momo account credited successfully! New balance: RWF ${userWallets[currentUser.email].toLocaleString()}`);
             }
         }
 
@@ -563,7 +563,7 @@
             { category: "House for Rent", title: "Modern House for Rent in Huye", description: "Clean and secure house available near town with water and electricity access.", price: "RWF 60,000 / month", fileName: "", fileData: "" },
             { category: "Digital Services", title: "Digital Service Assistance", description: "Help with online portal applications and document formatting services provided promptly.", price: "Free / Negotiable", fileName: "", fileData: "" },
             { category: "Study Materials", title: "Chemistry Reference Guide", description: "Clean, organized academic summaries ready for download.", price: "RWF 1,500", fileName: "Chemistry_Guide.pdf", fileData: "" },
-            { category: "Study Materials", title: "Free Introductory Anatomy Notes", description: "Free introductory study material for students. Download instantly without payment.", price: "Free", fileName: "Anatomy_Intro.pdf", fileData: "" }
+            { category: "Study Materials", title: "Free Introductory Anatomy Notes", description: "Free study material for students. Downloads instantly without asking for payment.", price: "Free", fileName: "Anatomy_Intro.pdf", fileData: "" }
         ];
 
         function updateStats() {
@@ -626,7 +626,7 @@
                         if (isAdminLoggedIn || isPaid) {
                             actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download File</a>`;
                         } else {
-                            actionButtonHTML = `<button class="btn-pay-download" onclick="openModal(${originalIndex})">Pay & Download (MTN)</button>`;
+                            actionButtonHTML = `<button class="btn-pay-download" onclick="openModal(${originalIndex})">Pay to MomoPay 1930905</button>`;
                         }
                     }
                 } else if (item.fileData) {
@@ -684,7 +684,7 @@
 
             const isItemFree = item.price.toLowerCase().includes('free') || parsePriceNumber(item.price) === 0;
 
-            // Check if Study Material requires MTN Payment
+            // Check if Study Material requires MomoPay 1930905 payment
             if (item.category === "Study Materials" && item.fileData && !isItemFree) {
                 const userKey = currentUser ? currentUser.email : 'guest';
                 const isPaid = paidStudyMaterials[index]?.[userKey];
@@ -739,7 +739,7 @@
 
         window.verifyMomoPayment = function() {
             if (!currentUser) {
-                alert("Please create an account or sign in first so your MTN MoMo account funds can be charged and download access securely unlocked!");
+                alert("Please create an account or sign in first so your Momo account funds can be transferred to MomoPay 1930905 and download access securely unlocked!");
                 detailModal.classList.remove('active');
                 openAuthModal('login');
                 return;
@@ -747,7 +747,7 @@
 
             const pin = momoPinInput.value.trim();
             if (!pin || pin.length < 4) {
-                alert("Please enter a valid 4-digit MTN Mobile Money PIN.");
+                alert("Please enter a valid 4-digit Momo PIN.");
                 return;
             }
 
@@ -757,11 +757,11 @@
             let currentBal = userWallets[userKey] || 0;
 
             if (currentBal < itemPriceNum) {
-                alert(`Insufficient funds in your MTN MoMo account (RWF ${currentBal.toLocaleString()}). Required: RWF ${itemPriceNum.toLocaleString()}. Click '+ Top Up' to add funds.`);
+                alert(`Insufficient funds in your Momo account (RWF ${currentBal.toLocaleString()}). Required: RWF ${itemPriceNum.toLocaleString()}. Click '+ Top Up' to add funds.`);
                 return;
             }
 
-            // Deduct amount from user MoMo wallet
+            // Deduct amount from user account and send to MomoPay 1930905
             currentBal -= itemPriceNum;
             userWallets[userKey] = currentBal;
             localStorage.setItem('hubUserWallets', JSON.stringify(userWallets));
@@ -773,7 +773,7 @@
             paidStudyMaterials[currentModalItemIndex][userKey] = true;
             localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
 
-            alert(`Payment of RWF ${itemPriceNum.toLocaleString()} authorized successfully via MTN MoMo (0796051492). Remaining balance: RWF ${currentBal.toLocaleString()}. Download is now unlocked!`);
+            alert(`Payment of RWF ${itemPriceNum.toLocaleString()} successfully paid to MomoPay 1930905 from your Momo account! Remaining balance: RWF ${currentBal.toLocaleString()}. Download is now unlocked!`);
             
             paymentSection.style.display = "none";
             modalDownloadBtn.href = item.fileData;
@@ -828,7 +828,7 @@
             updateActiveButton('all');
             renderListings('all', searchInput.value.toLowerCase());
             
-            alert("Item published successfully! Free items download instantly; paid study materials trigger MoMo PIN payment.");
+            alert("Item published successfully! Free items download instantly without asking for payment; paid items route payment to MomoPay 1930905.");
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
