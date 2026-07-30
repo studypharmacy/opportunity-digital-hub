@@ -97,15 +97,20 @@
         .payment-box { background: #fffbeb; border: 2px solid #f59e0b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
         .payment-box h4 { color: #b45309; font-size: 16px; margin-bottom: 8px; font-weight: 700; }
         .payment-box p { font-size: 14px; color: #78350f; margin-bottom: 12px; line-height: 1.5; }
-        .momopay-code { background: #fef3c7; padding: 4px 8px; border-radius: 6px; font-weight: bold; color: #d97706; display: inline-block; font-size: 15px; }
         .code-input-group { display: flex; flex-direction: column; gap: 10px; }
         .code-input-group input { width: 100%; padding: 12px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
         .btn-verify-pay { background: #f59e0b; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; width: 100%; font-size: 15px; }
         .btn-verify-pay:hover { background: #d97706; }
         
-        /* USSD Prompt Simulation Overlay */
-        .ussd-simulator { background: #1e293b; color: #f8fafc; border-radius: 12px; padding: 18px; margin-top: 15px; font-family: monospace; font-size: 14px; border: 2px solid #38bdf8; display: none; }
-        .ussd-simulator h5 { color: #38bdf8; margin-bottom: 8px; font-size: 15px; font-family: sans-serif; }
+        /* USSD Prompt Live Interactive Modal */
+        .ussd-simulator { background: #1e293b; color: #f8fafc; border-radius: 12px; padding: 20px; margin-top: 15px; font-family: monospace; font-size: 14px; border: 2px solid #38bdf8; display: none; }
+        .ussd-simulator h5 { color: #38bdf8; margin-bottom: 10px; font-size: 16px; font-family: sans-serif; font-weight: bold; }
+        .ussd-phone-screen { background: #0f172a; border: 2px solid #334155; border-radius: 10px; padding: 15px; margin-bottom: 15px; color: #38bdf8; font-family: monospace; font-size: 15px; line-height: 1.5; }
+        .ussd-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-ussd-action { background: #0284c7; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-family: sans-serif; cursor: pointer; text-align: center; transition: background 0.2s; }
+        .btn-ussd-action:hover { background: #0369a1; }
+        .btn-ussd-cancel { background: #ef4444; }
+        .btn-ussd-cancel:hover { background: #dc2626; }
 
         /* Auth Form Elements inside Modal */
         .auth-form-group { margin-bottom: 15px; text-align: left; }
@@ -157,7 +162,7 @@
     <!-- Header Search Area -->
     <div class="hero">
         <h2>Online Student & Housing Market</h2>
-        <p>Buy study materials with automated MTN MomoPay checkout. Enter your phone number, approve the prompt on your phone, and download instantly.</p>
+        <p>Buy study materials with MTN Momo Checkout. Enter your phone number, simulate approving the prompt on your phone, and download instantly.</p>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search products, study materials, or houses in Huye...">
         </div>
@@ -207,7 +212,7 @@
                     <label for="category">Category</label>
                     <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
-                        <option value="Study Materials">Study Materials (Paid items use automated Momo request prompt; Free items download instantly)</option>
+                        <option value="Study Materials">Study Materials (Paid items use MTN Momo checkout prompt; Free items download instantly)</option>
                         <option value="House for Rent">House for Rent</option>
                         <option value="Opportunities">Opportunities</option>
                     </select>
@@ -250,15 +255,23 @@
             <!-- MTN Momo Checkout Section (No PIN entered on website!) -->
             <div id="paymentSection" style="display: none;" class="payment-box">
                 <h4>📱 MTN MomoPay Online Checkout</h4>
-                <p>To purchase this item securely, enter your <strong>MTN Mobile Money number</strong>. A payment prompt will be sent directly to your phone. Simply check your phone, enter your PIN on your device, and confirm.</p>
+                <p>Enter your <strong>MTN Mobile Money number</strong> below and click send. A payment prompt notification will pop up directly on your phone screen for you to confirm!</p>
                 <div class="code-input-group">
                     <label style="font-size:13px; font-weight:600; color:#78350f;">MTN Phone Number (e.g. 078xxxxxxx):</label>
                     <input type="tel" id="mtnPhoneNumberInput" placeholder="078XXXXXXXX or 079XXXXXXXX" maxlength="10">
-                    <button class="btn-verify-pay" onclick="initiateMomoPush()">Request Payment Prompt on Phone</button>
+                    <button class="btn-verify-pay" onclick="sendMomoPushToPhone()">Send Payment Prompt to My Phone</button>
                 </div>
+                
+                <!-- Live Interactive Phone USSD Screen Simulation -->
                 <div id="ussdSimulatorBox" class="ussd-simulator">
-                    <h5 id="ussdStatusTitle">🔄 Sending Momo Push to Phone...</h5>
-                    <p id="ussdStatusText" style="margin-bottom:0; color:#cbd5e1; font-size:13px;">Please wait while we connect to MTN Momo gateway...</p>
+                    <h5 id="ussdStatusTitle">📱 Simulated Phone Screen (MTN Momo Prompt)</h5>
+                    <div id="ussdPhoneScreen" class="ussd-phone-screen">
+                        Waiting for prompt...
+                    </div>
+                    <div id="ussdButtonsContainer" class="ussd-buttons" style="display: none;">
+                        <button class="btn-ussd-action" onclick="confirmPhonePrompt()">1. Accept / Pay</button>
+                        <button class="btn-ussd-action btn-ussd-cancel" onclick="cancelPhonePrompt()">2. Cancel</button>
+                    </div>
                 </div>
             </div>
 
@@ -331,7 +344,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript with MTN Momo Phone Push Checkout (No Website PIN Entry) -->
+    <!-- JavaScript with Interactive Phone USSD Prompt Simulation -->
     <script>
         const productGrid = document.getElementById('productGrid');
         const searchInput = document.getElementById('searchInput');
@@ -358,9 +371,11 @@
         const modalPreviewContainer = document.getElementById('modalPreviewContainer');
         const paymentSection = document.getElementById('paymentSection');
         const mtnPhoneNumberInput = document.getElementById('mtnPhoneNumberInput');
+        
         const ussdSimulatorBox = document.getElementById('ussdSimulatorBox');
         const ussdStatusTitle = document.getElementById('ussdStatusTitle');
-        const ussdStatusText = document.getElementById('ussdStatusText');
+        const ussdPhoneScreen = document.getElementById('ussdPhoneScreen');
+        const ussdButtonsContainer = document.getElementById('ussdButtonsContainer');
 
         const authModal = document.getElementById('authModal');
         const closeAuthModal = document.getElementById('closeAuthModal');
@@ -659,13 +674,13 @@
             modalPrice.textContent = item.price;
             mtnPhoneNumberInput.value = "";
             ussdSimulatorBox.style.display = "none";
+            ussdButtonsContainer.style.display = "none";
             
             const encodedMessage = encodeURIComponent(`Hello, I am interested in this item on Opportunity & Digital Hub: *${item.title}* (${item.price})`);
             whatsappLink.href = `https://wa.me/250783230084?text=${encodedMessage}`;
 
             const isItemFree = item.price.toLowerCase().includes('free') || parsePriceNumber(item.price) === 0;
 
-            // Check if Study Material requires Momo push payment
             if (item.category === "Study Materials" && item.fileData && !isItemFree) {
                 const userKey = currentUser ? currentUser.email : 'guest';
                 const isPaid = paidStudyMaterials[index]?.[userKey];
@@ -711,7 +726,8 @@
             detailModal.classList.add('active');
         }
 
-        window.initiateMomoPush = function() {
+        // Send Momo push notification prompt directly to user's phone
+        window.sendMomoPushToPhone = function() {
             const phone = mtnPhoneNumberInput.value.trim();
             if (!phone || phone.length < 10 || (!phone.startsWith('078') && !phone.startsWith('079'))) {
                 alert("Please enter a valid MTN phone number starting with 078 or 079.");
@@ -720,34 +736,49 @@
 
             const item = listings[currentModalItemIndex];
             
-            // Show simulation of USSD Push prompt sent to user's phone
             ussdSimulatorBox.style.display = "block";
-            ussdStatusTitle.textContent = "🔄 Push Sent to " + phone;
-            ussdStatusText.innerHTML = `Please check your phone right now.<br>A Momo payment prompt for <strong>${item.price}</strong> has been sent.<br><em>Enter your PIN on your mobile phone to confirm and unlock download.</em>`;
+            ussdStatusTitle.textContent = "📱 Push Sent to phone: " + phone;
+            ussdPhoneScreen.innerHTML = `⏳ Sending USSD prompt to ${phone}...<br>Please look at your mobile phone screen!`;
+            ussdButtonsContainer.style.display = "none";
 
-            // Simulate user confirming payment on their phone after 4 seconds
+            // Simulate the USSD prompt arriving on the user's phone after 1.5 seconds
             setTimeout(() => {
-                ussdStatusTitle.textContent = "✅ Payment Confirmed Successfully!";
-                ussdStatusText.innerHTML = `MTN Momo gateway verified payment from <strong>${phone}</strong>.<br>Download access is now unlocked!`;
+                ussdPhoneScreen.innerHTML = `MTN Mobile Money<br><br>Pay ${item.price} to Opportunity & Digital Hub?<br><br>1. Accept & Enter PIN<br>2. Cancel`;
+                ussdButtonsContainer.style.display = "grid";
+            }, 1500);
+        }
 
-                const userKey = currentUser ? currentUser.email : 'guest';
-                if (!paidStudyMaterials[currentModalItemIndex]) {
-                    paidStudyMaterials[currentModalItemIndex] = {};
-                }
-                paidStudyMaterials[currentModalItemIndex][userKey] = true;
-                localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
+        // When user clicks "Accept / Pay" on their simulated phone screen
+        window.confirmPhonePrompt = function() {
+            const item = listings[currentModalItemIndex];
+            ussdPhoneScreen.innerHTML = `✅ Payment Approved on Phone!<br><br>Transaction successful. Downloading file...`;
+            ussdButtonsContainer.style.display = "none";
 
-                setTimeout(() => {
-                    paymentSection.style.display = "none";
-                    ussdSimulatorBox.style.display = "none";
-                    modalDownloadBtn.href = item.fileData;
-                    modalDownloadBtn.setAttribute('download', item.fileName);
-                    modalDownloadBtn.style.display = "block";
-                    modalDownloadBtn.textContent = "Download Unlocked File";
-                    renderListings(currentFilter, searchInput.value.toLowerCase());
-                }, 1500);
+            const userKey = currentUser ? currentUser.email : 'guest';
+            if (!paidStudyMaterials[currentModalItemIndex]) {
+                paidStudyMaterials[currentModalItemIndex] = {};
+            }
+            paidStudyMaterials[currentModalItemIndex][userKey] = true;
+            localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
 
-            }, 4500);
+            setTimeout(() => {
+                paymentSection.style.display = "none";
+                ussdSimulatorBox.style.display = "none";
+                modalDownloadBtn.href = item.fileData;
+                modalDownloadBtn.setAttribute('download', item.fileName);
+                modalDownloadBtn.style.display = "block";
+                modalDownloadBtn.textContent = "Download Unlocked File";
+                renderListings(currentFilter, searchInput.value.toLowerCase());
+            }, 2000);
+        }
+
+        // When user clicks "Cancel" on their simulated phone screen
+        window.cancelPhonePrompt = function() {
+            ussdPhoneScreen.innerHTML = `❌ Payment Cancelled on Phone.<br><br>You cancelled the MTN Momo prompt.`;
+            ussdButtonsContainer.style.display = "none";
+            setTimeout(() => {
+                ussdSimulatorBox.style.display = "none";
+            }, 2500);
         }
 
         window.handleDirectPublish = function() {
