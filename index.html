@@ -83,10 +83,16 @@
         .btn-submit { background-color: #059669; color: white; border: none; padding: 14px 24px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; transition: background 0.2s; }
         .btn-submit:hover { background-color: #047857; }
 
-        /* Footer Styles */
-        footer { background-color: #1e293b; color: #94a3b8; text-align: center; padding: 30px 20px; margin-top: 60px; font-size: 14px; border-top: 1px solid #334155; }
-        footer p { margin-bottom: 8px; color: #cbd5e1; }
-        footer .footer-sub { font-size: 13px; color: #64748b; }
+        /* Professional Footer & Quick Links */
+        footer { background-color: #1e293b; color: #94a3b8; padding: 40px 20px 30px; margin-top: 60px; font-size: 14px; border-top: 1px solid #334155; }
+        .footer-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px; }
+        .footer-section h4 { color: #ffffff; font-size: 16px; margin-bottom: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-section p, .footer-section ul { font-size: 14px; color: #94a3b8; list-style: none; }
+        .footer-section ul li { margin-bottom: 8px; }
+        .footer-section ul li a { color: #cbd5e1; text-decoration: none; transition: color 0.2s; }
+        .footer-section ul li a:hover { color: #ffffff; text-decoration: underline; }
+        .footer-bottom { text-align: center; border-top: 1px solid #334155; padding-top: 20px; font-size: 13px; color: #64748b; }
+        .footer-bottom p { margin-bottom: 6px; color: #cbd5e1; }
     </style>
 </head>
 <body>
@@ -105,9 +111,9 @@
     <!-- Header Search Area -->
     <div class="hero">
         <h2>Find What You Need, Fast</h2>
-        <p>Browse goods, services, and listings in your vibrant digital marketplace.</p>
+        <p>Browse goods, services, listings, and houses for rent in Huye.</p>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search products or services...">
+            <input type="text" id="searchInput" placeholder="Search products, services, or houses in Huye...">
         </div>
     </div>
 
@@ -139,6 +145,7 @@
             <button class="cat-btn active" data-filter="all">All Listings</button>
             <button class="cat-btn" data-filter="Digital Services">Digital Services</button>
             <button class="cat-btn" data-filter="Study Materials">Study Materials</button>
+            <button class="cat-btn" data-filter="House for Rent">House for Rent</button>
             <button class="cat-btn" data-filter="Opportunities">Opportunities</button>
         </div>
 
@@ -155,20 +162,21 @@
                     <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
                         <option value="Study Materials">Study Materials</option>
+                        <option value="House for Rent">House for Rent</option>
                         <option value="Opportunities">Opportunities</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="title">Item or Service Title</label>
-                    <input type="text" id="title" placeholder="e.g., Graphic Design Services or Textbook" required>
+                    <input type="text" id="title" placeholder="e.g., Modern House for Rent in Huye or Textbook" required>
                 </div>
                 <div class="form-group">
                     <label for="price">Price (RWF or Free)</label>
-                    <input type="text" id="price" placeholder="e.g., RWF 5,000 or Free" required>
+                    <input type="text" id="price" placeholder="e.g., RWF 50,000 / month or Free" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea id="description" placeholder="Describe what you are offering..." required></textarea>
+                    <textarea id="description" placeholder="Describe what you are offering (location, features, contacts)..." required></textarea>
                 </div>
                 <button type="submit" class="btn-submit">Publish Listing</button>
             </form>
@@ -194,7 +202,7 @@
         <div class="modal">
             <span class="modal-category">Help & Assistance</span>
             <h2>Contact Hub Support</h2>
-            <p>Have questions about posting a listing, need assistance with digital portal services, or want to share feedback? Reach out directly to the hub administration.</p>
+            <p>Have questions about posting a listing, need assistance with digital portal services, or want to rent a house in Huye? Reach out directly to the hub administration.</p>
             <div class="modal-actions">
                 <a href="https://wa.me/250783230084?text=Hello%2C%20I%20need%20assistance%20with%20Opportunity%20%26%20Digital%20Hub." target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
                 <button class="btn-close" id="closeSupportModal">Close</button>
@@ -202,10 +210,36 @@
         </div>
     </div>
 
-    <!-- Professional Footer -->
+    <!-- Professional Footer with Quick Links -->
     <footer>
-        <p>&copy; 2026 Opportunity & Digital Hub. All rights reserved.</p>
-        <p class="footer-sub">Empowering student applications, digital services, and peer opportunities.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Opportunity & Digital Hub</h4>
+                <p>Your ultimate platform for student services, study materials, housing in Huye, and career opportunities.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#post-section">Post a Listing</a></li>
+                    <li><a href="https://chat.whatsapp.com/E4wIwA477OjHOMJuA824hD?s=sh&p=a&ilr=0" target="_blank">WhatsApp Channel</a></li>
+                    <li><a href="https://wa.me/250783230084?text=Hello%2C%20I%20want%20to%20inquire%20about%20houses%20for%20rent%20in%20Huye." target="_blank">Houses for Rent in Huye</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="#" onclick="filterByCategory('Digital Services')">Digital Services</a></li>
+                    <li><a href="#" onclick="filterByCategory('Study Materials')">Study Materials</a></li>
+                    <li><a href="#" onclick="filterByCategory('House for Rent')">House for Rent</a></li>
+                    <li><a href="#" onclick="filterByCategory('Opportunities')">Opportunities</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Opportunity & Digital Hub. All rights reserved.</p>
+            <p class="footer-sub">Empowering student applications, digital services, housing, and peer opportunities.</p>
+        </div>
     </footer>
 
     <!-- JavaScript with Footer Integration -->
@@ -234,6 +268,7 @@
         let currentFilter = 'all';
 
         let listings = JSON.parse(localStorage.getItem('hubListings')) || [
+            { category: "House for Rent", title: "Modern House for Rent in Huye", description: "Clean and secure house available near town with water and electricity access.", price: "RWF 60,000 / month" },
             { category: "Digital Services", title: "Digital Service Assistance", description: "Help with online portal applications and document formatting services provided promptly.", price: "Free / Negotiable" },
             { category: "Study Materials", title: "Study Materials & Notes", description: "Clean, organized academic summaries and reference guides ready for download.", price: "RWF 1,500" }
         ];
@@ -301,6 +336,13 @@
             whatsappLink.href = `https://wa.me/250783230084?text=${encodedMessage}`;
 
             detailModal.classList.add('active');
+        }
+
+        window.filterByCategory = function(categoryName) {
+            currentFilter = categoryName;
+            updateActiveButton(categoryName);
+            renderListings(currentFilter, searchInput.value.toLowerCase());
+            window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
         closeModalBtn.addEventListener('click', () => {
