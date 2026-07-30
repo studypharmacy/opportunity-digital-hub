@@ -50,7 +50,8 @@
         .card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(79, 70, 229, 0.12); border-color: #8b5cf6; }
         .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .card-category { display: inline-block; background: #e0e7ff; color: #4f46e5; font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
-        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; transition: color 0.2s; padding: 4px; }
+        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; transition: color 0.2s; padding: 4px; display: none; } /* Hidden unless admin logged in */
+        .btn-delete.admin-visible { display: inline-block; }
         .btn-delete:hover { color: #ef4444; }
         .card h3 { font-size: 18px; margin-bottom: 8px; color: #1e293b; font-weight: 700; }
         .card p { color: #64748b; font-size: 14px; margin-bottom: 12px; line-height: 1.5; }
@@ -78,8 +79,9 @@
         .btn-close { background-color: #e2e8f0; color: #475569; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .btn-close:hover { background-color: #cbd5e1; }
 
-        /* Post Item Form Section */
-        .form-container { background: #ffffff; border: 2px solid #e0e7ff; border-radius: 16px; padding: 30px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.06); margin-top: 50px; }
+        /* Upload Item Form Section (Hidden by default) */
+        .form-container { background: #ffffff; border: 2px solid #e0e7ff; border-radius: 16px; padding: 30px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.06); margin-top: 50px; display: none; }
+        .form-container.admin-visible { display: block; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #1e293b; font-size: 14px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; outline: none; background: #fff; transition: border-color 0.2s; }
@@ -109,7 +111,7 @@
         <h1>Opportunity & Digital Hub</h1>
         <div class="nav-links">
             <a href="#">Home</a>
-            <a href="#post-section">Upload Item</a>
+            <a id="adminNavBtn" onclick="toggleAdminLogin()">🔐 Admin Login</a>
             <a href="https://chat.whatsapp.com/E4wIwA477OjHOMJuA824hD?s=sh&p=a&ilr=0" target="_blank">WhatsApp Channel</a>
             <a id="supportNavBtn">Contact Support</a>
         </div>
@@ -118,7 +120,7 @@
     <!-- Header Search Area -->
     <div class="hero">
         <h2>Find What You Need, Fast</h2>
-        <p>Browse goods, upload materials, and find houses for rent in Huye.</p>
+        <p>Browse goods, download study materials, and find houses for rent in Huye.</p>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search products, study materials, or houses in Huye...">
         </div>
@@ -160,9 +162,9 @@
             <!-- Dynamic items load here -->
         </div>
 
-        <!-- Upload / Post New Item Form Section -->
+        <!-- Upload / Post New Item Form Section (Protected by Password) -->
         <div id="post-section" class="form-container">
-            <h3 class="section-title" style="margin-bottom: 15px;">Upload Material or List Item</h3>
+            <h3 class="section-title" style="margin-bottom: 15px;">Admin Upload Panel: Post Material or List Item</h3>
             <form id="itemForm">
                 <div class="form-group">
                     <label for="category">Category</label>
@@ -235,7 +237,7 @@
                 <h4>Quick Links</h4>
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="#post-section">Upload Item</a></li>
+                    <li><a href="#" onclick="toggleAdminLogin()">Admin Upload Access</a></li>
                     <li><a href="https://chat.whatsapp.com/E4wIwA477OjHOMJuA824hD?s=sh&p=a&ilr=0" target="_blank">WhatsApp Channel</a></li>
                     <li><a href="https://wa.me/250783230084?text=Hello%2C%20I%20want%20to%20inquire%20about%20houses%20for%20rent%20in%20Huye." target="_blank">Houses for Rent in Huye</a></li>
                 </ul>
@@ -256,7 +258,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript with File Upload & Dynamic Pricing -->
+    <!-- JavaScript with Password-Protected Admin Upload -->
     <script>
         const itemForm = document.getElementById('itemForm');
         const productGrid = document.getElementById('productGrid');
@@ -264,6 +266,8 @@
         const catButtons = document.querySelectorAll('.cat-btn');
         const fileInput = document.getElementById('fileInput');
         const fileLabel = document.getElementById('fileLabel');
+        const postSection = document.getElementById('post-section');
+        const adminNavBtn = document.getElementById('adminNavBtn');
         
         const totalCountEl = document.getElementById('totalCount');
         const digitalCountEl = document.getElementById('digitalCount');
@@ -284,6 +288,39 @@
         let currentFilter = 'all';
         let uploadedFiledata = null;
         let uploadedFileName = "";
+        let isAdminLoggedIn = localStorage.getItem('hubAdminAuth') === 'true';
+
+        // Check initial admin state
+        if (isAdminLoggedIn) {
+            postSection.classList.add('admin-visible');
+            adminNavBtn.textContent = "🔓 Admin Logged In";
+        }
+
+        window.toggleAdminLogin = function() {
+            if (isAdminLoggedIn) {
+                if (confirm("Do you want to log out of Admin mode?")) {
+                    localStorage.setItem('hubAdminAuth', 'false');
+                    isAdminLoggedIn = false;
+                    postSection.classList.remove('admin-visible');
+                    adminNavBtn.textContent = "🔐 Admin Login";
+                    renderListings(currentFilter, searchInput.value.toLowerCase());
+                    alert("Logged out successfully.");
+                }
+            } else {
+                let password = prompt("Enter Admin Password to access upload panel:");
+                if (password === "Hub2026Admin") { // You can change this password anytime here
+                    localStorage.setItem('hubAdminAuth', 'true');
+                    isAdminLoggedIn = true;
+                    postSection.classList.add('admin-visible');
+                    adminNavBtn.textContent = "🔓 Admin Logged In";
+                    renderListings(currentFilter, searchInput.value.toLowerCase());
+                    alert("Admin access granted! You can now upload items.");
+                    window.location.hash = "#post-section";
+                } else if (password !== null) {
+                    alert("Incorrect password!");
+                }
+            }
+        }
 
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -338,11 +375,13 @@
                     fileSection = `<div class="file-badge">📄 File: ${item.fileName}</div>`;
                 }
 
+                let deleteBtnClass = isAdminLoggedIn ? 'btn-delete admin-visible' : 'btn-delete';
+
                 card.innerHTML = `
                     <div>
                         <div class="card-top">
                             <span class="card-category">${item.category}</span>
-                            <button class="btn-delete" onclick="deleteListing(${originalIndex})" title="Delete Listing">🗑️</button>
+                            <button class="${deleteBtnClass}" onclick="deleteListing(${originalIndex})" title="Delete Listing">🗑️</button>
                         </div>
                         <h3>${item.title}</h3>
                         <p>${item.description}</p>
@@ -361,6 +400,10 @@
         }
 
         window.deleteListing = function(index) {
+            if (!isAdminLoggedIn) {
+                alert("Unauthorized action!");
+                return;
+            }
             if (confirm("Are you sure you want to delete this listing?")) {
                 listings.splice(index, 1);
                 localStorage.setItem('hubListings', JSON.stringify(listings));
@@ -412,6 +455,10 @@
 
         itemForm.addEventListener('submit', function(event) {
             event.preventDefault(); 
+            if (!isAdminLoggedIn) {
+                alert("Unauthorized action!");
+                return;
+            }
 
             const newItem = {
                 category: document.getElementById('category').value,
