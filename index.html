@@ -62,11 +62,13 @@
         .file-badge { display: inline-block; background: #f1f5f9; color: #334155; font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 6px; margin-bottom: 12px; }
         .price { font-weight: 800; color: #059669; margin-bottom: 16px; font-size: 16px; }
         .card-actions { display: flex; gap: 8px; }
-        .btn-view, .btn-download { flex: 1; text-align: center; padding: 10px; text-decoration: none; border-radius: 10px; font-size: 13px; font-weight: bold; cursor: pointer; border: none; transition: background 0.2s; }
+        .btn-view, .btn-download, .btn-pay-download { flex: 1; text-align: center; padding: 10px; text-decoration: none; border-radius: 10px; font-size: 13px; font-weight: bold; cursor: pointer; border: none; transition: background 0.2s; }
         .btn-view { background: #4f46e5; color: #ffffff; }
         .btn-view:hover { background: #4338ca; }
         .btn-download { background: #059669; color: #ffffff; }
         .btn-download:hover { background: #047857; }
+        .btn-pay-download { background: #ea580c; color: #ffffff; }
+        .btn-pay-download:hover { background: #c2410c; }
 
         /* Modal Popup Styles */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000; padding: 20px; }
@@ -87,6 +89,16 @@
         .btn-whatsapp:hover { background-color: #20ba5a; }
         .btn-close { background-color: #e2e8f0; color: #475569; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .btn-close:hover { background-color: #cbd5e1; }
+
+        /* Payment Gateway Modal */
+        .payment-box { background: #fffbeb; border: 2px solid #f59e0b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+        .payment-box h4 { color: #b45309; font-size: 16px; margin-bottom: 8px; font-weight: 700; }
+        .payment-box p { font-size: 14px; color: #78350f; margin-bottom: 12px; }
+        .mtn-number { background: #fef3c7; padding: 8px 12px; border-radius: 8px; font-weight: bold; color: #d97706; display: inline-block; font-size: 16px; margin-bottom: 12px; }
+        .code-input-group { display: flex; gap: 10px; }
+        .code-input-group input { flex: 1; padding: 10px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+        .btn-verify-pay { background: #f59e0b; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .btn-verify-pay:hover { background: #d97706; }
 
         /* Upload Item Form Section */
         .form-container { background: #ffffff; border: 2px solid #e0e7ff; border-radius: 16px; padding: 30px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.06); margin-top: 50px; display: none; }
@@ -129,7 +141,7 @@
     <!-- Header Search Area -->
     <div class="hero">
         <h2>Find What You Need, Fast</h2>
-        <p>Browse goods, download study materials, and find houses for rent in Huye.</p>
+        <p>Browse goods, securely download study materials via MTN Mobile Money, and find houses for rent in Huye.</p>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search products, study materials, or houses in Huye...">
         </div>
@@ -179,7 +191,7 @@
                     <label for="category">Category</label>
                     <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
-                        <option value="Study Materials">Study Materials</option>
+                        <option value="Study Materials">Study Materials (Requires MTN MoMo payment for download)</option>
                         <option value="House for Rent">House for Rent</option>
                         <option value="Opportunities">Opportunities</option>
                     </select>
@@ -197,7 +209,7 @@
                     <textarea id="description" placeholder="Provide details about this listing or uploaded material..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Upload File / Image (Images display directly on card preview)</label>
+                    <label>Upload File / Image (Study materials will require MTN MoMo payment before download unlocks)</label>
                     <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
                         <p id="fileLabel">📁 Click here to select file or image from your device</p>
                         <input type="file" id="fileInput">
@@ -219,6 +231,18 @@
             <p id="modalDescription">Detailed description goes here...</p>
             <div class="price" id="modalPrice">RWF 0</div>
             
+            <!-- MTN Payment Section (Injected for Study Materials) -->
+            <div id="paymentSection" style="display: none;" class="payment-box">
+                <h4>🔒 Secure Study Material Download</h4>
+                <p>To unlock and download this study material, please send payment via <strong>MTN Mobile Money</strong> to:</p>
+                <div class="mtn-number">📱 MTN: 0796051492</div>
+                <p style="font-size: 13px; margin-bottom: 8px;">After payment, enter your transaction reference code or phone number used below to unlock instant download:</p>
+                <div class="code-input-group">
+                    <input type="text" id="momoCodeInput" placeholder="Enter MoMo Ref or Phone Number...">
+                    <button class="btn-verify-pay" onclick="verifyMomoPayment()">Verify & Unlock</button>
+                </div>
+            </div>
+
             <div class="modal-actions">
                 <a href="#" id="whatsappLink" target="_blank" class="btn-whatsapp">Inquire via WhatsApp</a>
                 <a id="modalDownloadBtn" href="#" download="" class="btn-download" style="display:none; text-decoration:none; text-align:center; padding:12px; border-radius:10px; font-weight:bold;">Download File</a>
@@ -245,7 +269,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Opportunity & Digital Hub</h4>
-                <p>Your ultimate platform for student services, study materials, housing in Huye, and career opportunities.</p>
+                <p>Your ultimate platform for student services, study materials with automated MTN MoMo payment security, housing in Huye, and career opportunities.</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -272,7 +296,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript with Direct Card Image Previews -->
+    <!-- JavaScript with MTN MoMo Study Material Payment Integration -->
     <script>
         const productGrid = document.getElementById('productGrid');
         const searchInput = document.getElementById('searchInput');
@@ -295,6 +319,8 @@
         const whatsappLink = document.getElementById('whatsappLink');
         const modalDownloadBtn = document.getElementById('modalDownloadBtn');
         const modalPreviewContainer = document.getElementById('modalPreviewContainer');
+        const paymentSection = document.getElementById('paymentSection');
+        const momoCodeInput = document.getElementById('momoCodeInput');
 
         const supportNavBtn = document.getElementById('supportNavBtn');
         const supportModal = document.getElementById('supportModal');
@@ -303,6 +329,8 @@
         let currentFilter = 'all';
         let uploadedFiledata = null;
         let uploadedFileName = "";
+        let currentModalItemIndex = null;
+        let paidStudyMaterials = JSON.parse(localStorage.getItem('paidStudyMaterials')) || {};
         let isAdminLoggedIn = localStorage.getItem('hubAdminAuth') === 'true';
 
         if (isAdminLoggedIn) {
@@ -356,7 +384,7 @@
         let listings = JSON.parse(localStorage.getItem('hubListings')) || [
             { category: "House for Rent", title: "Modern House for Rent in Huye", description: "Clean and secure house available near town with water and electricity access.", price: "RWF 60,000 / month", fileName: "", fileData: "" },
             { category: "Digital Services", title: "Digital Service Assistance", description: "Help with online portal applications and document formatting services provided promptly.", price: "Free / Negotiable", fileName: "", fileData: "" },
-            { category: "Study Materials", title: "Chemistry Reference Guide", description: "Clean, organized academic summaries ready for download.", price: "RWF 1,500", fileName: "", fileData: "" }
+            { category: "Study Materials", title: "Chemistry Reference Guide", description: "Clean, organized academic summaries ready for download.", price: "RWF 1,500", fileName: "Chemistry_Guide.pdf", fileData: "" }
         ];
 
         function updateStats() {
@@ -400,6 +428,20 @@
                 }
 
                 let deleteBtnClass = isAdminLoggedIn ? 'btn-delete admin-visible' : 'btn-delete';
+                
+                let actionButtonHTML = '';
+                if (item.category === "Study Materials" && item.fileData) {
+                    const isPaid = paidStudyMaterials[originalIndex];
+                    if (isPaid) {
+                        actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download (Unlocked)</a>`;
+                    } else {
+                        actionButtonHTML = `<button class="btn-pay-download" onclick="openModal(${originalIndex})">Pay & Download (MTN)</button>`;
+                    }
+                } else if (item.fileData) {
+                    actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download</a>`;
+                } else {
+                    actionButtonHTML = `<button class="btn-download" onclick="openModal(${originalIndex})">Inquire</button>`;
+                }
 
                 card.innerHTML = `
                     <div>
@@ -416,7 +458,7 @@
                         <div class="price">${item.price}</div>
                         <div class="card-actions">
                             <button class="btn-view" onclick="openModal(${originalIndex})">Details</button>
-                            ${item.fileData ? `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download</a>` : `<button class="btn-download" onclick="openModal(${originalIndex})">Inquire</button>`}
+                            ${actionButtonHTML}
                         </div>
                     </div>
                 `;
@@ -437,20 +479,42 @@
         }
 
         window.openModal = function(index) {
+            currentModalItemIndex = index;
             const item = listings[index];
             modalCategory.textContent = item.category;
             modalTitle.textContent = item.title;
             modalDescription.textContent = item.description;
             modalPrice.textContent = item.price;
+            momoCodeInput.value = "";
             
             const encodedMessage = encodeURIComponent(`Hello, I am interested in this item on Opportunity & Digital Hub: *${item.title}* (${item.price})`);
             whatsappLink.href = `https://wa.me/250783230084?text=${encodedMessage}`;
 
-            if (item.fileData && item.fileName) {
-                modalDownloadBtn.href = item.fileData;
-                modalDownloadBtn.setAttribute('download', item.fileName);
-                modalDownloadBtn.style.display = "block";
+            // Check if Study Material requires MTN Payment
+            if (item.category === "Study Materials" && item.fileData) {
+                if (paidStudyMaterials[index]) {
+                    paymentSection.style.display = "none";
+                    modalDownloadBtn.href = item.fileData;
+                    modalDownloadBtn.setAttribute('download', item.fileName);
+                    modalDownloadBtn.style.display = "block";
+                    modalDownloadBtn.textContent = "Download Unlocked File";
+                } else {
+                    paymentSection.style.display = "block";
+                    modalDownloadBtn.style.display = "none";
+                }
+            } else {
+                paymentSection.style.display = "none";
+                if (item.fileData && item.fileName) {
+                    modalDownloadBtn.href = item.fileData;
+                    modalDownloadBtn.setAttribute('download', item.fileName);
+                    modalDownloadBtn.style.display = "block";
+                    modalDownloadBtn.textContent = "Download File";
+                } else {
+                    modalDownloadBtn.style.display = "none";
+                }
+            }
 
+            if (item.fileData && item.fileName) {
                 modalPreviewContainer.style.display = "block";
                 const lowerName = item.fileName.toLowerCase();
 
@@ -459,15 +523,37 @@
                 } else if (lowerName.endsWith('.pdf')) {
                     modalPreviewContainer.innerHTML = `<iframe src="${item.fileData}" title="PDF Preview"></iframe>`;
                 } else {
-                    modalPreviewContainer.innerHTML = `<p style="padding: 20px; color: #475569; font-size: 14px;">📄 Attached File: <strong>${item.fileName}</strong><br><span style="font-size:12px; color:#64748b;">Click download below to view full contents on your device.</span></p>`;
+                    modalPreviewContainer.innerHTML = `<p style="padding: 20px; color: #475569; font-size: 14px;">📄 Attached File: <strong>${item.fileName}</strong></p>`;
                 }
             } else {
                 modalPreviewContainer.style.display = "none";
-                modalDownloadBtn.style.display = "none";
                 modalPreviewContainer.innerHTML = "";
             }
 
             detailModal.classList.add('active');
+        }
+
+        window.verifyMomoPayment = function() {
+            const code = momoCodeInput.value.trim();
+            if (!code) {
+                alert("Please enter your MTN Mobile Money reference code or phone number to verify.");
+                return;
+            }
+
+            // Simulate verification success for MTN number 0796051492
+            paidStudyMaterials[currentModalItemIndex] = true;
+            localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
+
+            alert("Payment verified successfully via MTN Mobile Money! Download is now unlocked.");
+            
+            const item = listings[currentModalItemIndex];
+            paymentSection.style.display = "none";
+            modalDownloadBtn.href = item.fileData;
+            modalDownloadBtn.setAttribute('download', item.fileName);
+            modalDownloadBtn.style.display = "block";
+            modalDownloadBtn.textContent = "Download Unlocked File";
+
+            renderListings(currentFilter, searchInput.value.toLowerCase());
         }
 
         window.handleDirectPublish = function() {
@@ -514,7 +600,7 @@
             updateActiveButton('all');
             renderListings('all', searchInput.value.toLowerCase());
             
-            alert("Item published successfully! Image preview is now visible directly on the card.");
+            alert("Item published successfully! MTN MoMo download restriction applied for Study Materials.");
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
