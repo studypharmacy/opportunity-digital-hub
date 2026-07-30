@@ -93,15 +93,19 @@
         .btn-close { background-color: #e2e8f0; color: #475569; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .btn-close:hover { background-color: #cbd5e1; }
 
-        /* MomoPay Gateway Modal */
+        /* MomoPay Online Checkout Box */
         .payment-box { background: #fffbeb; border: 2px solid #f59e0b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
         .payment-box h4 { color: #b45309; font-size: 16px; margin-bottom: 8px; font-weight: 700; }
-        .payment-box p { font-size: 14px; color: #78350f; margin-bottom: 12px; }
-        .momopay-code { background: #fef3c7; padding: 8px 12px; border-radius: 8px; font-weight: bold; color: #d97706; display: inline-block; font-size: 16px; margin-bottom: 12px; }
+        .payment-box p { font-size: 14px; color: #78350f; margin-bottom: 12px; line-height: 1.5; }
+        .momopay-code { background: #fef3c7; padding: 4px 8px; border-radius: 6px; font-weight: bold; color: #d97706; display: inline-block; font-size: 15px; }
         .code-input-group { display: flex; flex-direction: column; gap: 10px; }
-        .code-input-group input { width: 100%; padding: 10px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
-        .btn-verify-pay { background: #f59e0b; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; width: 100%; }
+        .code-input-group input { width: 100%; padding: 12px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
+        .btn-verify-pay { background: #f59e0b; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; width: 100%; font-size: 15px; }
         .btn-verify-pay:hover { background: #d97706; }
+        
+        /* USSD Prompt Simulation Overlay */
+        .ussd-simulator { background: #1e293b; color: #f8fafc; border-radius: 12px; padding: 18px; margin-top: 15px; font-family: monospace; font-size: 14px; border: 2px solid #38bdf8; display: none; }
+        .ussd-simulator h5 { color: #38bdf8; margin-bottom: 8px; font-size: 15px; font-family: sans-serif; }
 
         /* Auth Form Elements inside Modal */
         .auth-form-group { margin-bottom: 15px; text-align: left; }
@@ -109,9 +113,6 @@
         .auth-form-group input { width: 100%; padding: 10px 14px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
         .btn-auth-action { background: #4f46e5; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: 5px; }
         .btn-auth-action:hover { background: #4338ca; }
-
-        /* Wallet Badge */
-        .wallet-badge { background: #ecfdf5; border: 1px solid #10b981; color: #047857; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
 
         /* Upload Item Form Section */
         .form-container { background: #ffffff; border: 2px solid #e0e7ff; border-radius: 16px; padding: 30px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.06); margin-top: 50px; display: none; }
@@ -155,8 +156,8 @@
 
     <!-- Header Search Area -->
     <div class="hero">
-        <h2>Find What You Need, Fast</h2>
-        <p>Browse goods, securely download paid study materials via MomoPay (1930905) or free study materials instantly, and find houses for rent in Huye.</p>
+        <h2>Online Student & Housing Market</h2>
+        <p>Buy study materials with automated MTN MomoPay checkout. Enter your phone number, approve the prompt on your phone, and download instantly.</p>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search products, study materials, or houses in Huye...">
         </div>
@@ -182,7 +183,7 @@
         </div>
 
         <div class="section-header">
-            <h3 class="section-title">Recent Listings & Materials</h3>
+            <h3 class="section-title">Marketplace Listings & Study Materials</h3>
         </div>
         
         <!-- Category Filter Buttons -->
@@ -200,13 +201,13 @@
 
         <!-- Upload / Post New Item Form Section -->
         <div id="post-section" class="form-container">
-            <h3 class="section-title" style="margin-bottom: 15px;">Admin Upload Panel: Post Material or List Item</h3>
+            <h3 class="section-title" style="margin-bottom: 15px;">Admin Marketplace Upload Panel</h3>
             <form id="itemForm">
                 <div class="form-group">
                     <label for="category">Category</label>
                     <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
-                        <option value="Study Materials">Study Materials (Paid items require MomoPay 1930905 payment; 'Free' items download instantly without asking for payment)</option>
+                        <option value="Study Materials">Study Materials (Paid items use automated Momo request prompt; Free items download instantly)</option>
                         <option value="House for Rent">House for Rent</option>
                         <option value="Opportunities">Opportunities</option>
                     </select>
@@ -217,11 +218,11 @@
                 </div>
                 <div class="form-group">
                     <label for="price">Price (e.g., RWF 1,500 or Free)</label>
-                    <input type="text" id="price" placeholder="Enter specific price (type 'Free' for zero price)..." required>
+                    <input type="text" id="price" placeholder="Enter price (type 'Free' for zero cost)..." required>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea id="description" placeholder="Provide details about this listing or uploaded material..." required></textarea>
+                    <textarea id="description" placeholder="Provide details about this listing or file..." required></textarea>
                 </div>
                 <div class="form-group">
                     <label>Upload File / Image</label>
@@ -230,7 +231,7 @@
                         <input type="file" id="fileInput">
                     </div>
                 </div>
-                <button type="button" class="btn-submit" onclick="handleDirectPublish()">Publish & Upload Item</button>
+                <button type="button" class="btn-submit" onclick="handleDirectPublish()">Publish to Online Market</button>
             </form>
         </div>
     </div>
@@ -246,17 +247,18 @@
             <p id="modalDescription">Detailed description goes here...</p>
             <div class="price" id="modalPrice">RWF 0</div>
             
-            <!-- MomoPay Section (Injected for Paid Study Materials) -->
+            <!-- MTN Momo Checkout Section (No PIN entered on website!) -->
             <div id="paymentSection" style="display: none;" class="payment-box">
-                <h4>🔒 MomoPay Secure Payment</h4>
-                <div id="userWalletInfo" class="wallet-badge">
-                    <span>Momo Account Balance: <strong id="momoBalDisplay">RWF 10,000</strong></span>
-                    <button onclick="topUpWallet()" style="background:#059669; color:white; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:11px;">+ Top Up</button>
-                </div>
-                <p>Transfer payment to MomoPay Code: <span class="momopay-code">1930905</span>. Enter your Momo PIN to authorize and unlock download:</p>
+                <h4>📱 MTN MomoPay Online Checkout</h4>
+                <p>To purchase this item securely, enter your <strong>MTN Mobile Money number</strong>. A payment prompt will be sent directly to your phone. Simply check your phone, enter your PIN on your device, and confirm.</p>
                 <div class="code-input-group">
-                    <input type="password" id="momoPinInput" maxlength="4" placeholder="Enter 4-digit Momo PIN (e.g., 1234)">
-                    <button class="btn-verify-pay" onclick="verifyMomoPayment()">Authorize & Pay to MomoPay 1930905</button>
+                    <label style="font-size:13px; font-weight:600; color:#78350f;">MTN Phone Number (e.g. 078xxxxxxx):</label>
+                    <input type="tel" id="mtnPhoneNumberInput" placeholder="078XXXXXXXX or 079XXXXXXXX" maxlength="10">
+                    <button class="btn-verify-pay" onclick="initiateMomoPush()">Request Payment Prompt on Phone</button>
+                </div>
+                <div id="ussdSimulatorBox" class="ussd-simulator">
+                    <h5 id="ussdStatusTitle">🔄 Sending Momo Push to Phone...</h5>
+                    <p id="ussdStatusText" style="margin-bottom:0; color:#cbd5e1; font-size:13px;">Please wait while we connect to MTN Momo gateway...</p>
                 </div>
             </div>
 
@@ -302,7 +304,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Opportunity & Digital Hub</h4>
-                <p>Your ultimate platform for student services, study materials with automated MomoPay (1930905) payment security, housing in Huye, and career opportunities.</p>
+                <p>Your ultimate marketplace for student services, study materials with automated MTN Momo push checkout, housing in Huye, and career opportunities.</p>
             </div>
             <div class="footer-section">
                 <h4>Quick Links</h4>
@@ -329,7 +331,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript with MomoPay 1930905 Payment & Free Study Material Instant Access -->
+    <!-- JavaScript with MTN Momo Phone Push Checkout (No Website PIN Entry) -->
     <script>
         const productGrid = document.getElementById('productGrid');
         const searchInput = document.getElementById('searchInput');
@@ -355,8 +357,10 @@
         const modalDownloadBtn = document.getElementById('modalDownloadBtn');
         const modalPreviewContainer = document.getElementById('modalPreviewContainer');
         const paymentSection = document.getElementById('paymentSection');
-        const momoPinInput = document.getElementById('momoPinInput');
-        const momoBalDisplay = document.getElementById('momoBalDisplay');
+        const mtnPhoneNumberInput = document.getElementById('mtnPhoneNumberInput');
+        const ussdSimulatorBox = document.getElementById('ussdSimulatorBox');
+        const ussdStatusTitle = document.getElementById('ussdStatusTitle');
+        const ussdStatusText = document.getElementById('ussdStatusText');
 
         const authModal = document.getElementById('authModal');
         const closeAuthModal = document.getElementById('closeAuthModal');
@@ -373,7 +377,6 @@
         let currentModalItemIndex = null;
         
         let paidStudyMaterials = JSON.parse(localStorage.getItem('paidStudyMaterials')) || {};
-        let userWallets = JSON.parse(localStorage.getItem('hubUserWallets')) || {};
         let isAdminLoggedIn = localStorage.getItem('hubAdminAuth') === 'true';
         let currentUser = JSON.parse(localStorage.getItem('hubCurrentUser')) || null;
 
@@ -411,7 +414,7 @@
                     isAdminLoggedIn = true;
                     updateNavbarAuth();
                     renderListings(currentFilter, searchInput.value.toLowerCase());
-                    alert("Admin access granted! You can now upload items.");
+                    alert("Admin access granted! You can now publish marketplace items.");
                     window.location.hash = "#post-section";
                 } else if (password !== null) {
                     alert("Incorrect password!");
@@ -489,16 +492,10 @@
             localStorage.setItem('hubCurrentUser', JSON.stringify(newUser));
             currentUser = newUser;
 
-            // Initialize user wallet with 10,000 RWF Momo funds for testing payment to MomoPay 1930905
-            if (!userWallets[email]) {
-                userWallets[email] = 10000;
-                localStorage.setItem('hubUserWallets', JSON.stringify(userWallets));
-            }
-
             updateNavbarAuth();
             authModal.classList.remove('active');
             renderListings(currentFilter, searchInput.value.toLowerCase());
-            alert(`Account created successfully! Welcome, ${name}. Your Momo account is linked for payments to MomoPay 1930905.`);
+            alert(`Account created successfully! Welcome, ${name}.`);
         }
 
         window.handleLogin = function() {
@@ -516,29 +513,12 @@
             if (foundUser) {
                 localStorage.setItem('hubCurrentUser', JSON.stringify(foundUser));
                 currentUser = foundUser;
-
-                if (!userWallets[email]) {
-                    userWallets[email] = 10000;
-                    localStorage.setItem('hubUserWallets', JSON.stringify(userWallets));
-                }
-
                 updateNavbarAuth();
                 authModal.classList.remove('active');
                 renderListings(currentFilter, searchInput.value.toLowerCase());
                 alert(`Welcome back, ${foundUser.name}!`);
             } else {
                 alert("Invalid email or password. Please check your credentials or register a new account.");
-            }
-        }
-
-        window.topUpWallet = function() {
-            if (!currentUser) return;
-            const amount = prompt("Enter amount to top up to your Momo account (RWF):", "5000");
-            if (amount && !isNaN(amount)) {
-                userWallets[currentUser.email] = (userWallets[currentUser.email] || 0) + parseInt(amount);
-                localStorage.setItem('hubUserWallets', JSON.stringify(userWallets));
-                momoBalDisplay.textContent = `RWF ${userWallets[currentUser.email].toLocaleString()}`;
-                alert(`Momo account credited successfully! New balance: RWF ${userWallets[currentUser.email].toLocaleString()}`);
             }
         }
 
@@ -626,7 +606,7 @@
                         if (isAdminLoggedIn || isPaid) {
                             actionButtonHTML = `<a href="${item.fileData}" download="${item.fileName}" class="btn-download">Download File</a>`;
                         } else {
-                            actionButtonHTML = `<button class="btn-pay-download" onclick="openModal(${originalIndex})">Pay to MomoPay 1930905</button>`;
+                            actionButtonHTML = `<button class="btn-pay-download" onclick="openModal(${originalIndex})">Buy via MTN Momo</button>`;
                         }
                     }
                 } else if (item.fileData) {
@@ -677,14 +657,15 @@
             modalTitle.textContent = item.title;
             modalDescription.textContent = item.description;
             modalPrice.textContent = item.price;
-            momoPinInput.value = "";
+            mtnPhoneNumberInput.value = "";
+            ussdSimulatorBox.style.display = "none";
             
             const encodedMessage = encodeURIComponent(`Hello, I am interested in this item on Opportunity & Digital Hub: *${item.title}* (${item.price})`);
             whatsappLink.href = `https://wa.me/250783230084?text=${encodedMessage}`;
 
             const isItemFree = item.price.toLowerCase().includes('free') || parsePriceNumber(item.price) === 0;
 
-            // Check if Study Material requires MomoPay 1930905 payment
+            // Check if Study Material requires Momo push payment
             if (item.category === "Study Materials" && item.fileData && !isItemFree) {
                 const userKey = currentUser ? currentUser.email : 'guest';
                 const isPaid = paidStudyMaterials[index]?.[userKey];
@@ -697,13 +678,6 @@
                     modalDownloadBtn.textContent = "Download Unlocked File";
                 } else {
                     paymentSection.style.display = "block";
-                    if (currentUser) {
-                        const bal = userWallets[currentUser.email] || 0;
-                        momoBalDisplay.textContent = `RWF ${bal.toLocaleString()}`;
-                        document.getElementById('userWalletInfo').style.display = "flex";
-                    } else {
-                        document.getElementById('userWalletInfo').style.display = "none";
-                    }
                     modalDownloadBtn.style.display = "none";
                 }
             } else {
@@ -737,51 +711,43 @@
             detailModal.classList.add('active');
         }
 
-        window.verifyMomoPayment = function() {
-            if (!currentUser) {
-                alert("Please create an account or sign in first so your Momo account funds can be transferred to MomoPay 1930905 and download access securely unlocked!");
-                detailModal.classList.remove('active');
-                openAuthModal('login');
-                return;
-            }
-
-            const pin = momoPinInput.value.trim();
-            if (!pin || pin.length < 4) {
-                alert("Please enter a valid 4-digit Momo PIN.");
+        window.initiateMomoPush = function() {
+            const phone = mtnPhoneNumberInput.value.trim();
+            if (!phone || phone.length < 10 || (!phone.startsWith('078') && !phone.startsWith('079'))) {
+                alert("Please enter a valid MTN phone number starting with 078 or 079.");
                 return;
             }
 
             const item = listings[currentModalItemIndex];
-            const itemPriceNum = parsePriceNumber(item.price);
-            const userKey = currentUser.email;
-            let currentBal = userWallets[userKey] || 0;
-
-            if (currentBal < itemPriceNum) {
-                alert(`Insufficient funds in your Momo account (RWF ${currentBal.toLocaleString()}). Required: RWF ${itemPriceNum.toLocaleString()}. Click '+ Top Up' to add funds.`);
-                return;
-            }
-
-            // Deduct amount from user account and send to MomoPay 1930905
-            currentBal -= itemPriceNum;
-            userWallets[userKey] = currentBal;
-            localStorage.setItem('hubUserWallets', JSON.stringify(userWallets));
-
-            // Save payment state
-            if (!paidStudyMaterials[currentModalItemIndex]) {
-                paidStudyMaterials[currentModalItemIndex] = {};
-            }
-            paidStudyMaterials[currentModalItemIndex][userKey] = true;
-            localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
-
-            alert(`Payment of RWF ${itemPriceNum.toLocaleString()} successfully paid to MomoPay 1930905 from your Momo account! Remaining balance: RWF ${currentBal.toLocaleString()}. Download is now unlocked!`);
             
-            paymentSection.style.display = "none";
-            modalDownloadBtn.href = item.fileData;
-            modalDownloadBtn.setAttribute('download', item.fileName);
-            modalDownloadBtn.style.display = "block";
-            modalDownloadBtn.textContent = "Download Unlocked File";
+            // Show simulation of USSD Push prompt sent to user's phone
+            ussdSimulatorBox.style.display = "block";
+            ussdStatusTitle.textContent = "🔄 Push Sent to " + phone;
+            ussdStatusText.innerHTML = `Please check your phone right now.<br>A Momo payment prompt for <strong>${item.price}</strong> has been sent.<br><em>Enter your PIN on your mobile phone to confirm and unlock download.</em>`;
 
-            renderListings(currentFilter, searchInput.value.toLowerCase());
+            // Simulate user confirming payment on their phone after 4 seconds
+            setTimeout(() => {
+                ussdStatusTitle.textContent = "✅ Payment Confirmed Successfully!";
+                ussdStatusText.innerHTML = `MTN Momo gateway verified payment from <strong>${phone}</strong>.<br>Download access is now unlocked!`;
+
+                const userKey = currentUser ? currentUser.email : 'guest';
+                if (!paidStudyMaterials[currentModalItemIndex]) {
+                    paidStudyMaterials[currentModalItemIndex] = {};
+                }
+                paidStudyMaterials[currentModalItemIndex][userKey] = true;
+                localStorage.setItem('paidStudyMaterials', JSON.stringify(paidStudyMaterials));
+
+                setTimeout(() => {
+                    paymentSection.style.display = "none";
+                    ussdSimulatorBox.style.display = "none";
+                    modalDownloadBtn.href = item.fileData;
+                    modalDownloadBtn.setAttribute('download', item.fileName);
+                    modalDownloadBtn.style.display = "block";
+                    modalDownloadBtn.textContent = "Download Unlocked File";
+                    renderListings(currentFilter, searchInput.value.toLowerCase());
+                }, 1500);
+
+            }, 4500);
         }
 
         window.handleDirectPublish = function() {
@@ -828,7 +794,7 @@
             updateActiveButton('all');
             renderListings('all', searchInput.value.toLowerCase());
             
-            alert("Item published successfully! Free items download instantly without asking for payment; paid items route payment to MomoPay 1930905.");
+            alert("Listing published successfully to the online market!");
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
