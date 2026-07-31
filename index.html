@@ -33,14 +33,14 @@
         .hero p { color: #f3e8ff; font-size: 17px; font-weight: 500; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
         
         /* Search Bar */
-        .search-bar { display: flex; justify-content: center; }
+        .search-bar { display: flex; justify-content: center; margin-bottom: 0px; }
         .search-bar input { padding: 16px 24px; width: 60%; max-width: 500px; background-color: rgba(255, 255, 255, 0.95); border: none; color: #1e293b; border-radius: 35px; outline: none; font-size: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); text-align: center; backdrop-filter: blur(8px); transition: all 0.3s ease; }
         .search-bar input:focus { text-align: left; padding-left: 28px; background-color: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 
         /* Main Container */
         .container { max-width: 1050px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
         
-        /* Admin Panel directly below Search/Hero area (when logged in) */
+        /* Admin Panel positioned directly below Search/Hero area */
         .form-container { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(224, 231, 255, 0.8); border-radius: 24px; padding: 35px; box-shadow: 0 15px 35px rgba(99, 102, 241, 0.1); margin-bottom: 35px; display: none; }
         .form-container.admin-visible { display: block; }
         
@@ -144,6 +144,7 @@
         .footer-section ul li a:hover { color: #ffffff; text-decoration: underline; }
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 25px; font-size: 13px; color: #64748b; }
         .footer-bottom p { margin-bottom: 6px; color: #cbd5e1; }
+        .developer-tag { margin-top: 10px; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, #6366f1, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body>
@@ -265,7 +266,4 @@
     </div>
 
     <!-- Auth / Account Modal Popup -->
-    <div class="modal-overlay" id="authModal">
-        <div class="modal" style="max-width: 400px; text-align: center;">
-            <span class="modal-category" id="authModalCategory">User Account</span>
-            <h2 id="authModalTitle" sty
+    <div class="modal-over
