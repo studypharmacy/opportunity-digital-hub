@@ -227,7 +227,9 @@
                 <h3 class="section-title">Admin Management Control Center</h3>
                 <button class="btn-close" onclick="toggleAdminDashboard()">Close</button>
             </div>
-            <h4 style="font-size:15px; margin-bottom:10px; color:#1e293b; font-weight:800;">Registered Platform Users & Selling Categories</h4>
+            <p style="font-size:14px; color:#4f46e5; font-weight:700; margin-bottom:15px;">⚙️ Admin Privileges Active: You can view, manage, and edit all user accounts, change user selling categories, or delete accounts.</p>
+            
+            <h4 style="font-size:15px; margin-bottom:10px; color:#1e293b; font-weight:800;">Registered Platform Users & Selling Categories Management</h4>
             <div class="admin-table-container">
                 <table class="admin-table">
                     <thead>
@@ -236,7 +238,7 @@
                             <th>Email Address</th>
                             <th>Selling Category</th>
                             <th>Role</th>
-                            <th>Action</th>
+                            <th>Manage / Actions</th>
                         </tr>
                     </thead>
                     <tbody id="adminUsersTableBody"></tbody>
@@ -253,8 +255,8 @@
             <p id="postCategoryWarning" style="font-size:13px; color:#6366f1; font-weight:700; margin-bottom:15px;"></p>
             <form id="itemForm" onsubmit="handlePublish(event)">
                 <div class="form-group">
-                    <label for="category">Category (Locked to your registered selling category)</label>
-                    <select id="category" required disabled style="background:#f1f5f9; cursor:not-allowed;">
+                    <label for="category">Category (Admin: Select any available category)</label>
+                    <select id="category" required>
                         <option value="Digital Services">Digital Services</option>
                         <option value="Study Materials">Study Materials</option>
                         <option value="House for Rent">House for Rent</option>
@@ -565,15 +567,17 @@
         
         let currentUser = JSON.parse(localStorage.getItem('hubCurrentUser')) || null;
         let users = JSON.parse(localStorage.getItem('hubUsers')) || [
-            { name: "Hubert IRAHARI", email: "iraharihubert250@gmail.com", whatsapp: "0783230084", password: "Hub2026Admin", sellCategory: "Study Materials", role: "admin" }
+            { name: "Hubert IRAHARI", email: "iraharihubert250@gmail.com", whatsapp: "0783230084", password: "Hub2026Admin", sellCategory: "All Categories", role: "admin" }
         ];
 
-        let adminUser = users.find(u => u.role === 'admin');
+        let adminUser = users.find(u => u.email.toLowerCase() === "iraharihubert250@gmail.com" || u.role === 'admin');
         if (adminUser) {
             adminUser.email = "iraharihubert250@gmail.com";
-            adminUser.sellCategory = "Study Materials";
+            adminUser.sellCategory = "All Categories";
+            adminUser.role = "admin";
+            adminUser.password = "Hub2026Admin";
         } else {
-            users.push({ name: "Hubert IRAHARI", email: "iraharihubert250@gmail.com", whatsapp: "0783230084", password: "Hub2026Admin", sellCategory: "Study Materials", role: "admin" });
+            users.push({ name: "Hubert IRAHARI", email: "iraharihubert250@gmail.com", whatsapp: "0783230084", password: "Hub2026Admin", sellCategory: "All Categories", role: "admin" });
         }
 
         let buyerRequests = JSON.parse(localStorage.getItem('hubBuyerRequests')) || [
@@ -688,7 +692,7 @@
                 authContentContainer.innerHTML = `
                     <div class="auth-form-group">
                         <label>Email Address</label>
-                        <input type="email" id="loginEmail" placeholder="Enter valid email (e.g. user@example.com)..." required>
+                        <input type="email" id="loginEmail" placeholder="Enter valid email..." required>
                     </div>
                     <div class="auth-form-group">
                         <label>Password</label>
@@ -775,8 +779,9 @@
             }
 
             let role = (email.toLowerCase() === "iraharihubert250@gmail.com") ? "admin" : "user";
+            let finalSellCategory = role === 'admin' ? "All Categories" : sellCategory;
 
-            const newUser = { name, email, whatsapp, sellCategory, password, role };
+            const newUser = { name, email, whatsapp, sellCategory: finalSellCategory, password, role };
             users.push(newUser);
             currentUser = newUser;
             localStorage.setItem('hubCurrentUser', JSON.stringify(currentUser));
@@ -784,7 +789,7 @@
             updateNavbar();
             closeAuthModal();
             renderListings();
-            alert(`Account registered successfully! You are registered to sell in: ${sellCategory}.`);
+            alert(`Account registered successfully! Selling category: ${finalSellCategory}.`);
         }
 
         window.handleLogin = function() {
@@ -804,11 +809,15 @@
             const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
             if (foundUser) {
                 currentUser = foundUser;
+                if (currentUser.email.toLowerCase() === "iraharihubert250@gmail.com") {
+                    currentUser.role = "admin";
+                    currentUser.sellCategory = "All Categories";
+                }
                 localStorage.setItem('hubCurrentUser', JSON.stringify(currentUser));
                 updateNavbar();
                 closeAuthModal();
                 renderListings();
-                alert(`Welcome back, ${foundUser.name}! Selling category: ${foundUser.sellCategory || 'All'}`);
+                alert(`Welcome back, ${foundUser.name}! Selling category: ${foundUser.sellCategory}`);
             } else {
                 alert("Invalid email or password!");
             }
@@ -837,8 +846,18 @@
             }
             
             const catSelect = document.getElementById('category');
-            catSelect.value = currentUser.sellCategory;
-            document.getElementById('postCategoryWarning').textContent = `🔒 You are restricted to post items exclusively in your registered selling category: ${currentUser.sellCategory}`;
+            if (currentUser.role === 'admin') {
+                catSelect.disabled = false;
+                catSelect.style.background = "#fff";
+                catSelect.style.cursor = "pointer";
+                document.getElementById('postCategoryWarning').textContent = `👑 Admin Privileges: You can select any selling category to publish products.`;
+            } else {
+                catSelect.value = currentUser.sellCategory;
+                catSelect.disabled = true;
+                catSelect.style.background = "#f1f5f9";
+                catSelect.style.cursor = "not-allowed";
+                document.getElementById('postCategoryWarning').textContent = `🔒 You are restricted to post items exclusively in your registered selling category: ${currentUser.sellCategory}`;
+            }
 
             postSection.classList.add('active-panel');
             userDashboardSection.classList.remove('active-panel');
@@ -853,7 +872,10 @@
             postSection.classList.remove('active-panel');
             adminDashboardSection.classList.remove('active-panel');
             if (userDashboardSection.classList.contains('active-panel')) {
-                document.getElementById('sellerCategoryRestrictionNote').textContent = `👤 Storefront Category Restriction: You are authorized to sell and post exclusively in '${currentUser.sellCategory}'. You can view and buy all products across the marketplace.`;
+                let note = currentUser.role === 'admin' ? 
+                    `👑 Admin Storefront: You have access to all categories. You can view and manage all items.` : 
+                    `👤 Storefront Category Restriction: You are authorized to sell and post exclusively in '${currentUser.sellCategory}'. You can view and buy all products across the marketplace.`;
+                document.getElementById('sellerCategoryRestrictionNote').textContent = note;
                 renderMyListings();
                 window.location.hash = "#userDashboardSection";
             }
@@ -875,18 +897,39 @@
             tbody.innerHTML = '';
             users.forEach((u, idx) => {
                 const tr = document.createElement('tr');
+                let isMainAdmin = (u.email.toLowerCase() === 'iraharihubert250@gmail.com');
                 tr.innerHTML = `
                     <td><strong>${u.name}</strong></td>
                     <td>${u.email}</td>
-                    <td><span style="font-weight:700; color:#4f46e5;">${u.sellCategory || 'N/A'}</span></td>
+                    <td>
+                        <select onchange="updateUserCategory(${idx}, this.value)" style="padding:6px 10px; border:2px solid #cbd5e1; border-radius:8px; font-size:13px; font-weight:700;">
+                            <option value="All Categories" ${u.sellCategory === 'All Categories' ? 'selected' : ''}>All Categories</option>
+                            <option value="Digital Services" ${u.sellCategory === 'Digital Services' ? 'selected' : ''}>Digital Services</option>
+                            <option value="Study Materials" ${u.sellCategory === 'Study Materials' ? 'selected' : ''}>Study Materials</option>
+                            <option value="House for Rent" ${u.sellCategory === 'House for Rent' ? 'selected' : ''}>House for Rent</option>
+                            <option value="Opportunities" ${u.sellCategory === 'Opportunities' ? 'selected' : ''}>Opportunities</option>
+                        </select>
+                    </td>
                     <td><span class="badge-role">${u.role}</span></td>
-                    <td>${u.email !== 'iraharihubert250@gmail.com' ? `<button class="btn-delete" onclick="deleteUser(${idx})">🗑️</button>` : 'Protected Admin'}</td>
+                    <td>
+                        ${!isMainAdmin ? `<button class="btn-delete" onclick="deleteUser(${idx})" title="Delete User" style="background:#fee2e2; color:#dc2626; padding:6px 12px; border-radius:8px; font-weight:800; font-size:12px;">Delete</button>` : '<span style="font-size:12px; font-weight:700; color:#059669;">Main Admin</span>'}
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
+        window.updateUserCategory = function(userIndex, newCategory) {
+            users[userIndex].sellCategory = newCategory;
+            saveData();
+            alert(`Updated ${users[userIndex].name}'s selling category to: ${newCategory}`);
+        }
+
         window.deleteUser = function(index) {
+            if (users[index].email.toLowerCase() === 'iraharihubert250@gmail.com') {
+                alert("Cannot delete main admin account!");
+                return;
+            }
             if (confirm(`Remove user ${users[index].name}?`)) {
                 users.splice(index, 1);
                 saveData();
@@ -911,7 +954,7 @@
             e.preventDefault();
             if (!currentUser) return;
 
-            const category = currentUser.sellCategory;
+            const category = currentUser.role === 'admin' ? document.getElementById('category').value : currentUser.sellCategory;
             const faculty = document.getElementById('faculty').value;
             const title = document.getElementById('title').value.trim();
             const numericPrice = parseFloat(document.getElementById('numericPrice').value) || 0;
@@ -949,7 +992,7 @@
             uploadedFileName = "";
             fileLabel.textContent = "📁 Click here to select file or image from your device";
             closePostModal();
-            alert(`Listing successfully published under your category: ${category}!`);
+            alert(`Listing successfully published under category: ${category}!`);
         }
 
         window.deleteItem = function(index) {
@@ -1145,9 +1188,9 @@
         function renderMyListings() {
             myListingsGrid.innerHTML = '';
             if (!currentUser) return;
-            let myList = listings.filter(i => i.sellerEmail === currentUser.email);
+            let myList = currentUser.role === 'admin' ? listings : listings.filter(i => i.sellerEmail === currentUser.email);
             if (myList.length === 0) {
-                myListingsGrid.innerHTML = `<p style="color:#64748b; font-size:14px;">You haven't posted any listings in your category (${currentUser.sellCategory}) yet.</p>`;
+                myListingsGrid.innerHTML = `<p style="color:#64748b; font-size:14px;">No listings found.</p>`;
                 return;
             }
             myList.forEach(item => {
@@ -1156,6 +1199,7 @@
                 card.className = 'card';
                 card.innerHTML = `
                     <div>
+                        <span class="card-category" style="background:#e0e7ff; color:#4f46e5; margin-bottom:8px; display:inline-block;">${item.category}</span>
                         <h3>${item.title}</h3>
                         <p>${item.description.substring(0, 70)}...</p>
                         <div class="price">${item.price}</div>
