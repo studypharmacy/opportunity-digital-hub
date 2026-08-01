@@ -23,10 +23,11 @@
       --danger-color: #dc2626;
       --success-color: #16a34a;
 
-      /* Distinct Category Theme Colors */
+      /* Dynamic Theme Colors for Categories */
       --cat-pharmacy: #0ea5e9;  /* Sky Blue / Cyan */
       --cat-papers: #8b5cf6;    /* Vibrant Purple */
       --cat-digital: #f59e0b;   /* Vibrant Amber/Orange */
+      --cat-default: #10b981;   /* Emerald Green for new categories */
     }
 
     body {
@@ -430,7 +431,7 @@
       display: inline-block;
     }
 
-    /* Admin Management Tables */
+    /* Admin Management Tables & Sections */
     .admin-panel-section {
       background: #ffffff;
       border: 1px solid var(--border-color);
@@ -560,6 +561,20 @@
       width: 100%;
     }
 
+    .auth-switch-text {
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 15px;
+      color: var(--text-muted);
+    }
+
+    .auth-switch-text span {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
     @media (max-width: 640px) {
       .desktop-nav {
         display: none;
@@ -590,7 +605,6 @@
       <!-- Auth Buttons (Visible when Logged Out) -->
       <div class="auth-actions" id="authActions">
         <button class="btn-outline" onclick="openModal('loginModal')">Log In</button>
-        <button class="btn-primary" onclick="openModal('registerModal')" style="padding: 6px 14px; font-size: 0.9rem;">Sign Up</button>
       </div>
 
       <!-- Profile Menu Wrapper (Visible when Logged In) -->
@@ -606,8 +620,8 @@
         <!-- Dropdown Menu Box -->
         <div class="dropdown-menu" id="dropdownMenu">
           <div class="dropdown-header">
-            <p class="user-greeting" id="dropdownGreeting">Signed in as Admin</p>
-            <p class="user-email" id="dropdownEmail">iraharihubert250@gmail.com</p>
+            <p class="user-greeting" id="dropdownGreeting">Signed in as User</p>
+            <p class="user-email" id="dropdownEmail">user@student.rw</p>
           </div>
           
           <div class="dropdown-divider"></div>
@@ -687,19 +701,29 @@
       <div class="dashboard-toolbar">
         <div>
           <h2>Admin Management Console</h2>
-          <p style="color: var(--text-muted);">Manage registered user accounts and oversee all posted student marketplace materials.</p>
+          <p style="color: var(--text-muted);">Manage registered user accounts, view credentials, and add custom categories.</p>
         </div>
       </div>
 
-      <!-- User Accounts Management Section -->
+      <!-- Add Category Management Section -->
+      <div class="admin-panel-section" style="margin-bottom: 25px;">
+        <h3>Add New Marketplace Category</h3>
+        <form onsubmit="handleAddCategory(event)" style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="text" id="newCatName" placeholder="Category Name (e.g., Engineering Notes)" required style="flex: 1; min-width: 250px; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px;">
+          <button type="submit" class="btn-primary">Add Category</button>
+        </form>
+      </div>
+
+      <!-- User Accounts & Credentials Management Section -->
       <div class="admin-panel-section">
-        <h3>Registered Accounts (<span id="userCount">0</span>)</h3>
+        <h3>Registered Accounts & Credentials (<span id="userCount">0</span>)</h3>
         <div style="overflow-x: auto;">
           <table class="data-table">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email Address</th>
+                <th>Password Credential</th>
                 <th>Role</th>
                 <th>Action</th>
               </tr>
@@ -735,7 +759,7 @@
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card">
       <h2>Log In</h2>
-      <p>Access your dashboard or Admin controls.</p>
+      <p>Access your student account or admin dashboard.</p>
       <form onsubmit="handleLogin(event)">
         <div class="form-group">
           <label>Email Address</label>
@@ -750,6 +774,9 @@
           <button type="submit" class="btn-primary" style="width: 100%;">Log In</button>
         </div>
       </form>
+      <div class="auth-switch-text">
+        Don't have an account? <span onclick="switchToRegister()">Sign Up</span>
+      </div>
     </div>
   </div>
 
@@ -757,7 +784,7 @@
   <div class="modal-overlay" id="registerModal">
     <div class="modal-card">
       <h2>Create Account</h2>
-      <p>Join the Opportunity & Digital Hub community.</p>
+      <p>Join the Opportunity & Digital Hub community to post products.</p>
       <form onsubmit="handleRegister(event)">
         <div class="form-group">
           <label>Full Name</label>
@@ -776,6 +803,9 @@
           <button type="submit" class="btn-primary" style="width: 100%;">Create Account</button>
         </div>
       </form>
+      <div class="auth-switch-text">
+        Already have an account? <span onclick="switchToLogin()">Log In</span>
+      </div>
     </div>
   </div>
 
@@ -813,10 +843,8 @@
         </div>
         <div class="form-group">
           <label>Category</label>
-          <select id="prodCategory">
-            <option value="Pharmacy & Medical Sciences">Pharmacy & Medical Sciences</option>
-            <option value="Past Papers & Notes">Past Papers & Notes</option>
-            <option value="Digital Services">Digital Services</option>
+          <select id="prodCategorySelect" required>
+            <!-- Dynamically populated categories -->
           </select>
         </div>
         <div class="form-group">
@@ -868,10 +896,26 @@
       document.getElementById(modalId).style.display = 'none';
     }
 
+    function switchToRegister() {
+      closeModal('loginModal');
+      openModal('registerModal');
+    }
+
+    function switchToLogin() {
+      closeModal('registerModal');
+      openModal('loginModal');
+    }
+
     // Data Management Initialization
     const defaultUsers = [
-      { name: "Hubert", email: "iraharihubert250@gmail.com", role: "admin" },
-      { name: "Jean Claude", email: "jeanclaude@student.rw", role: "student" }
+      { name: "Hubert", email: "iraharihubert250@gmail.com", password: "adminpassword", role: "admin" },
+      { name: "Jean Claude", email: "jeanclaude@student.rw", password: "password123", role: "student" }
+    ];
+
+    const defaultCategories = [
+      "Pharmacy & Medical Sciences",
+      "Past Papers & Notes",
+      "Digital Services"
     ];
 
     const defaultProducts = [
@@ -904,6 +948,15 @@
       return JSON.parse(stored);
     }
 
+    function getCategories() {
+      const stored = localStorage.getItem('hub_categories_list');
+      if (!stored) {
+        localStorage.setItem('hub_categories_list', JSON.stringify(defaultCategories));
+        return defaultCategories;
+      }
+      return JSON.parse(stored);
+    }
+
     function getProducts() {
       const stored = localStorage.getItem('hub_products');
       if (!stored) {
@@ -931,13 +984,14 @@
       if (!session) {
         authActions.style.display = 'flex';
         profileWrapper.classList.remove('visible');
-        addProductBtn.style.display = 'none';
+        addProductBtn.style.display = 'inline-block'; // Allow anyone logged out to see add button prompting login
         roleBadge.innerText = "Guest Mode";
         adminNavTab.style.display = 'none';
         adminDropdownItem.style.display = 'none';
       } else {
         authActions.style.display = 'none';
         profileWrapper.classList.add('visible');
+        addProductBtn.style.display = 'inline-block';
         
         document.getElementById('navProfileName').innerText = session.name;
         document.getElementById('dropdownEmail').innerText = session.email;
@@ -948,13 +1002,11 @@
 
         if (session.role === 'admin') {
           document.getElementById('dropdownGreeting').innerText = "Signed in as Admin";
-          addProductBtn.style.display = 'inline-block';
           roleBadge.innerText = "Global Admin Mode";
           adminNavTab.style.display = 'inline-block';
           adminDropdownItem.style.display = 'flex';
         } else {
           document.getElementById('dropdownGreeting').innerText = "Signed in as Student";
-          addProductBtn.style.display = 'none';
           roleBadge.innerText = "Student Mode";
           adminNavTab.style.display = 'none';
           adminDropdownItem.style.display = 'none';
@@ -965,11 +1017,12 @@
     function handleLogin(e) {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
       const users = getUsers();
       
-      const foundUser = users.find(u => u.email === email);
+      const foundUser = users.find(u => u.email === email && u.password === password);
       if (!foundUser) {
-        alert("Account not found. Please sign up first.");
+        alert("Invalid email or password. Please check your credentials or create an account.");
         return;
       }
 
@@ -985,6 +1038,7 @@
       e.preventDefault();
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
       
       const users = getUsers();
       if (users.some(u => u.email === email)) {
@@ -992,10 +1046,9 @@
         return;
       }
 
-      // Check if registering admin email explicitly
       const role = (email === 'iraharihubert250@gmail.com') ? 'admin' : 'student';
 
-      const newUser = { name, email, role };
+      const newUser = { name, email, password, role };
       users.push(newUser);
       localStorage.setItem('hub_users_list', JSON.stringify(users));
       localStorage.setItem('hub_user_session', JSON.stringify(newUser));
@@ -1015,22 +1068,53 @@
       alert("Session logged out successfully.");
     }
 
+    function handleAddCategory(e) {
+      e.preventDefault();
+      const catName = document.getElementById('newCatName').value.trim();
+      const categories = getCategories();
+
+      if (categories.includes(catName)) {
+        alert("Category already exists.");
+        return;
+      }
+
+      categories.push(catName);
+      localStorage.setItem('hub_categories_list', JSON.stringify(categories));
+      document.getElementById('newCatName').value = '';
+      renderAllViews();
+      alert(`Category "${catName}" added successfully!`);
+    }
+
     // Get Unique Categories with Theme Mapping
     function getCategoryTheme(categoryName) {
       if (categoryName.includes('Pharmacy') || categoryName.includes('Medical')) return { color: 'var(--cat-pharmacy)', bg: '#f0f9ff' };
       if (categoryName.includes('Papers') || categoryName.includes('Notes')) return { color: 'var(--cat-papers)', bg: '#f5f3ff' };
-      return { color: 'var(--cat-digital)', bg: '#fffbeb' };
+      if (categoryName.includes('Digital')) return { color: 'var(--cat-digital)', bg: '#fffbeb' };
+      return { color: 'var(--cat-default)', bg: '#ecfdf5' };
+    }
+
+    function populateCategoryDropdown() {
+      const select = document.getElementById('prodCategorySelect');
+      const categories = getCategories();
+      select.innerHTML = '';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.innerText = cat;
+        select.appendChild(opt);
+      });
     }
 
     // Render Home Categories Live Display
     function renderHomeCategories(filterCategory = null) {
       const container = document.getElementById('homeCategoriesContainer');
       const products = getProducts();
+      const categories = getCategories();
       container.innerHTML = '';
 
-      let categories = [...new Set(products.map(p => p.category))];
+      let activeCategories = [...categories];
       if (filterCategory) {
-        categories = categories.filter(c => c === filterCategory);
+        activeCategories = activeCategories.filter(c => c === filterCategory);
       }
 
       if (filterCategory) {
@@ -1040,12 +1124,7 @@
         container.appendChild(backBtn);
       }
 
-      if (categories.length === 0) {
-        container.innerHTML += `<p style="text-align:center; color:var(--text-muted);">No products found in this category.</p>`;
-        return;
-      }
-
-      categories.forEach(cat => {
+      activeCategories.forEach(cat => {
         const catProducts = products.filter(p => p.category === cat);
         const theme = getCategoryTheme(cat);
 
@@ -1054,26 +1133,30 @@
         section.style.borderLeft = `5px solid ${theme.color}`;
 
         let cardsHTML = '';
-        catProducts.forEach((prod) => {
-          const globalIndex = products.findIndex(p => p.title === prod.title && p.category === prod.category);
-          const session = getSession();
-          let deleteBtn = (session && session.role === 'admin') ? `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626; padding: 4px 8px; font-size: 0.8rem;" onclick="deleteProduct(${globalIndex})">×</button>` : '';
+        if (catProducts.length === 0) {
+          cardsHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">No products posted under this category yet.</p>`;
+        } else {
+          catProducts.forEach((prod) => {
+            const globalIndex = products.findIndex(p => p.title === prod.title && p.category === prod.category);
+            const session = getSession();
+            let deleteBtn = (session && session.role === 'admin') ? `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626; padding: 4px 8px; font-size: 0.8rem;" onclick="deleteProduct(${globalIndex})">×</button>` : '';
 
-          cardsHTML += `
-            <div class="store-card">
-              <div>
-                <span class="badge" style="background: ${theme.bg}; color: ${theme.color}; margin-bottom: 8px;">${prod.category}</span>
-                <h3>${prod.title}</h3>
-                <div class="price" style="color: ${theme.color};">${prod.price}</div>
-                <p>${prod.desc}</p>
+            cardsHTML += `
+              <div class="store-card">
+                <div>
+                  <span class="badge" style="background: ${theme.bg}; color: ${theme.color}; margin-bottom: 8px;">${prod.category}</span>
+                  <h3>${prod.title}</h3>
+                  <div class="price" style="color: ${theme.color};">${prod.price}</div>
+                  <p>${prod.desc}</p>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                  <button class="btn-primary" style="background-color: ${theme.color}; width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Buy Now</button>
+                  ${deleteBtn}
+                </div>
               </div>
-              <div style="display: flex; gap: 8px; margin-top: 10px;">
-                <button class="btn-primary" style="background-color: ${theme.color}; width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Buy Now</button>
-                ${deleteBtn}
-              </div>
-            </div>
-          `;
-        });
+            `;
+          });
+        }
 
         section.innerHTML = `
           <div class="category-header">
@@ -1097,6 +1180,11 @@
       const products = getProducts();
       const session = getSession();
       grid.innerHTML = '';
+
+      if (products.length === 0) {
+        grid.innerHTML = `<p style="color: var(--text-muted);">No products available in the store.</p>`;
+        return;
+      }
 
       products.forEach((prod, index) => {
         const theme = getCategoryTheme(prod.category);
@@ -1136,6 +1224,7 @@
         tr.innerHTML = `
           <td><strong>${user.name}</strong></td>
           <td>${user.email}</td>
+          <td><code>${user.password}</code></td>
           <td><span class="badge" style="background: ${user.role === 'admin' ? '#e0f2fe' : '#f1f5f9'}; color: ${user.role === 'admin' ? '#0284c7' : '#475569'};">${user.role}</span></td>
           <td>
             ${user.email !== 'iraharihubert250@gmail.com' ? `<button class="action-badge-btn btn-danger-light" onclick="deleteUser(${index})">Remove</button>` : '<span style="font-size:0.8rem; color:var(--text-muted);">Protected</span>'}
@@ -1165,10 +1254,22 @@
       renderHomeCategories();
       renderStoreProducts();
       renderAdminTables();
+      populateCategoryDropdown();
     }
 
+    // Product Modal Safeguard & Handler
+    const originalOpenModal = openModal;
+    window.openModal = function(modalId) {
+      if (modalId === 'productModal' && !getSession()) {
+        alert("Please log in or create an account first to post products.");
+        openModal('loginModal');
+        return;
+      }
+      originalOpenModal(modalId);
+    };
+
     // Modal Checkout Logic
-    const modal = document.getElementById('checkoutModal');
+    const checkoutModal = document.getElementById('checkoutModal');
     const modalTitle = document.getElementById('modalItemTitle');
     const modalPrice = document.getElementById('modalItemPrice');
 
@@ -1191,7 +1292,7 @@
       e.preventDefault();
       const title = document.getElementById('prodTitle').value;
       const price = document.getElementById('prodPrice').value;
-      const category = document.getElementById('prodCategory').value;
+      const category = document.getElementById('prodCategorySelect').value;
       const desc = document.getElementById('prodDesc').value;
 
       const products = getProducts();
@@ -1201,6 +1302,7 @@
       renderAllViews();
       closeModal('productModal');
       e.target.reset();
+      alert("Product posted successfully!");
     }
 
     function deleteProduct(index) {
