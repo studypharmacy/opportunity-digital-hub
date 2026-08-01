@@ -13,7 +13,7 @@
     }
 
     :root {
-      --primary-color: #0284c7; /* Vibrant Sky Blue */
+      --primary-color: #0284c7; /* Modern Vibrant Sky Blue */
       --primary-hover: #0369a1;
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
@@ -23,7 +23,7 @@
       --danger-color: #dc2626;
       --success-color: #16a34a;
 
-      /* Category Theme Colors */
+      /* Distinct Category Theme Colors */
       --cat-pharmacy: #0ea5e9;  /* Sky Blue / Cyan */
       --cat-papers: #8b5cf6;    /* Vibrant Purple */
       --cat-digital: #f59e0b;   /* Vibrant Amber/Orange */
@@ -205,15 +205,6 @@
       margin: 6px 0;
     }
 
-    .menu-category-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #94a3b8;
-      padding: 6px 16px 2px 16px;
-    }
-
     .menu-item {
       display: flex;
       align-items: center;
@@ -224,11 +215,10 @@
       font-size: 0.9rem;
       transition: background 0.15s, color 0.15s;
       cursor: pointer;
-    }
-
-    .menu-item.sub-item {
-      padding-left: 32px;
-      font-size: 0.85rem;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
     }
 
     .menu-item:hover {
@@ -254,7 +244,7 @@
       color: #b91c1c;
     }
 
-    /* Main Interactive UI Sections */
+    /* Main Container & Sections */
     .main-container {
       max-width: 1100px;
       margin: 40px auto;
@@ -279,7 +269,7 @@
     .hero-section {
       text-align: center;
       padding: 48px 24px;
-      background: linear-gradient(135sdeg, #f0f9ff 0%, #e0f2fe 100%);
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
       background-color: #e0f2fe;
       border-radius: 16px;
       border: 1px solid #bae6fd;
@@ -302,7 +292,7 @@
       margin-right: auto;
     }
 
-    /* Category Section Layout on Home */
+    /* Category Section Layout */
     .category-section-wrapper {
       margin-bottom: 40px;
       background: #ffffff;
@@ -496,7 +486,7 @@
       background: #fecaca;
     }
 
-    /* Dynamic Modals */
+    /* Modals */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -570,20 +560,6 @@
       width: 100%;
     }
 
-    .auth-switch-text {
-      font-size: 0.85rem;
-      text-align: center;
-      margin-top: 15px;
-      color: var(--text-muted);
-    }
-
-    .auth-switch-text a {
-      color: var(--primary-color);
-      cursor: pointer;
-      font-weight: 600;
-      text-decoration: underline;
-    }
-
     @media (max-width: 640px) {
       .desktop-nav {
         display: none;
@@ -636,31 +612,31 @@
           
           <div class="dropdown-divider"></div>
 
-          <a class="menu-item" onclick="switchTab('home')">
+          <button class="menu-item" onclick="switchTab('home')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             Home
-          </a>
-          <a class="menu-item" onclick="switchTab('about')">
+          </button>
+          <button class="menu-item" onclick="switchTab('about')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
             About Us
-          </a>
-          <a class="menu-item" onclick="switchTab('store')">
+          </button>
+          <button class="menu-item" onclick="switchTab('store')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             My Store
-          </a>
+          </button>
 
           <!-- Admin Panel Dropdown Item (Only visible for Admin) -->
-          <a class="menu-item" id="adminDropdownItem" onclick="switchTab('admin')" style="display: none; font-weight: 600; color: var(--primary-color);">
+          <button class="menu-item" id="adminDropdownItem" onclick="switchTab('admin')" style="display: none; font-weight: 600; color: var(--primary-color);">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c-.5.38-1.03.7-1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c-.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             Admin Management Console
-          </a>
+          </button>
 
           <div class="dropdown-divider"></div>
 
-          <a class="menu-item logout-item" onclick="handleLogout()">
+          <button class="menu-item logout-item" onclick="handleLogout()">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
             Log Out
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -694,11 +670,11 @@
     <div id="store-tab" class="tab-content">
       <div class="dashboard-toolbar">
         <div>
-          <h2 id="storeViewTitle">Digital Student Store</h2>
-          <p id="storeViewSub" style="color: var(--text-muted);">Purchase notes, revision sheets, and past papers instantly via Mobile Money.</p>
+          <h2>Digital Student Store</h2>
+          <p style="color: var(--text-muted);">Purchase notes, revision sheets, and past papers instantly via Mobile Money.</p>
         </div>
         <div>
-          <span class="badge" id="roleBadge">Global Admin Mode</span>
+          <span class="badge" id="roleBadge">Guest Mode</span>
           <button class="btn-primary" id="addProductBtn" onclick="openModal('productModal')" style="margin-left: 10px; display: none;">+ Add Product</button>
         </div>
       </div>
@@ -939,11 +915,7 @@
 
     function getSession() {
       const session = localStorage.getItem('hub_user_session');
-      if (!session) {
-        const defaultAdmin = defaultUsers[0];
-        localStorage.setItem('hub_user_session', JSON.stringify(defaultAdmin));
-        return defaultAdmin;
-      }
+      if (!session) return null;
       return JSON.parse(session);
     }
 
@@ -996,14 +968,17 @@
       const users = getUsers();
       
       const foundUser = users.find(u => u.email === email);
-      let session = foundUser || { name: email.split('@')[0], email, role: 'student' };
+      if (!foundUser) {
+        alert("Account not found. Please sign up first.");
+        return;
+      }
 
-      localStorage.setItem('hub_user_session', JSON.stringify(session));
+      localStorage.setItem('hub_user_session', JSON.stringify(foundUser));
       closeModal('loginModal');
       updateAuthUI();
       renderAllViews();
       e.target.reset();
-      alert(`Welcome back, ${session.name}!`);
+      alert(`Welcome back, ${foundUser.name}!`);
     }
 
     function handleRegister(e) {
@@ -1017,7 +992,10 @@
         return;
       }
 
-      const newUser = { name, email, role: 'student' };
+      // Check if registering admin email explicitly
+      const role = (email === 'iraharihubert250@gmail.com') ? 'admin' : 'student';
+
+      const newUser = { name, email, role };
       users.push(newUser);
       localStorage.setItem('hub_users_list', JSON.stringify(users));
       localStorage.setItem('hub_user_session', JSON.stringify(newUser));
@@ -1050,7 +1028,6 @@
       const products = getProducts();
       container.innerHTML = '';
 
-      // Determine categories to show
       let categories = [...new Set(products.map(p => p.category))];
       if (filterCategory) {
         categories = categories.filter(c => c === filterCategory);
@@ -1077,7 +1054,7 @@
         section.style.borderLeft = `5px solid ${theme.color}`;
 
         let cardsHTML = '';
-        catProducts.forEach((prod, pIndex) => {
+        catProducts.forEach((prod) => {
           const globalIndex = products.findIndex(p => p.title === prod.title && p.category === prod.category);
           const session = getSession();
           let deleteBtn = (session && session.role === 'admin') ? `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626; padding: 4px 8px; font-size: 0.8rem;" onclick="deleteProduct(${globalIndex})">×</button>` : '';
