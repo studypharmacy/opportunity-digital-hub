@@ -20,6 +20,8 @@
       --text-main: #1e293b;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
+      --danger-color: #dc2626;
+      --success-color: #16a34a;
     }
 
     body {
@@ -70,15 +72,44 @@
       font-weight: 500;
       font-size: 0.95rem;
       transition: color 0.2s;
+      cursor: pointer;
     }
 
     .desktop-nav a:hover {
       color: var(--primary-color);
     }
 
-    /* Profile Toggle Button */
+    /* Auth Actions (When logged out) */
+    .auth-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: #f0f9ff;
+    }
+
+    /* Profile Toggle Button (When logged in) */
     .profile-menu-wrapper {
       position: relative;
+      display: none;
+    }
+
+    .profile-menu-wrapper.visible {
+      display: block;
     }
 
     .profile-toggle-btn {
@@ -158,7 +189,6 @@
       display: flex;
     }
 
-    /* Dropdown Content Styles */
     .dropdown-header {
       padding: 10px 16px;
     }
@@ -203,6 +233,7 @@
       text-decoration: none;
       font-size: 0.9rem;
       transition: background 0.15s, color 0.15s;
+      cursor: pointer;
     }
 
     .menu-item.sub-item {
@@ -225,11 +256,11 @@
     }
 
     .logout-item {
-      color: #dc2626;
+      color: var(--danger-color);
     }
 
     .logout-item .menu-icon {
-      color: #dc2626;
+      color: var(--danger-color);
     }
 
     .logout-item:hover {
@@ -237,7 +268,7 @@
       color: #b91c1c;
     }
 
-    /* Functional Interactive UI Sections */
+    /* Main Interactive UI Sections */
     .main-container {
       max-width: 1000px;
       margin: 40px auto;
@@ -258,7 +289,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero Section */
+    /* Hero / Standard Card Section */
     .hero-section {
       text-align: center;
       padding: 40px 20px;
@@ -280,7 +311,7 @@
       margin-bottom: 24px;
     }
 
-    /* Store Grid Cards with Integrated Purchase Action */
+    /* Store Grid Cards */
     .store-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -336,7 +367,26 @@
       background-color: var(--primary-hover);
     }
 
-    /* Dynamic Modal for Mobile Money / Checkout Simulation */
+    .dashboard-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .badge {
+      background: #e0f2fe;
+      color: var(--primary-color);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    /* Dynamic Modals */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -355,7 +405,7 @@
       padding: 30px;
       border-radius: 16px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
@@ -384,12 +434,13 @@
       color: var(--text-main);
     }
 
-    .form-group input {
+    .form-group input, .form-group select, .form-group textarea {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 0.95rem;
+      font-family: inherit;
     }
 
     .modal-actions {
@@ -409,7 +460,20 @@
       width: 100%;
     }
 
-    /* Responsive adjustment */
+    .auth-switch-text {
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 15px;
+      color: var(--text-muted);
+    }
+
+    .auth-switch-text a {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
     @media (max-width: 640px) {
       .desktop-nav {
         display: none;
@@ -429,44 +493,48 @@
     </div>
 
     <div class="nav-container">
-      <!-- Desktop Quick Links (Functional Tab Switchers) -->
+      <!-- Desktop Quick Links -->
       <nav class="desktop-nav">
-        <a href="#" onclick="switchTab('home')">Home</a>
-        <a href="#" onclick="switchTab('about')">About Us</a>
-        <a href="#" onclick="switchTab('store')">My Store</a>
+        <a onclick="switchTab('home')">Home</a>
+        <a onclick="switchTab('about')">About Us</a>
+        <a onclick="switchTab('store')">My Store</a>
       </nav>
 
-      <!-- Profile Menu Wrapper -->
+      <!-- Auth Buttons (Visible when Logged Out) -->
+      <div class="auth-actions" id="authActions">
+        <button class="btn-outline" onclick="openModal('loginModal')">Log In</button>
+        <button class="btn-primary" onclick="openModal('registerModal')" style="padding: 6px 14px; font-size: 0.9rem;">Sign Up</button>
+      </div>
+
+      <!-- Profile Menu Wrapper (Visible when Logged In) -->
       <div class="profile-menu-wrapper" id="profileWrapper">
         <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle menu">
           <div class="profile-avatar">
-            <!-- Optional Profile Picture: Falls back cleanly to initials if image errors out -->
             <img src="assets/profile-pic.jpg" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <span class="avatar-fallback">IH</span>
+            <span class="avatar-fallback" id="userInitials">IH</span>
           </div>
-          <span class="profile-name">Account</span>
+          <span class="profile-name" id="navProfileName">Hubert</span>
           <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
         </button>
 
         <!-- Dropdown Menu Box -->
         <div class="dropdown-menu" id="dropdownMenu">
-          
           <div class="dropdown-header">
-            <p class="user-greeting">Signed in as</p>
-            <p class="user-email">iraharihubert250@gmail.com</p>
+            <p class="user-greeting" id="dropdownGreeting">Signed in as Admin</p>
+            <p class="user-email" id="dropdownEmail">iraharihubert250@gmail.com</p>
           </div>
           
           <div class="dropdown-divider"></div>
 
-          <a href="#" class="menu-item" onclick="switchTab('home')">
+          <a class="menu-item" onclick="switchTab('home')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             Home
           </a>
-          <a href="#" class="menu-item" onclick="switchTab('about')">
+          <a class="menu-item" onclick="switchTab('about')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
             About Us
           </a>
-          <a href="#" class="menu-item" onclick="switchTab('store')">
+          <a class="menu-item" onclick="switchTab('store')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             My Store
           </a>
@@ -474,47 +542,41 @@
           <div class="dropdown-divider"></div>
 
           <div class="menu-category-title">Categories</div>
-          <a href="#" class="menu-item sub-item" onclick="switchTab('store')">Past Papers & Notes</a>
-          <a href="#" class="menu-item sub-item" onclick="switchTab('store')">Pharmacy & Medical Sciences</a>
-          <a href="#" class="menu-item sub-item" onclick="switchTab('home')">Jobs & Opportunities</a>
-          <a href="#" class="menu-item sub-item" onclick="switchTab('home')">Digital Services</a>
+          <a class="menu-item sub-item" onclick="switchTab('store')">Past Papers & Notes</a>
+          <a class="menu-item sub-item" onclick="switchTab('store')">Pharmacy & Medical Sciences</a>
+          <a class="menu-item sub-item" onclick="switchTab('home')">Jobs & Opportunities</a>
+          <a class="menu-item sub-item" onclick="switchTab('home')">Digital Services</a>
 
           <div class="dropdown-divider"></div>
 
-          <a href="#" class="menu-item" onclick="alert('Navigating to Account Profile settings...')">
+          <a class="menu-item" onclick="alert('Account Profile: IRAHARI Hubert (School of Medicine and Pharmacy)')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             My Account Profile
           </a>
-          <a href="#" class="menu-item" onclick="alert('Viewing transaction logs and purchase orders...')">
+          <a class="menu-item" onclick="alert('Viewing order history & transaction logs...')">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
             My Orders & Transactions
-          </a>
-          <a href="#" class="menu-item" onclick="alert('Opening platform settings...')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-            Settings
           </a>
 
           <div class="dropdown-divider"></div>
 
-          <a href="#" class="menu-item logout-item" onclick="alert('Session logged out successfully.')">
+          <a class="menu-item logout-item" onclick="handleLogout()">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
             Log Out
           </a>
-
         </div>
       </div>
-
     </div>
   </header>
 
-  <!-- Main Content Container with Working Tabs -->
+  <!-- Main Content Container -->
   <main class="main-container">
     
     <!-- HOME TAB -->
     <div id="home-tab" class="tab-content active-tab">
       <section class="hero-section">
         <h1>Opportunity & Digital Hub</h1>
-        <p>Empowering students and community members through integrated academic resources, job announcements, and digital storefront services.</p>
+        <p>Empowering students in Huye and across Rwanda through integrated academic resources, job announcements, and digital storefront services.</p>
         <button class="btn-primary" onclick="switchTab('store')">Explore My Store</button>
       </section>
     </div>
@@ -530,39 +592,99 @@
 
     <!-- MY STORE TAB -->
     <div id="store-tab" class="tab-content">
-      <div style="margin-bottom: 20px;">
-        <h2>Digital Student Store</h2>
-        <p style="color: var(--text-muted);">Purchase notes, revision sheets, and past papers instantly via Mobile Money.</p>
-      </div>
-      <div class="store-grid">
-        <div class="store-card">
-          <div>
-            <h3>Pharmacy & Systemic Anatomy Notes</h3>
-            <div class="price">1,500 RWF</div>
-            <p>Comprehensive structured study notes compiled for medical and pharmacy students.</p>
-          </div>
-          <button class="btn-primary" onclick="openCheckout('Pharmacy Systemic Notes', '1,500 RWF')">Buy Now</button>
+      <div class="dashboard-toolbar">
+        <div>
+          <h2>Digital Student Store</h2>
+          <p style="color: var(--text-muted);">Purchase notes, revision sheets, and past papers instantly via Mobile Money.</p>
         </div>
-        <div class="store-card">
-          <div>
-            <h3>University Past Papers (All Modules)</h3>
-            <div class="price">2,000 RWF</div>
-            <p>Past examination papers with verified solutions and references.</p>
-          </div>
-          <button class="btn-primary" onclick="openCheckout('University Past Papers Bundle', '2,000 RWF')">Buy Now</button>
-        </div>
-        <div class="store-card">
-          <div>
-            <h3>Digital Service Consultation</h3>
-            <div class="price">5,000 RWF</div>
-            <p>Direct support for student job application portals and resource submissions.</p>
-          </div>
-          <button class="btn-primary" onclick="openCheckout('Digital Service Consultation', '5,000 RWF')">Book Now</button>
+        <div>
+          <span class="badge" id="roleBadge">Global Admin Mode</span>
+          <button class="btn-primary" id="addProductBtn" onclick="openModal('productModal')" style="margin-left: 10px; display: none;">+ Add Product</button>
         </div>
       </div>
+
+      <div class="store-grid" id="productStoreGrid"></div>
     </div>
 
   </main>
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card">
+      <h2>Log In</h2>
+      <p>Access your dashboard or Admin controls.</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+        </div>
+        <div style="text-align: right; margin-bottom: 15px;">
+          <a style="font-size: 0.85rem; color: var(--primary-color); cursor: pointer;" onclick="switchModal('loginModal', 'forgotModal')">Lost password?</a>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
+          <button type="submit" class="btn-primary" style="width: 100%;">Log In</button>
+        </div>
+      </form>
+      <div class="auth-switch-text">
+        Don't have an account? <a onclick="switchModal('loginModal', 'registerModal')">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign Up / Register Modal -->
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal-card">
+      <h2>Create Account</h2>
+      <p>Join the Opportunity & Digital Hub community.</p>
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="regName" placeholder="IRAHARI Hubert" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="regEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="regPassword" placeholder="Create a password" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal('registerModal')">Cancel</button>
+          <button type="submit" class="btn-primary" style="width: 100%;">Create Account</button>
+        </div>
+      </form>
+      <div class="auth-switch-text">
+        Already have an account? <a onclick="switchModal('registerModal', 'loginModal')">Log In</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lost / Forgot Password Modal -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal-card">
+      <h2>Reset Password</h2>
+      <p>Enter your registered email address to receive password recovery instructions.</p>
+      <form onsubmit="handlePasswordReset(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="forgotEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal('forgotModal')">Cancel</button>
+          <button type="submit" class="btn-primary" style="width: 100%;">Send Instructions</button>
+        </div>
+      </form>
+      <div class="auth-switch-text">
+        Remembered your password? <a onclick="switchModal('forgotModal', 'loginModal')">Log In</a>
+      </div>
+    </div>
+  </div>
 
   <!-- Interactive Mobile Money Checkout Modal -->
   <div class="modal-overlay" id="checkoutModal">
@@ -575,8 +697,42 @@
           <input type="tel" id="momoNumber" placeholder="07XXXXXXXX" required pattern="07[089][0-9]{7}">
         </div>
         <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeCheckout()">Cancel</button>
+          <button type="button" class="btn-secondary" onclick="closeModal('checkoutModal')">Cancel</button>
           <button type="submit" class="btn-primary" style="width: 100%;">Pay Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Product Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card">
+      <h2>Add New Listing</h2>
+      <p>List a product or study material to the student marketplace.</p>
+      <form onsubmit="saveProduct(event)">
+        <div class="form-group">
+          <label>Product Title</label>
+          <input type="text" id="prodTitle" placeholder="e.g., Histology Summary Notes" required>
+        </div>
+        <div class="form-group">
+          <label>Price (e.g., 1,500 RWF)</label>
+          <input type="text" id="prodPrice" placeholder="1,500 RWF" required>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="prodCategory">
+            <option value="Pharmacy & Medical Sciences">Pharmacy & Medical Sciences</option>
+            <option value="Past Papers & Notes">Past Papers & Notes</option>
+            <option value="Digital Services">Digital Services</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="prodDesc" rows="3" placeholder="Brief description..." required></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal('productModal')">Cancel</button>
+          <button type="submit" class="btn-primary" style="width: 100%;">Save Listing</button>
         </div>
       </form>
     </div>
@@ -584,7 +740,7 @@
 
   <!-- JavaScript Functionality Logic -->
   <script>
-    // Toggle Menu and Outside Click Handler
+    // Profile Dropdown Handling
     const wrapper = document.getElementById('profileWrapper');
     const toggleBtn = document.getElementById('menuToggle');
 
@@ -609,6 +765,184 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Modal Management Helpers
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'flex';
+      wrapper.classList.remove('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    function switchModal(fromId, toId) {
+      closeModal(fromId);
+      openModal(toId);
+    }
+
+    // Authentication State Logic
+    function getSession() {
+      const session = localStorage.getItem('hub_user_session');
+      if (!session) {
+        // Default to logged-in Admin as established before
+        const defaultAdmin = { name: "Hubert", email: "iraharihubert250@gmail.com", role: "admin" };
+        localStorage.setItem('hub_user_session', JSON.stringify(defaultAdmin));
+        return defaultAdmin;
+      }
+      return JSON.parse(session);
+    }
+
+    function updateAuthUI() {
+      const session = getSession();
+      const authActions = document.getElementById('authActions');
+      const profileWrapper = document.getElementById('profileWrapper');
+      const addProductBtn = document.getElementById('addProductBtn');
+      const roleBadge = document.getElementById('roleBadge');
+
+      if (!session) {
+        authActions.style.display = 'flex';
+        profileWrapper.classList.remove('visible');
+        addProductBtn.style.display = 'none';
+        roleBadge.innerText = "Guest Mode";
+      } else {
+        authActions.style.display = 'none';
+        profileWrapper.classList.add('visible');
+        
+        document.getElementById('navProfileName').innerText = session.name;
+        document.getElementById('dropdownEmail').innerText = session.email;
+        
+        const nameParts = session.name.split(' ');
+        const initials = nameParts.length > 1 ? nameParts[0][0] + nameParts[1][0] : nameParts[0].substring(0, 2).toUpperCase();
+        document.getElementById('userInitials').innerText = initials;
+
+        if (session.role === 'admin') {
+          document.getElementById('dropdownGreeting').innerText = "Signed in as Admin";
+          addProductBtn.style.display = 'inline-block';
+          roleBadge.innerText = "Global Admin Mode";
+        } else {
+          document.getElementById('dropdownGreeting').innerText = "Signed in as Student";
+          addProductBtn.style.display = 'none';
+          roleBadge.innerText = "Student Mode";
+        }
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+
+      let userRole = 'student';
+      let name = email.split('@')[0];
+
+      if (email === 'iraharihubert250@gmail.com') {
+        userRole = 'admin';
+        name = "Hubert";
+      }
+
+      const session = { name, email, role: userRole };
+      localStorage.setItem('hub_user_session', JSON.stringify(session));
+      
+      closeModal('loginModal');
+      updateAuthUI();
+      renderProducts();
+      e.target.reset();
+      alert(`Welcome back, ${name}!`);
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      
+      const session = { name, email, role: 'student' };
+      localStorage.setItem('hub_user_session', JSON.stringify(session));
+
+      closeModal('registerModal');
+      updateAuthUI();
+      renderProducts();
+      e.target.reset();
+      alert(`Account created successfully! Welcome, ${name}.`);
+    }
+
+    function handlePasswordReset(e) {
+      e.preventDefault();
+      const email = document.getElementById('forgotEmail').value;
+      alert(`Password recovery instructions have been sent to ${email}.`);
+      closeModal('forgotModal');
+      e.target.reset();
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('hub_user_session');
+      updateAuthUI();
+      renderProducts();
+      switchTab('home');
+      alert("Session logged out successfully.");
+    }
+
+    // Default Initial Products
+    const defaultProducts = [
+      {
+        title: "Pharmacy & Systemic Anatomy Notes",
+        price: "1,500 RWF",
+        category: "Pharmacy & Medical Sciences",
+        desc: "Comprehensive structured study notes compiled for medical and pharmacy students."
+      },
+      {
+        title: "University Past Papers Bundle",
+        price: "2,000 RWF",
+        category: "Past Papers & Notes",
+        desc: "Past examination papers with verified solutions and references."
+      },
+      {
+        title: "Digital Service Consultation",
+        price: "5,000 RWF",
+        category: "Digital Services",
+        desc: "Direct support for student job application portals and resource submissions."
+      }
+    ];
+
+    function getProducts() {
+      const stored = localStorage.getItem('hub_products');
+      if (!stored) {
+        localStorage.setItem('hub_products', JSON.stringify(defaultProducts));
+        return defaultProducts;
+      }
+      return JSON.parse(stored);
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('productStoreGrid');
+      const products = getProducts();
+      const session = getSession();
+      grid.innerHTML = '';
+
+      products.forEach((prod, index) => {
+        const card = document.createElement('div');
+        card.className = 'store-card';
+        
+        let deleteBtnHTML = '';
+        if (session && session.role === 'admin') {
+          deleteBtnHTML = `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626;" onclick="deleteProduct(${index})" title="Delete Listing">×</button>`;
+        }
+
+        card.innerHTML = `
+          <div>
+            <span class="badge" style="margin-bottom: 8px;">${prod.category}</span>
+            <h3>${prod.title}</h3>
+            <div class="price">${prod.price}</div>
+            <p>${prod.desc}</p>
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button class="btn-primary" style="width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Buy Now</button>
+            ${deleteBtnHTML}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
     // Modal Checkout Logic
     const modal = document.getElementById('checkoutModal');
     const modalTitle = document.getElementById('modalItemTitle');
@@ -617,21 +951,48 @@
     function openCheckout(itemName, price) {
       modalTitle.innerText = "Checkout: " + itemName;
       modalPrice.innerText = "Amount to Pay: " + price;
-      modal.style.display = 'flex';
+      openModal('checkoutModal');
       wrapper.classList.remove('active');
-    }
-
-    function closeCheckout() {
-      modal.style.display = 'none';
     }
 
     function processPayment(e) {
       e.preventDefault();
       const phone = document.getElementById('momoNumber').value;
       alert(`Payment prompt sent to ${phone}. Please approve the transaction on your phone.`);
-      closeCheckout();
+      closeModal('checkoutModal');
       document.getElementById('momoNumber').value = '';
     }
+
+    function saveProduct(e) {
+      e.preventDefault();
+      const title = document.getElementById('prodTitle').value;
+      const price = document.getElementById('prodPrice').value;
+      const category = document.getElementById('prodCategory').value;
+      const desc = document.getElementById('prodDesc').value;
+
+      const products = getProducts();
+      products.push({ title, price, category, desc });
+      localStorage.setItem('hub_products', JSON.stringify(products));
+
+      renderProducts();
+      closeModal('productModal');
+      e.target.reset();
+    }
+
+    function deleteProduct(index) {
+      if (confirm("Are you sure you want to delete this listing?")) {
+        const products = getProducts();
+        products.splice(index, 1);
+        localStorage.setItem('hub_products', JSON.stringify(products));
+        renderProducts();
+      }
+    }
+
+    // Initialize on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateAuthUI();
+      renderProducts();
+    });
   </script>
 </body>
 </html>
