@@ -1,90 +1,359 @@
-<header class="site-header">
-  <!-- Brand Logo / Name -->
-  <div class="logo">
-    <a href="index.html">Opportunity & Digital Hub</a>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opportunity & Digital Hub</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <!-- Top-Right Navigation Container -->
-  <div class="nav-container">
-    
-    <!-- Desktop Navigation Links -->
-    <nav class="desktop-nav">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="store.html">My Store</a>
-    </nav>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
 
-    <!-- User Profile & Menu Trigger -->
-    <div class="profile-menu-wrapper">
-      <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle menu">
-        <!-- Optional Profile Picture (Fallback to initials or generic icon if empty) -->
-        <div class="profile-avatar">
-          <img src="assets/profile-pic.jpg" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-          <span class="avatar-fallback">IH</span>
-        </div>
-        <span class="profile-name">Account</span>
-        <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
-      </button>
+    /* Header Layout */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+    }
 
-      <!-- Dropdown / Slide-out Menu -->
-      <div class="dropdown-menu" id="dropdownMenu">
-        
-        <!-- Account Header Section inside Dropdown -->
-        <div class="dropdown-header">
-          <p class="user-greeting">Hello,</p>
-          <p class="user-email">iraharihubert250@gmail.com</p>
-        </div>
-        
-        <div class="dropdown-divider"></div>
+    .logo a {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1e293b;
+      text-decoration: none;
+    }
 
-        <!-- Core Navigation -->
-        <a href="index.html" class="menu-item">
-          <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          Home
-        </a>
-        <a href="about.html" class="menu-item">
-          <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-          About Us
-        </a>
-        <a href="store.html" class="menu-item">
-          <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-          My Store
-        </a>
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
-        <div class="dropdown-divider"></div>
+    /* Desktop Links */
+    .desktop-nav {
+      display: flex;
+      gap: 20px;
+    }
 
-        <!-- Categories Section -->
-        <div class="menu-category-title">Categories</div>
-        <a href="category-past-papers.html" class="menu-item sub-item">Past Papers & Notes</a>
-        <a href="category-pharmacy.html" class="menu-item sub-item">Pharmacy & Medical Sciences</a>
-        <a href="category-jobs.html" class="menu-item sub-item">Jobs & Opportunities</a>
-        <a href="category-digital-services.html" class="menu-item sub-item">Digital Services</a>
+    .desktop-nav a {
+      text-decoration: none;
+      color: #475569;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
 
-        <div class="dropdown-divider"></div>
+    .desktop-nav a:hover {
+      color: #2563eb;
+    }
 
-        <!-- Account & Management Links -->
-        <a href="profile.html" class="menu-item">
-          <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          My Account Profile
-        </a>
-        <a href="orders.html" class="menu-item">
-          <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-          My Orders & Transactions
-        </a>
-        <a href="settings.html" class="menu-item">
-          <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-          Settings
-        </a>
+    /* Profile Toggle Button */
+    .profile-menu-wrapper {
+      position: relative;
+    }
 
-        <div class="dropdown-divider"></div>
+    .profile-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
 
-        <a href="logout.html" class="menu-item logout-item">
-          <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-          Log Out
-        </a>
+    .profile-toggle-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
 
-      </div>
+    /* Optional Profile Picture & Fallback */
+    .profile-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #2563eb;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-fallback {
+      display: flex;
+    }
+
+    .profile-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #334155;
+    }
+
+    .chevron-icon {
+      color: #64748b;
+      transition: transform 0.2s;
+    }
+
+    .profile-menu-wrapper.active .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Dropdown Menu Box */
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 260px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+      display: none;
+      flex-direction: column;
+      padding: 8px 0;
+      z-index: 1000;
+    }
+
+    .profile-menu-wrapper.active .dropdown-menu {
+      display: flex;
+    }
+
+    /* Dropdown Content Styles */
+    .dropdown-header {
+      padding: 10px 16px;
+    }
+
+    .user-greeting {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin: 0;
+    }
+
+    .user-email {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 2px 0 0 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background-color: #f1f5f9;
+      margin: 6px 0;
+    }
+
+    .menu-category-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      padding: 6px 16px 2px 16px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .menu-item.sub-item {
+      padding-left: 30px;
+      font-size: 0.85rem;
+    }
+
+    .menu-item:hover {
+      background-color: #f8fafc;
+      color: #2563eb;
+    }
+
+    .menu-icon {
+      color: #64748b;
+    }
+
+    .menu-item:hover .menu-icon {
+      color: #2563eb;
+    }
+
+    .logout-item {
+      color: #dc2626;
+    }
+
+    .logout-item .menu-icon {
+      color: #dc2626;
+    }
+
+    .logout-item:hover {
+      background-color: #fef2f2;
+      color: #b91c1c;
+    }
+
+    /* Main Content Sample */
+    .main-content {
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .main-content h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .main-content p {
+      color: #64748b;
+    }
+
+    /* Responsive adjustment */
+    @media (max-width: 640px) {
+      .desktop-nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="logo">
+      <a href="index.html">Opportunity & Digital Hub</a>
     </div>
 
-  </div>
-</header>
+    <div class="nav-container">
+      <!-- Desktop Quick Links -->
+      <nav class="desktop-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="store.html">My Store</a>
+      </nav>
+
+      <!-- Profile Menu Wrapper -->
+      <div class="profile-menu-wrapper">
+        <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle menu">
+          <div class="profile-avatar">
+            <!-- Optional Profile Picture: Remove or update source if desired -->
+            <img src="assets/profile-pic.jpg" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <span class="avatar-fallback">IH</span>
+          </div>
+          <span class="profile-name">Account</span>
+          <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+        </button>
+
+        <!-- Dropdown Menu Box -->
+        <div class="dropdown-menu" id="dropdownMenu">
+          
+          <div class="dropdown-header">
+            <p class="user-greeting">Hello,</p>
+            <p class="user-email">iraharihubert250@gmail.com</p>
+          </div>
+          
+          <div class="dropdown-divider"></div>
+
+          <a href="index.html" class="menu-item">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
+          </a>
+          <a href="about.html" class="menu-item">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            About Us
+          </a>
+          <a href="store.html" class="menu-item">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            My Store
+          </a>
+
+          <div class="dropdown-divider"></div>
+
+          <div class="menu-category-title">Categories</div>
+          <a href="category-past-papers.html" class="menu-item sub-item">Past Papers & Notes</a>
+          <a href="category-pharmacy.html" class="menu-item sub-item">Pharmacy & Medical Sciences</a>
+          <a href="category-jobs.html" class="menu-item sub-item">Jobs & Opportunities</a>
+          <a href="category-digital-services.html" class="menu-item sub-item">Digital Services</a>
+
+          <div class="dropdown-divider"></div>
+
+          <a href="profile.html" class="menu-item">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            My Account Profile
+          </a>
+          <a href="orders.html" class="menu-item">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            My Orders & Transactions
+          </a>
+          <a href="settings.html" class="menu-item">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            Settings
+          </a>
+
+          <div class="dropdown-divider"></div>
+
+          <a href="logout.html" class="menu-item logout-item">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+            Log Out
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sample Main Content -->
+  <main class="main-content">
+    <h1>Welcome to Opportunity & Digital Hub</h1>
+    <p>Click the account button in the top-right corner to test the navigation dropdown.</p>
+  </main>
+
+  <!-- JavaScript Interaction -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.querySelector('.profile-menu-wrapper');
+      const toggleBtn = document.getElementById('menuToggle');
+
+      // Toggle dropdown on button click
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        wrapper.classList.toggle('active');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        if (wrapper.classList.contains('active')) {
+          wrapper.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
