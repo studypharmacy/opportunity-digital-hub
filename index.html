@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Opportunity & Digital Hub</title>
+  <title>Opportunity & Digital Hub | Student Marketplace & Services</title>
   <style>
     /* Reset & Base Styles */
     * {
@@ -16,6 +16,7 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: #f8fafc;
       color: #1e293b;
+      line-height: 1.5;
     }
 
     /* Header Layout */
@@ -23,17 +24,22 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 24px;
+      padding: 14px 24px;
       background-color: #ffffff;
       border-bottom: 1px solid #e2e8f0;
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .logo a {
       font-size: 1.15rem;
       font-weight: 700;
-      color: #1e293b;
+      color: #2563eb;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .nav-container {
@@ -42,7 +48,7 @@
       gap: 20px;
     }
 
-    /* Desktop Links */
+    /* Desktop Quick Links */
     .desktop-nav {
       display: flex;
       gap: 20px;
@@ -127,7 +133,7 @@
       position: absolute;
       right: 0;
       top: calc(100% + 8px);
-      width: 260px;
+      width: 280px;
       background: #ffffff;
       border-radius: 12px;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
@@ -190,7 +196,7 @@
     }
 
     .menu-item.sub-item {
-      padding-left: 30px;
+      padding-left: 32px;
       font-size: 0.85rem;
     }
 
@@ -201,6 +207,7 @@
 
     .menu-icon {
       color: #64748b;
+      flex-shrink: 0;
     }
 
     .menu-item:hover .menu-icon {
@@ -220,18 +227,51 @@
       color: #b91c1c;
     }
 
-    /* Main Content Sample */
-    .main-content {
-      padding: 40px 24px;
+    /* Main Page Content Showcase */
+    .hero-section {
+      padding: 60px 20px;
       text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
-    .main-content h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
+    .hero-section h1 {
+      font-size: 2.25rem;
+      color: #0f172a;
+      margin-bottom: 16px;
     }
 
-    .main-content p {
+    .hero-section p {
+      font-size: 1.05rem;
+      color: #64748b;
+      margin-bottom: 30px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      padding: 0 24px 60px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #1e293b;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
       color: #64748b;
     }
 
@@ -248,22 +288,25 @@
   <!-- Site Header -->
   <header class="site-header">
     <div class="logo">
-      <a href="index.html">Opportunity & Digital Hub</a>
+      <a href="#">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Opportunity & Digital Hub
+      </a>
     </div>
 
     <div class="nav-container">
-      <!-- Desktop Quick Links -->
+      <!-- Desktop Navigation Links -->
       <nav class="desktop-nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">About Us</a>
-        <a href="store.html">My Store</a>
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#store">My Store</a>
       </nav>
 
       <!-- Profile Menu Wrapper -->
       <div class="profile-menu-wrapper">
         <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle menu">
           <div class="profile-avatar">
-            <!-- Optional Profile Picture: Remove or update source if desired -->
+            <!-- Optional Profile Picture: Remove or fallback gracefully via onerror -->
             <img src="assets/profile-pic.jpg" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <span class="avatar-fallback">IH</span>
           </div>
@@ -274,80 +317,104 @@
         <!-- Dropdown Menu Box -->
         <div class="dropdown-menu" id="dropdownMenu">
           
+          <!-- Account Summary Header -->
           <div class="dropdown-header">
-            <p class="user-greeting">Hello,</p>
+            <p class="user-greeting">Signed in as</p>
             <p class="user-email">iraharihubert250@gmail.com</p>
           </div>
           
           <div class="dropdown-divider"></div>
 
-          <a href="index.html" class="menu-item">
+          <!-- Core Menu Options -->
+          <a href="#home" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             Home
           </a>
-          <a href="about.html" class="menu-item">
+          <a href="#about" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
             About Us
           </a>
-          <a href="store.html" class="menu-item">
+          <a href="#store" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             My Store
           </a>
 
           <div class="dropdown-divider"></div>
 
+          <!-- Categories Section -->
           <div class="menu-category-title">Categories</div>
-          <a href="category-past-papers.html" class="menu-item sub-item">Past Papers & Notes</a>
-          <a href="category-pharmacy.html" class="menu-item sub-item">Pharmacy & Medical Sciences</a>
-          <a href="category-jobs.html" class="menu-item sub-item">Jobs & Opportunities</a>
-          <a href="category-digital-services.html" class="menu-item sub-item">Digital Services</a>
+          <a href="#category-papers" class="menu-item sub-item">Past Papers & Notes</a>
+          <a href="#category-pharmacy" class="menu-item sub-item">Pharmacy & Medical Sciences</a>
+          <a href="#category-jobs" class="menu-item sub-item">Jobs & Opportunities</a>
+          <a href="#category-services" class="menu-item sub-item">Digital Services</a>
 
           <div class="dropdown-divider"></div>
 
-          <a href="profile.html" class="menu-item">
+          <!-- Account Management -->
+          <a href="#profile" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             My Account Profile
           </a>
-          <a href="orders.html" class="menu-item">
+          <a href="#orders" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
             My Orders & Transactions
           </a>
-          <a href="settings.html" class="menu-item">
+          <a href="#settings" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             Settings
           </a>
 
           <div class="dropdown-divider"></div>
 
-          <a href="logout.html" class="menu-item logout-item">
+          <!-- Log Out Option -->
+          <a href="#logout" class="menu-item logout-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
             Log Out
           </a>
 
         </div>
       </div>
+
     </div>
   </header>
 
-  <!-- Sample Main Content -->
-  <main class="main-content">
-    <h1>Welcome to Opportunity & Digital Hub</h1>
-    <p>Click the account button in the top-right corner to test the navigation dropdown.</p>
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <h1>Welcome to Opportunity & Digital Hub</h1>
+      <p>Your ultimate digital storefront and student platform for academic past papers, medical resources, job announcements, and integrated mobile services.</p>
+    </section>
+
+    <!-- Feature Cards Grid -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>Academic Past Papers</h3>
+        <p>Access high-quality study notes, module summaries, and past examination papers tailored for university modules.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Pharmacy & Medical Sciences</h3>
+        <p>Dedicated resources covering systemic anatomy, chemistry, thermodynamics, histology, and professional practice.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Digital Storefront</h3>
+        <p>Seamlessly purchase digital resources using local mobile money rails built specifically for Rwandan students.</p>
+      </div>
+    </div>
   </main>
 
-  <!-- JavaScript Interaction -->
+  <!-- JavaScript Interaction Logic -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const wrapper = document.querySelector('.profile-menu-wrapper');
       const toggleBtn = document.getElementById('menuToggle');
 
-      // Toggle dropdown on button click
+      // Toggle dropdown menu open or closed when button is clicked
       toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         wrapper.classList.toggle('active');
       });
 
-      // Close dropdown when clicking outside
+      // Close dropdown menu when clicking anywhere outside of it
       document.addEventListener('click', () => {
         if (wrapper.classList.contains('active')) {
           wrapper.classList.remove('active');
