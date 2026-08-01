@@ -14,28 +14,33 @@
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f8fafc;
+      background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%);
       color: #1e293b;
+      min-height: 100vh;
       line-height: 1.5;
     }
 
-    /* Header Layout */
+    /* Vibrant Modern Header Layout */
     .site-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 24px;
-      background-color: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 14px 28px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
 
     .logo a {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #2563eb;
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #2563eb 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -45,7 +50,28 @@
     .nav-container {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
+    }
+
+    /* Quick Action Button: Post Item/Opportunity */
+    .post-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .post-action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
     }
 
     /* Desktop Quick Links */
@@ -66,7 +92,7 @@
       color: #2563eb;
     }
 
-    /* Profile Toggle Button */
+    /* Profile Toggle Button with Vibrant Ring */
     .profile-menu-wrapper {
       position: relative;
     }
@@ -75,17 +101,17 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-      padding: 6px 12px;
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      padding: 4px 10px 4px 4px;
       border-radius: 9999px;
       cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
+      transition: all 0.2s;
     }
 
     .profile-toggle-btn:hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
     /* Optional Profile Picture & Fallback */
@@ -94,7 +120,7 @@
       height: 32px;
       border-radius: 50%;
       overflow: hidden;
-      background-color: #2563eb;
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
       color: #ffffff;
       display: flex;
       align-items: center;
@@ -115,7 +141,7 @@
 
     .profile-name {
       font-size: 0.9rem;
-      font-weight: 500;
+      font-weight: 600;
       color: #334155;
     }
 
@@ -132,37 +158,47 @@
     .dropdown-menu {
       position: absolute;
       right: 0;
-      top: calc(100% + 8px);
-      width: 280px;
+      top: calc(100% + 10px);
+      width: 290px;
       background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.12), 0 8px 12px -6px rgba(0, 0, 0, 0.08);
       border: 1px solid #e2e8f0;
       display: none;
       flex-direction: column;
       padding: 8px 0;
       z-index: 1000;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .profile-menu-wrapper.active .dropdown-menu {
       display: flex;
     }
 
-    /* Dropdown Content Styles */
+    /* Dropdown Header */
     .dropdown-header {
-      padding: 10px 16px;
+      padding: 12px 18px;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 12px 12px 0 0;
+      margin: -8px 0 4px 0;
     }
 
     .user-greeting {
       font-size: 0.75rem;
       color: #64748b;
+      font-weight: 500;
       margin: 0;
     }
 
     .user-email {
       font-size: 0.85rem;
-      font-weight: 600;
-      color: #1e293b;
+      font-weight: 700;
+      color: #0f172a;
       margin: 2px 0 0 0;
       white-space: nowrap;
       overflow: hidden;
@@ -181,41 +217,61 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: #94a3b8;
-      padding: 6px 16px 2px 16px;
+      padding: 8px 18px 2px 18px;
     }
 
     .menu-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 16px;
+      gap: 12px;
+      padding: 9px 18px;
       color: #475569;
       text-decoration: none;
       font-size: 0.9rem;
-      transition: background 0.15s, color 0.15s;
+      font-weight: 500;
+      transition: all 0.15s;
     }
 
     .menu-item.sub-item {
-      padding-left: 32px;
+      padding-left: 36px;
       font-size: 0.85rem;
     }
 
     .menu-item:hover {
-      background-color: #f8fafc;
-      color: #2563eb;
+      background-color: #f0fdf4;
+      color: #059669;
     }
 
     .menu-icon {
       color: #64748b;
       flex-shrink: 0;
+      transition: color 0.15s;
     }
 
     .menu-item:hover .menu-icon {
-      color: #2563eb;
+      color: #059669;
     }
 
+    /* Action Item Highlight (Post new item) */
+    .action-highlight {
+      color: #2563eb;
+      font-weight: 600;
+    }
+    .action-highlight .menu-icon {
+      color: #2563eb;
+    }
+    .action-highlight:hover {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+    }
+    .action-highlight:hover .menu-icon {
+      color: #1d4ed8;
+    }
+
+    /* Logout Specific Styling */
     .logout-item {
       color: #dc2626;
+      font-weight: 600;
     }
 
     .logout-item .menu-icon {
@@ -227,7 +283,7 @@
       color: #b91c1c;
     }
 
-    /* Main Page Content Showcase */
+    /* Main Section Showcase */
     .hero-section {
       padding: 60px 20px;
       text-align: center;
@@ -236,47 +292,54 @@
     }
 
     .hero-section h1 {
-      font-size: 2.25rem;
+      font-size: 2.5rem;
       color: #0f172a;
       margin-bottom: 16px;
+      font-weight: 800;
     }
 
     .hero-section p {
-      font-size: 1.05rem;
-      color: #64748b;
+      font-size: 1.1rem;
+      color: #475569;
       margin-bottom: 30px;
     }
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
       padding: 0 24px 60px 24px;
-      max-width: 1000px;
+      max-width: 1050px;
       margin: 0 auto;
     }
 
     .feature-card {
       background: #ffffff;
-      padding: 24px;
-      border-radius: 12px;
+      padding: 28px;
+      border-radius: 16px;
       border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
     }
 
     .feature-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      color: #1e293b;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: #0f172a;
     }
 
     .feature-card p {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: #64748b;
     }
 
-    /* Responsive adjustment */
-    @media (max-width: 640px) {
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
       .desktop-nav {
         display: none;
       }
@@ -288,25 +351,31 @@
   <!-- Site Header -->
   <header class="site-header">
     <div class="logo">
-      <a href="#">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <a href="index.html">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         Opportunity & Digital Hub
       </a>
     </div>
 
     <div class="nav-container">
-      <!-- Desktop Navigation Links -->
+      <!-- Quick Post Button (Primary Action) -->
+      <a href="post-item.html" class="post-action-btn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+        Post Item / Job
+      </a>
+
+      <!-- Desktop Quick Navigation -->
       <nav class="desktop-nav">
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#store">My Store</a>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="store.html">My Store</a>
       </nav>
 
-      <!-- Profile Menu Wrapper -->
+      <!-- Profile & Comprehensive Menu Wrapper -->
       <div class="profile-menu-wrapper">
-        <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle menu">
+        <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle profile menu">
           <div class="profile-avatar">
-            <!-- Optional Profile Picture: Remove or fallback gracefully via onerror -->
+            <!-- Optional Profile Picture: Falls back gracefully if missing -->
             <img src="assets/profile-pic.jpg" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <span class="avatar-fallback">IH</span>
           </div>
@@ -314,7 +383,7 @@
           <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
         </button>
 
-        <!-- Dropdown Menu Box -->
+        <!-- Dynamic Dropdown Menu -->
         <div class="dropdown-menu" id="dropdownMenu">
           
           <!-- Account Summary Header -->
@@ -325,49 +394,55 @@
           
           <div class="dropdown-divider"></div>
 
-          <!-- Core Menu Options -->
-          <a href="#home" class="menu-item">
+          <!-- Core Navigation -->
+          <a href="index.html" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             Home
           </a>
-          <a href="#about" class="menu-item">
+          <a href="about.html" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
             About Us
           </a>
-          <a href="#store" class="menu-item">
+          <a href="store.html" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             My Store
+          </a>
+
+          <!-- Allow to Post (Featured inside dropdown for instant access) -->
+          <a href="post-item.html" class="menu-item action-highlight">
+            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Post Listing / Resource
           </a>
 
           <div class="dropdown-divider"></div>
 
           <!-- Categories Section -->
           <div class="menu-category-title">Categories</div>
-          <a href="#category-papers" class="menu-item sub-item">Past Papers & Notes</a>
-          <a href="#category-pharmacy" class="menu-item sub-item">Pharmacy & Medical Sciences</a>
-          <a href="#category-jobs" class="menu-item sub-item">Jobs & Opportunities</a>
-          <a href="#category-services" class="menu-item sub-item">Digital Services</a>
+          <a href="category-past-papers.html" class="menu-item sub-item">Past Papers & Notes</a>
+          <a href="category-pharmacy.html" class="menu-item sub-item">Pharmacy & Medical Sciences</a>
+          <a href="category-jobs.html" class="menu-item sub-item">Jobs & Opportunities</a>
+          <a href="category-digital-services.html" class="menu-item sub-item">Digital Services</a>
 
           <div class="dropdown-divider"></div>
 
-          <!-- Account Management -->
-          <a href="#profile" class="menu-item">
+          <!-- Account & Management Links -->
+          <a href="profile.html" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             My Account Profile
           </a>
-          <a href="#orders" class="menu-item">
+          <a href="orders.html" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
             My Orders & Transactions
           </a>
-          <a href="#settings" class="menu-item">
+          <a href="settings.html" class="menu-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
             Settings
           </a>
 
           <div class="dropdown-divider"></div>
 
-          <!-- Log Out Option -->
-          <a href="#logout" class="menu-item logout-item">
+          <!-- Logout Option -->
+          <a href="logout.html" class="menu-item logout-item">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
             Log Out
           </a>
@@ -381,23 +456,23 @@
   <!-- Hero Section -->
   <main>
     <section class="hero-section">
-      <h1>Welcome to Opportunity & Digital Hub</h1>
-      <p>Your ultimate digital storefront and student platform for academic past papers, medical resources, job announcements, and integrated mobile services.</p>
+      <h1>Opportunity & Digital Hub</h1>
+      <p>Empowering students with seamless access to academic past papers, medical study notes, career announcements, and vibrant digital commerce.</p>
     </section>
 
     <!-- Feature Cards Grid -->
     <div class="features-grid">
       <div class="feature-card">
         <h3>Academic Past Papers</h3>
-        <p>Access high-quality study notes, module summaries, and past examination papers tailored for university modules.</p>
+        <p>Browse and acquire reliable module notes, summaries, and exam guides optimized for university success.</p>
       </div>
       <div class="feature-card">
         <h3>Pharmacy & Medical Sciences</h3>
-        <p>Dedicated resources covering systemic anatomy, chemistry, thermodynamics, histology, and professional practice.</p>
+        <p>Explore specialized study resources spanning systemic anatomy, chemistry, histology, and therapeutics.</p>
       </div>
       <div class="feature-card">
-        <h3>Digital Storefront</h3>
-        <p>Seamlessly purchase digital resources using local mobile money rails built specifically for Rwandan students.</p>
+        <h3>Post & Marketplace</h3>
+        <p>Easily list your own study guides, merchandise, or scholarship openings directly to the student community.</p>
       </div>
     </div>
   </main>
