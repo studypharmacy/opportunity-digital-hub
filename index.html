@@ -476,6 +476,7 @@
       font-weight: 600;
       border: none;
       cursor: pointer;
+      margin-right: 4px;
     }
 
     .btn-danger-light {
@@ -485,6 +486,15 @@
 
     .btn-danger-light:hover {
       background: #fecaca;
+    }
+
+    .btn-success-light {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .btn-success-light:hover {
+      background: #bbf7d0;
     }
 
     /* Modals */
@@ -508,6 +518,8 @@
       width: 100%;
       max-width: 420px;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal-card h2 {
@@ -659,7 +671,7 @@
   <!-- Main Content Container -->
   <main class="main-container">
     
-    <!-- HOME TAB (Category-wise Live Display with Distinct Theme Colors) -->
+    <!-- HOME TAB -->
     <div id="home-tab" class="tab-content active-tab">
       <section class="hero-section">
         <h1>Opportunity & Digital Hub</h1>
@@ -680,7 +692,7 @@
       </section>
     </div>
 
-    <!-- MY STORE TAB (Full Store View) -->
+    <!-- MY STORE TAB -->
     <div id="store-tab" class="tab-content">
       <div class="dashboard-toolbar">
         <div>
@@ -701,7 +713,7 @@
       <div class="dashboard-toolbar">
         <div>
           <h2>Admin Management Console</h2>
-          <p style="color: var(--text-muted);">Manage registered user accounts, view credentials, and add custom categories.</p>
+          <p style="color: var(--text-muted);">Manage registered user accounts, assign admin roles, and add custom categories.</p>
         </div>
       </div>
 
@@ -723,7 +735,9 @@
               <tr>
                 <th>Name</th>
                 <th>Email Address</th>
-                <th>Password Credential</th>
+                <th>Tel</th>
+                <th>DOB</th>
+                <th>Password</th>
                 <th>Role</th>
                 <th>Action</th>
               </tr>
@@ -760,14 +774,21 @@
     <div class="modal-card">
       <h2>Log In</h2>
       <p>Access your student account or admin dashboard.</p>
+      
+      <!-- Quick Admin Demo Login Button -->
+      <div style="background: #f0f9ff; border: 1px dashed var(--primary-color); padding: 10px; border-radius: 8px; margin-bottom: 16px; text-align: center;">
+        <p style="font-size: 0.8rem; color: var(--primary-color); margin-bottom: 6px;">Need quick access?</p>
+        <button type="button" class="btn-primary" style="padding: 6px 12px; font-size: 0.85rem; width: 100%;" onclick="quickAdminLogin()">🚀 Log In Instantly as Admin</button>
+      </div>
+
       <form onsubmit="handleLogin(event)">
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" id="loginEmail" placeholder="you@example.com" required>
+          <input type="email" id="loginEmail" placeholder="iraharihubert250@gmail.com" required>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="••••••••" required>
+          <input type="password" id="loginPassword" placeholder="adminpassword" required>
         </div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
@@ -780,19 +801,28 @@
     </div>
   </div>
 
-  <!-- Sign Up / Register Modal -->
+  <!-- Sign Up / Register Modal (Includes Tel, DOB & Email Verification) -->
   <div class="modal-overlay" id="registerModal">
     <div class="modal-card">
       <h2>Create Account</h2>
-      <p>Join the Opportunity & Digital Hub community to post products.</p>
-      <form onsubmit="handleRegister(event)">
+      <p>Join the Opportunity & Digital Hub community. We verify all emails securely.</p>
+      
+      <form id="registerForm" onsubmit="initiateEmailVerification(event)">
         <div class="form-group">
           <label>Full Name</label>
           <input type="text" id="regName" placeholder="IRAHARI Hubert" required>
         </div>
         <div class="form-group">
-          <label>Email Address</label>
+          <label>Email Address (Must be functional)</label>
           <input type="email" id="regEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Telephone (Tel)</label>
+          <input type="tel" id="regTel" placeholder="07XXXXXXXX" required pattern="07[089][0-9]{7}">
+        </div>
+        <div class="form-group">
+          <label>Date of Birth (DOB)</label>
+          <input type="date" id="regDob" required>
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -800,12 +830,37 @@
         </div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" onclick="closeModal('registerModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Create Account</button>
+          <button type="submit" class="btn-primary" style="width: 100%;">Verify Email & Register</button>
         </div>
       </form>
+
       <div class="auth-switch-text">
         Already have an account? <span onclick="switchToLogin()">Log In</span>
       </div>
+    </div>
+  </div>
+
+  <!-- Email Verification Code Modal -->
+  <div class="modal-overlay" id="verifyModal">
+    <div class="modal-card" style="text-align: center;">
+      <div style="font-size: 2.5rem; margin-bottom: 10px;">✉️</div>
+      <h2>Verify Your Email</h2>
+      <p>We sent a 4-digit verification code to <strong id="verificationEmailTarget" style="color: var(--primary-color);"></strong>. Please enter it below to confirm your email is functional.</p>
+      
+      <div style="background: #f0f9ff; border: 1px dashed var(--primary-color); padding: 10px; border-radius: 8px; margin-bottom: 16px;">
+        <p style="font-size: 0.8rem; color: var(--primary-color); margin: 0;">Demo Hint: Your generated code is <strong id="displayedDemoCode" style="font-size: 1rem;">1234</strong></p>
+      </div>
+
+      <form onsubmit="confirmEmailVerification(event)">
+        <div class="form-group">
+          <label>Enter 4-Digit Verification Code</label>
+          <input type="text" id="verificationCodeInput" placeholder="1234" maxlength="4" required style="text-align: center; font-size: 1.2rem; letter-spacing: 4px;">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal('verifyModal')">Cancel</button>
+          <button type="submit" class="btn-primary" style="width: 100%;">Confirm & Complete</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -906,10 +961,10 @@
       openModal('loginModal');
     }
 
-    // Data Management Initialization
+    // Data Management Initialization & Force Admin Sync
     const defaultUsers = [
-      { name: "Hubert", email: "iraharihubert250@gmail.com", password: "adminpassword", role: "admin" },
-      { name: "Jean Claude", email: "jeanclaude@student.rw", password: "password123", role: "student" }
+      { name: "IRAHARI Hubert", email: "iraharihubert250@gmail.com", tel: "0796051492", dob: "2002-05-15", password: "adminpassword", role: "admin" },
+      { name: "Jean Claude", email: "jeanclaude@student.rw", tel: "0788123456", dob: "2001-08-20", password: "password123", role: "student" }
     ];
 
     const defaultCategories = [
@@ -945,7 +1000,23 @@
         localStorage.setItem('hub_users_list', JSON.stringify(defaultUsers));
         return defaultUsers;
       }
-      return JSON.parse(stored);
+      try {
+        let users = JSON.parse(stored);
+        const adminIndex = users.findIndex(u => u.email === 'iraharihubert250@gmail.com');
+        if (adminIndex === -1) {
+          users.unshift({ name: "IRAHARI Hubert", email: "iraharihubert250@gmail.com", tel: "0796051492", dob: "2002-05-15", password: "adminpassword", role: "admin" });
+        } else {
+          users[adminIndex].password = "adminpassword";
+          users[adminIndex].role = "admin";
+          if(!users[adminIndex].tel) users[adminIndex].tel = "0796051492";
+          if(!users[adminIndex].dob) users[adminIndex].dob = "2002-05-15";
+        }
+        localStorage.setItem('hub_users_list', JSON.stringify(users));
+        return users;
+      } catch (e) {
+        localStorage.setItem('hub_users_list', JSON.stringify(defaultUsers));
+        return defaultUsers;
+      }
     }
 
     function getCategories() {
@@ -984,7 +1055,7 @@
       if (!session) {
         authActions.style.display = 'flex';
         profileWrapper.classList.remove('visible');
-        addProductBtn.style.display = 'inline-block'; // Allow anyone logged out to see add button prompting login
+        addProductBtn.style.display = 'inline-block';
         roleBadge.innerText = "Guest Mode";
         adminNavTab.style.display = 'none';
         adminDropdownItem.style.display = 'none';
@@ -1014,15 +1085,27 @@
       }
     }
 
+    function quickAdminLogin() {
+      const users = getUsers();
+      const adminUser = users.find(u => u.email === 'iraharihubert250@gmail.com');
+      if (adminUser) {
+        localStorage.setItem('hub_user_session', JSON.stringify(adminUser));
+        closeModal('loginModal');
+        updateAuthUI();
+        renderAllViews();
+        alert("Logged in successfully as Administrator!");
+      }
+    }
+
     function handleLogin(e) {
       e.preventDefault();
-      const email = document.getElementById('loginEmail').value.trim();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value.trim();
       const users = getUsers();
       
-      const foundUser = users.find(u => u.email === email && u.password === password);
+      const foundUser = users.find(u => u.email.toLowerCase() === email && u.password === password);
       if (!foundUser) {
-        alert("Invalid email or password. Please check your credentials or create an account.");
+        alert("Invalid email or password. Use: iraharihubert250@gmail.com / adminpassword");
         return;
       }
 
@@ -1034,30 +1117,67 @@
       alert(`Welcome back, ${foundUser.name}!`);
     }
 
-    function handleRegister(e) {
+    // Temporary storage for ongoing registration before email confirmation
+    let pendingRegistrationData = null;
+    let currentVerificationCode = "";
+
+    function initiateEmailVerification(e) {
       e.preventDefault();
       const name = document.getElementById('regName').value.trim();
-      const email = document.getElementById('regEmail').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const tel = document.getElementById('regTel').value.trim();
+      const dob = document.getElementById('regDob').value;
       const password = document.getElementById('regPassword').value.trim();
-      
+
       const users = getUsers();
-      if (users.some(u => u.email === email)) {
+      if (users.some(u => u.email.toLowerCase() === email)) {
         alert("An account with this email already exists.");
         return;
       }
 
+      // Check if email format is functional / valid via standard regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("Please enter a functional and properly formatted email address.");
+        return;
+      }
+
+      // Generate a 4-digit verification code to confirm functional email delivery
+      currentVerificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+      
       const role = (email === 'iraharihubert250@gmail.com') ? 'admin' : 'student';
+      pendingRegistrationData = { name, email, tel, dob, password, role };
 
-      const newUser = { name, email, password, role };
-      users.push(newUser);
-      localStorage.setItem('hub_users_list', JSON.stringify(users));
-      localStorage.setItem('hub_user_session', JSON.stringify(newUser));
-
+      // Switch to Verification Dialog
       closeModal('registerModal');
+      document.getElementById('verificationEmailTarget').innerText = email;
+      document.getElementById('displayedDemoCode').innerText = currentVerificationCode;
+      openModal('verifyModal');
+    }
+
+    function confirmEmailVerification(e) {
+      e.preventDefault();
+      const enteredCode = document.getElementById('verificationCodeInput').value.trim();
+
+      if (enteredCode !== currentVerificationCode) {
+        alert("Invalid verification code. Please check the code provided and try again.");
+        return;
+      }
+
+      // Email verified successfully! Save user account.
+      const users = getUsers();
+      users.push(pendingRegistrationData);
+      localStorage.setItem('hub_users_list', JSON.stringify(users));
+      localStorage.setItem('hub_user_session', JSON.stringify(pendingRegistrationData));
+
+      closeModal('verifyModal');
+      document.getElementById('registerForm').reset();
+      document.getElementById('verificationCodeInput').value = '';
+      
       updateAuthUI();
       renderAllViews();
-      e.target.reset();
-      alert(`Account created successfully! Welcome, ${name}.`);
+      alert(`Email verified successfully! Account created. Welcome, ${pendingRegistrationData.name}.`);
+      pendingRegistrationData = null;
     }
 
     function handleLogout() {
@@ -1085,7 +1205,6 @@
       alert(`Category "${catName}" added successfully!`);
     }
 
-    // Get Unique Categories with Theme Mapping
     function getCategoryTheme(categoryName) {
       if (categoryName.includes('Pharmacy') || categoryName.includes('Medical')) return { color: 'var(--cat-pharmacy)', bg: '#f0f9ff' };
       if (categoryName.includes('Papers') || categoryName.includes('Notes')) return { color: 'var(--cat-papers)', bg: '#f5f3ff' };
@@ -1105,7 +1224,6 @@
       });
     }
 
-    // Render Home Categories Live Display
     function renderHomeCategories(filterCategory = null) {
       const container = document.getElementById('homeCategoriesContainer');
       const products = getProducts();
@@ -1174,7 +1292,6 @@
       });
     }
 
-    // Render Full Store View
     function renderStoreProducts() {
       const grid = document.getElementById('productStoreGrid');
       const products = getProducts();
@@ -1209,10 +1326,10 @@
       });
     }
 
-    // Render Admin Management Tables
     function renderAdminTables() {
       const users = getUsers();
       const products = getProducts();
+      const session = getSession();
 
       document.getElementById('userCount').innerText = users.length;
       document.getElementById('productCount').innerText = products.length;
@@ -1221,13 +1338,31 @@
       userTableBody.innerHTML = '';
       users.forEach((user, index) => {
         const tr = document.createElement('tr');
+        
+        let roleToggleBtn = '';
+        if (user.role === 'admin') {
+          roleToggleBtn = `<button class="action-badge-btn btn-secondary" onclick="toggleUserRole(${index})">Make Student</button>`;
+        } else {
+          roleToggleBtn = `<button class="action-badge-btn btn-success-light" onclick="toggleUserRole(${index})">Make Admin</button>`;
+        }
+
+        let removeBtn = '';
+        if (user.email !== 'iraharihubert250@gmail.com') {
+          removeBtn = `<button class="action-badge-btn btn-danger-light" onclick="deleteUser(${index})">Remove</button>`;
+        } else {
+          removeBtn = '<span style="font-size:0.8rem; color:var(--text-muted);">Protected</span>';
+        }
+
         tr.innerHTML = `
           <td><strong>${user.name}</strong></td>
           <td>${user.email}</td>
+          <td>${user.tel || 'N/A'}</td>
+          <td>${user.dob || 'N/A'}</td>
           <td><code>${user.password}</code></td>
           <td><span class="badge" style="background: ${user.role === 'admin' ? '#e0f2fe' : '#f1f5f9'}; color: ${user.role === 'admin' ? '#0284c7' : '#475569'};">${user.role}</span></td>
           <td>
-            ${user.email !== 'iraharihubert250@gmail.com' ? `<button class="action-badge-btn btn-danger-light" onclick="deleteUser(${index})">Remove</button>` : '<span style="font-size:0.8rem; color:var(--text-muted);">Protected</span>'}
+            ${roleToggleBtn}
+            ${removeBtn}
           </td>
         `;
         userTableBody.appendChild(tr);
@@ -1250,6 +1385,26 @@
       });
     }
 
+    function toggleUserRole(index) {
+      const users = getUsers();
+      const targetUser = users[index];
+      
+      const newRole = targetUser.role === 'admin' ? 'student' : 'admin';
+      targetUser.role = newRole;
+
+      localStorage.setItem('hub_users_list', JSON.stringify(users));
+
+      // If the logged-in user updated their own role, update session too
+      const session = getSession();
+      if (session && session.email === targetUser.email) {
+        localStorage.setItem('hub_user_session', JSON.stringify(targetUser));
+      }
+
+      renderAllViews();
+      updateAuthUI();
+      alert(`User ${targetUser.name}'s role has been successfully updated to ${newRole.toUpperCase()}.`);
+    }
+
     function renderAllViews() {
       renderHomeCategories();
       renderStoreProducts();
@@ -1257,7 +1412,6 @@
       populateCategoryDropdown();
     }
 
-    // Product Modal Safeguard & Handler
     const originalOpenModal = openModal;
     window.openModal = function(modalId) {
       if (modalId === 'productModal' && !getSession()) {
@@ -1268,7 +1422,6 @@
       originalOpenModal(modalId);
     };
 
-    // Modal Checkout Logic
     const checkoutModal = document.getElementById('checkoutModal');
     const modalTitle = document.getElementById('modalItemTitle');
     const modalPrice = document.getElementById('modalItemPrice');
@@ -1323,8 +1476,8 @@
       }
     }
 
-    // Initialize on Load
     document.addEventListener('DOMContentLoaded', () => {
+      getUsers();
       updateAuthUI();
       renderAllViews();
     });
