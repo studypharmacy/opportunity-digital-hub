@@ -13,7 +13,7 @@
     }
 
     :root {
-      --primary-color: #0284c7; /* Vibrant Pharmacy / Digital Hub Blue */
+      --primary-color: #0284c7; /* Vibrant Sky Blue */
       --primary-hover: #0369a1;
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
@@ -22,6 +22,11 @@
       --border-color: #e2e8f0;
       --danger-color: #dc2626;
       --success-color: #16a34a;
+
+      /* Category Theme Colors */
+      --cat-pharmacy: #0ea5e9;  /* Sky Blue / Cyan */
+      --cat-papers: #8b5cf6;    /* Vibrant Purple */
+      --cat-digital: #f59e0b;   /* Vibrant Amber/Orange */
     }
 
     body {
@@ -60,7 +65,6 @@
       gap: 20px;
     }
 
-    /* Desktop Quick Links */
     .desktop-nav {
       display: flex;
       gap: 20px;
@@ -79,7 +83,6 @@
       color: var(--primary-color);
     }
 
-    /* Auth Actions (When logged out) */
     .auth-actions {
       display: flex;
       gap: 10px;
@@ -102,7 +105,6 @@
       background: #f0f9ff;
     }
 
-    /* Profile Toggle Button (When logged in) */
     .profile-menu-wrapper {
       position: relative;
       display: none;
@@ -143,16 +145,6 @@
       font-weight: 600;
     }
 
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .avatar-fallback {
-      display: flex;
-    }
-
     .profile-name {
       font-size: 0.9rem;
       font-weight: 500;
@@ -168,7 +160,6 @@
       transform: rotate(180deg);
     }
 
-    /* Dropdown Menu Box */
     .dropdown-menu {
       position: absolute;
       right: 0;
@@ -250,10 +241,6 @@
       flex-shrink: 0;
     }
 
-    .menu-item:hover .menu-icon {
-      color: var(--primary-color);
-    }
-
     .logout-item {
       color: var(--danger-color);
     }
@@ -269,7 +256,7 @@
 
     /* Main Interactive UI Sections */
     .main-container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 40px auto;
       padding: 0 20px;
     }
@@ -288,26 +275,89 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hero Section */
+    /* Hero Section with Vibrant Sky Theme */
     .hero-section {
       text-align: center;
-      padding: 40px 20px;
-      background: #ffffff;
+      padding: 48px 24px;
+      background: linear-gradient(135sdeg, #f0f9ff 0%, #e0f2fe 100%);
+      background-color: #e0f2fe;
       border-radius: 16px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+      border: 1px solid #bae6fd;
+      box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.05);
+      margin-bottom: 30px;
     }
 
     .hero-section h1 {
       font-size: 2.2rem;
-      color: var(--text-main);
+      color: var(--primary-color);
       margin-bottom: 12px;
     }
 
     .hero-section p {
       font-size: 1.05rem;
-      color: var(--text-muted);
+      color: #334155;
       margin-bottom: 24px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Category Section Layout on Home */
+    .category-section-wrapper {
+      margin-bottom: 40px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .category-title-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .category-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .category-title-area h2 {
+      font-size: 1.25rem;
+      color: var(--text-main);
+      transition: color 0.2s;
+    }
+
+    .category-title-area:hover h2 {
+      color: var(--primary-color);
+    }
+
+    .view-all-link {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .view-all-link:hover {
+      text-decoration: underline;
     }
 
     /* Store Grid Cards */
@@ -315,7 +365,6 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
-      margin-top: 20px;
     }
 
     .store-card {
@@ -327,6 +376,12 @@
       flex-direction: column;
       justify-content: space-between;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .store-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
     }
 
     .store-card h3 {
@@ -566,7 +621,6 @@
       <div class="profile-menu-wrapper" id="profileWrapper">
         <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle menu">
           <div class="profile-avatar">
-            <img src="assets/profile-pic.jpg" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <span class="avatar-fallback" id="userInitials">IH</span>
           </div>
           <span class="profile-name" id="navProfileName">Hubert</span>
@@ -603,25 +657,6 @@
 
           <div class="dropdown-divider"></div>
 
-          <div class="menu-category-title">Categories</div>
-          <a class="menu-item sub-item" onclick="switchTab('store')">Past Papers & Notes</a>
-          <a class="menu-item sub-item" onclick="switchTab('store')">Pharmacy & Medical Sciences</a>
-          <a class="menu-item sub-item" onclick="switchTab('home')">Jobs & Opportunities</a>
-          <a class="menu-item sub-item" onclick="switchTab('home')">Digital Services</a>
-
-          <div class="dropdown-divider"></div>
-
-          <a class="menu-item" onclick="alert('Account Profile: IRAHARI Hubert (School of Medicine and Pharmacy)')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            My Account Profile
-          </a>
-          <a class="menu-item" onclick="alert('Viewing order history & transaction logs...')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            My Orders & Transactions
-          </a>
-
-          <div class="dropdown-divider"></div>
-
           <a class="menu-item logout-item" onclick="handleLogout()">
             <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
             Log Out
@@ -634,13 +669,16 @@
   <!-- Main Content Container -->
   <main class="main-container">
     
-    <!-- HOME TAB -->
+    <!-- HOME TAB (Category-wise Live Display with Distinct Theme Colors) -->
     <div id="home-tab" class="tab-content active-tab">
       <section class="hero-section">
         <h1>Opportunity & Digital Hub</h1>
         <p>Empowering students in Huye and across Rwanda through integrated academic resources, job announcements, and digital storefront services.</p>
-        <button class="btn-primary" onclick="switchTab('store')">Explore My Store</button>
+        <button class="btn-primary" onclick="switchTab('store')">Explore All Listings</button>
       </section>
+
+      <!-- Live Category Sections Container -->
+      <div id="homeCategoriesContainer"></div>
     </div>
 
     <!-- ABOUT US TAB -->
@@ -652,12 +690,12 @@
       </section>
     </div>
 
-    <!-- MY STORE TAB -->
+    <!-- MY STORE TAB (Full Store View) -->
     <div id="store-tab" class="tab-content">
       <div class="dashboard-toolbar">
         <div>
-          <h2>Digital Student Store</h2>
-          <p style="color: var(--text-muted);">Purchase notes, revision sheets, and past papers instantly via Mobile Money.</p>
+          <h2 id="storeViewTitle">Digital Student Store</h2>
+          <p id="storeViewSub" style="color: var(--text-muted);">Purchase notes, revision sheets, and past papers instantly via Mobile Money.</p>
         </div>
         <div>
           <span class="badge" id="roleBadge">Global Admin Mode</span>
@@ -690,9 +728,7 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="adminUserTableBody">
-              <!-- Dynamically populated -->
-            </tbody>
+            <tbody id="adminUserTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -711,9 +747,7 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="adminProductTableBody">
-              <!-- Dynamically populated -->
-            </tbody>
+            <tbody id="adminProductTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -735,17 +769,11 @@
           <label>Password</label>
           <input type="password" id="loginPassword" placeholder="••••••••" required>
         </div>
-        <div style="text-align: right; margin-bottom: 15px;">
-          <a style="font-size: 0.85rem; color: var(--primary-color); cursor: pointer;" onclick="switchModal('loginModal', 'forgotModal')">Lost password?</a>
-        </div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
           <button type="submit" class="btn-primary" style="width: 100%;">Log In</button>
         </div>
       </form>
-      <div class="auth-switch-text">
-        Don't have an account? <a onclick="switchModal('loginModal', 'registerModal')">Sign Up</a>
-      </div>
     </div>
   </div>
 
@@ -772,30 +800,6 @@
           <button type="submit" class="btn-primary" style="width: 100%;">Create Account</button>
         </div>
       </form>
-      <div class="auth-switch-text">
-        Already have an account? <a onclick="switchModal('registerModal', 'loginModal')">Log In</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Lost / Forgot Password Modal -->
-  <div class="modal-overlay" id="forgotModal">
-    <div class="modal-card">
-      <h2>Reset Password</h2>
-      <p>Enter your registered email address to receive password recovery instructions.</p>
-      <form onsubmit="handlePasswordReset(event)">
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="forgotEmail" placeholder="you@example.com" required>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('forgotModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Send Instructions</button>
-        </div>
-      </form>
-      <div class="auth-switch-text">
-        Remembered your password? <a onclick="switchModal('forgotModal', 'loginModal')">Log In</a>
-      </div>
     </div>
   </div>
 
@@ -888,16 +892,10 @@
       document.getElementById(modalId).style.display = 'none';
     }
 
-    function switchModal(fromId, toId) {
-      closeModal(fromId);
-      openModal(toId);
-    }
-
-    // Data Management Initialization (Users & Products)
+    // Data Management Initialization
     const defaultUsers = [
       { name: "Hubert", email: "iraharihubert250@gmail.com", role: "admin" },
-      { name: "Jean Claude", email: "jeanclaude@student.rw", role: "student" },
-      { name: "Aline Uwase", email: "aline@student.rw", role: "student" }
+      { name: "Jean Claude", email: "jeanclaude@student.rw", role: "student" }
     ];
 
     const defaultProducts = [
@@ -998,24 +996,12 @@
       const users = getUsers();
       
       const foundUser = users.find(u => u.email === email);
-      let session;
-
-      if (foundUser) {
-        session = foundUser;
-      } else {
-        // Fallback dynamic login
-        let userRole = (email === 'iraharihubert250@gmail.com') ? 'admin' : 'student';
-        let name = email.split('@')[0];
-        session = { name, email, role: userRole };
-        users.push(session);
-        localStorage.setItem('hub_users_list', JSON.stringify(users));
-      }
+      let session = foundUser || { name: email.split('@')[0], email, role: 'student' };
 
       localStorage.setItem('hub_user_session', JSON.stringify(session));
       closeModal('loginModal');
       updateAuthUI();
-      renderProducts();
-      renderAdminTables();
+      renderAllViews();
       e.target.reset();
       alert(`Welcome back, ${session.name}!`);
     }
@@ -1038,53 +1024,119 @@
 
       closeModal('registerModal');
       updateAuthUI();
-      renderProducts();
-      renderAdminTables();
+      renderAllViews();
       e.target.reset();
       alert(`Account created successfully! Welcome, ${name}.`);
-    }
-
-    function handlePasswordReset(e) {
-      e.preventDefault();
-      const email = document.getElementById('forgotEmail').value;
-      alert(`Password recovery instructions have been sent to ${email}.`);
-      closeModal('forgotModal');
-      e.target.reset();
     }
 
     function handleLogout() {
       localStorage.removeItem('hub_user_session');
       updateAuthUI();
-      renderProducts();
+      renderAllViews();
       switchTab('home');
       alert("Session logged out successfully.");
     }
 
-    // Render Store Products
-    function renderProducts() {
+    // Get Unique Categories with Theme Mapping
+    function getCategoryTheme(categoryName) {
+      if (categoryName.includes('Pharmacy') || categoryName.includes('Medical')) return { color: 'var(--cat-pharmacy)', bg: '#f0f9ff' };
+      if (categoryName.includes('Papers') || categoryName.includes('Notes')) return { color: 'var(--cat-papers)', bg: '#f5f3ff' };
+      return { color: 'var(--cat-digital)', bg: '#fffbeb' };
+    }
+
+    // Render Home Categories Live Display
+    function renderHomeCategories(filterCategory = null) {
+      const container = document.getElementById('homeCategoriesContainer');
+      const products = getProducts();
+      container.innerHTML = '';
+
+      // Determine categories to show
+      let categories = [...new Set(products.map(p => p.category))];
+      if (filterCategory) {
+        categories = categories.filter(c => c === filterCategory);
+      }
+
+      if (filterCategory) {
+        const backBtn = document.createElement('div');
+        backBtn.style.marginBottom = '20px';
+        backBtn.innerHTML = `<button class="btn-outline" onclick="renderHomeCategories()">← Show All Categories</button>`;
+        container.appendChild(backBtn);
+      }
+
+      if (categories.length === 0) {
+        container.innerHTML += `<p style="text-align:center; color:var(--text-muted);">No products found in this category.</p>`;
+        return;
+      }
+
+      categories.forEach(cat => {
+        const catProducts = products.filter(p => p.category === cat);
+        const theme = getCategoryTheme(cat);
+
+        const section = document.createElement('div');
+        section.className = 'category-section-wrapper';
+        section.style.borderLeft = `5px solid ${theme.color}`;
+
+        let cardsHTML = '';
+        catProducts.forEach((prod, pIndex) => {
+          const globalIndex = products.findIndex(p => p.title === prod.title && p.category === prod.category);
+          const session = getSession();
+          let deleteBtn = (session && session.role === 'admin') ? `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626; padding: 4px 8px; font-size: 0.8rem;" onclick="deleteProduct(${globalIndex})">×</button>` : '';
+
+          cardsHTML += `
+            <div class="store-card">
+              <div>
+                <span class="badge" style="background: ${theme.bg}; color: ${theme.color}; margin-bottom: 8px;">${prod.category}</span>
+                <h3>${prod.title}</h3>
+                <div class="price" style="color: ${theme.color};">${prod.price}</div>
+                <p>${prod.desc}</p>
+              </div>
+              <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button class="btn-primary" style="background-color: ${theme.color}; width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Buy Now</button>
+                ${deleteBtn}
+              </div>
+            </div>
+          `;
+        });
+
+        section.innerHTML = `
+          <div class="category-header">
+            <div class="category-title-area" onclick="renderHomeCategories('${cat}')">
+              <div class="category-dot" style="background-color: ${theme.color};"></div>
+              <h2 style="color: ${theme.color};">${cat} (${catProducts.length})</h2>
+            </div>
+            <button class="view-all-link" style="color: ${theme.color};" onclick="renderHomeCategories('${cat}')">View All →</button>
+          </div>
+          <div class="store-grid">
+            ${cardsHTML}
+          </div>
+        `;
+        container.appendChild(section);
+      });
+    }
+
+    // Render Full Store View
+    function renderStoreProducts() {
       const grid = document.getElementById('productStoreGrid');
       const products = getProducts();
       const session = getSession();
       grid.innerHTML = '';
 
       products.forEach((prod, index) => {
+        const theme = getCategoryTheme(prod.category);
         const card = document.createElement('div');
         card.className = 'store-card';
         
-        let deleteBtnHTML = '';
-        if (session && session.role === 'admin') {
-          deleteBtnHTML = `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626;" onclick="deleteProduct(${index})" title="Delete Listing">×</button>`;
-        }
+        let deleteBtnHTML = (session && session.role === 'admin') ? `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626;" onclick="deleteProduct(${index})">×</button>` : '';
 
         card.innerHTML = `
           <div>
-            <span class="badge" style="margin-bottom: 8px;">${prod.category}</span>
+            <span class="badge" style="background: ${theme.bg}; color: ${theme.color}; margin-bottom: 8px;">${prod.category}</span>
             <h3>${prod.title}</h3>
-            <div class="price">${prod.price}</div>
+            <div class="price" style="color: ${theme.color};">${prod.price}</div>
             <p>${prod.desc}</p>
           </div>
           <div style="display: flex; gap: 8px; margin-top: 10px;">
-            <button class="btn-primary" style="width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Buy Now</button>
+            <button class="btn-primary" style="background-color: ${theme.color}; width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Buy Now</button>
             ${deleteBtnHTML}
           </div>
         `;
@@ -1097,11 +1149,9 @@
       const users = getUsers();
       const products = getProducts();
 
-      // Update counts
       document.getElementById('userCount').innerText = users.length;
       document.getElementById('productCount').innerText = products.length;
 
-      // Populate Users Table
       const userTableBody = document.getElementById('adminUserTableBody');
       userTableBody.innerHTML = '';
       users.forEach((user, index) => {
@@ -1117,7 +1167,6 @@
         userTableBody.appendChild(tr);
       });
 
-      // Populate Products Table
       const productTableBody = document.getElementById('adminProductTableBody');
       productTableBody.innerHTML = '';
       products.forEach((prod, index) => {
@@ -1133,6 +1182,12 @@
         `;
         productTableBody.appendChild(tr);
       });
+    }
+
+    function renderAllViews() {
+      renderHomeCategories();
+      renderStoreProducts();
+      renderAdminTables();
     }
 
     // Modal Checkout Logic
@@ -1166,8 +1221,7 @@
       products.push({ title, price, category, desc });
       localStorage.setItem('hub_products', JSON.stringify(products));
 
-      renderProducts();
-      renderAdminTables();
+      renderAllViews();
       closeModal('productModal');
       e.target.reset();
     }
@@ -1177,8 +1231,7 @@
         const products = getProducts();
         products.splice(index, 1);
         localStorage.setItem('hub_products', JSON.stringify(products));
-        renderProducts();
-        renderAdminTables();
+        renderAllViews();
       }
     }
 
@@ -1194,8 +1247,7 @@
     // Initialize on Load
     document.addEventListener('DOMContentLoaded', () => {
       updateAuthUI();
-      renderProducts();
-      renderAdminTables();
+      renderAllViews();
     });
   </script>
 </body>
