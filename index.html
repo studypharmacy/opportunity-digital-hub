@@ -1,2065 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Opportunity & Digital Hub | Student Marketplace & Services</title>
-  <style>
-    /* Reset & Base Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --primary-color: #0284c7; /* Modern Vibrant Sky Blue */
-      --primary-hover: #0369a1;
-      --bg-color: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --danger-color: #dc2626;
-      --success-color: #16a34a;
-      --whatsapp-color: #25d366;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.5;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* Header Layout */
-    .site-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 24px;
-      background-color: #ffffff;
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo a {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .desktop-nav {
-      display: flex;
-      gap: 20px;
-    }
-
-    .desktop-nav a {
-      text-decoration: none;
-      color: var(--text-muted);
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: color 0.2s;
-      cursor: pointer;
-    }
-
-    .desktop-nav a:hover {
-      color: var(--primary-color);
-    }
-
-    .auth-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--primary-color);
-      color: var(--primary-color);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-outline:hover {
-      background: #f0f9ff;
-    }
-
-    .profile-menu-wrapper {
-      position: relative;
-      display: none;
-    }
-
-    .profile-menu-wrapper.visible {
-      display: block;
-    }
-
-    .profile-toggle-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-color);
-      border: 1px solid #cbd5e1;
-      padding: 6px 12px;
-      border-radius: 9999px;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-    }
-
-    .profile-toggle-btn:hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
-    }
-
-    .profile-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      overflow: hidden;
-      background-color: var(--primary-color);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: 600;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .profile-name {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #334155;
-    }
-
-    .chevron-icon {
-      color: var(--text-muted);
-      transition: transform 0.2s;
-    }
-
-    .profile-menu-wrapper.active .chevron-icon {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-menu {
-      position: absolute;
-      right: 0;
-      top: calc(100% + 8px);
-      width: 290px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-      border: 1px solid var(--border-color);
-      display: none;
-      flex-direction: column;
-      padding: 8px 0;
-      z-index: 1000;
-    }
-
-    .profile-menu-wrapper.active .dropdown-menu {
-      display: flex;
-    }
-
-    .dropdown-header {
-      padding: 10px 16px;
-    }
-
-    .user-greeting {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin: 0;
-    }
-
-    .user-email {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin: 2px 0 0 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .dropdown-divider {
-      height: 1px;
-      background-color: var(--border-color);
-      margin: 6px 0;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 16px;
-      color: #475569;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: background 0.15s, color 0.15s;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      width: 100%;
-      text-align: left;
-    }
-
-    .menu-item:hover {
-      background-color: #f1f5f9;
-      color: var(--primary-color);
-    }
-
-    .menu-icon {
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
-
-    .logout-item {
-      color: var(--danger-color);
-    }
-
-    .logout-item .menu-icon {
-      color: var(--danger-color);
-    }
-
-    .logout-item:hover {
-      background-color: #fef2f2;
-      color: #b91c1c;
-    }
-
-    /* Main Container & Sections */
-    .main-container {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 20px;
-      flex: 1;
-      width: 100%;
-    }
-
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    .tab-content.active-tab {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Hero Section */
-    .hero-section {
-      text-align: center;
-      padding: 48px 24px;
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-      background-color: #e0f2fe;
-      border-radius: 16px;
-      border: 1px solid #bae6fd;
-      box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.05);
-      margin-bottom: 30px;
-    }
-
-    .hero-section h1 {
-      font-size: 2.2rem;
-      color: var(--primary-color);
-      margin-bottom: 12px;
-    }
-
-    .hero-section p {
-      font-size: 1.05rem;
-      color: #334155;
-      margin-bottom: 24px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Category Section Layout */
-    .category-section-wrapper {
-      margin-bottom: 40px;
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-
-    .category-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--border-color);
-    }
-
-    .category-title-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-    }
-
-    .category-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-    }
-
-    .category-title-area h2 {
-      font-size: 1.25rem;
-      color: var(--text-main);
-      transition: color 0.2s;
-    }
-
-    .category-title-area:hover h2 {
-      color: var(--primary-color);
-    }
-
-    .view-all-link {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .view-all-link:hover {
-      text-decoration: underline;
-    }
-
-    /* Store Grid Cards */
-    .store-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .store-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .store-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-    }
-
-    .store-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 6px;
-      color: var(--text-main);
-    }
-
-    .store-card .price {
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 12px;
-      font-size: 1.05rem;
-    }
-
-    .store-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    .post-author-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      font-style: italic;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .btn-primary {
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .btn-whatsapp {
-      background-color: var(--whatsapp-color);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      text-align: center;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .btn-whatsapp:hover {
-      opacity: 0.9;
-    }
-
-    .dashboard-toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .badge {
-      background: #e0f2fe;
-      color: var(--primary-color);
-      padding: 4px 10px;
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      display: inline-block;
-    }
-
-    /* Admin Management & Profile Panels */
-    .admin-panel-section {
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 24px;
-      margin-top: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-
-    .admin-panel-section h3 {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      color: var(--text-main);
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.9rem;
-    }
-
-    .data-table th, .data-table td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .data-table th {
-      background-color: #f8fafc;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .data-table tr:hover {
-      background-color: #f1f5f9;
-    }
-
-    .action-badge-btn {
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      margin-right: 4px;
-    }
-
-    .btn-danger-light {
-      background: #fee2e2;
-      color: #dc2626;
-    }
-
-    .btn-danger-light:hover {
-      background: #fecaca;
-    }
-
-    .btn-success-light {
-      background: #dcfce7;
-      color: #16a34a;
-    }
-
-    .btn-success-light:hover {
-      background: #bbf7d0;
-    }
-
-    /* Footer Styles */
-    .site-footer {
-      background-color: #1e293b;
-      color: #f8fafc;
-      padding: 48px 24px 24px 24px;
-      margin-top: 60px;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .footer-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-
-    .footer-col h4 {
-      font-size: 1.05rem;
-      margin-bottom: 16px;
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    .footer-col p, .footer-col ul {
-      font-size: 0.9rem;
-      color: #94a3b8;
-      list-style: none;
-      margin-bottom: 12px;
-    }
-
-    .footer-col ul li {
-      margin-bottom: 8px;
-    }
-
-    .footer-col ul li a {
-      color: #94a3b8;
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .footer-col ul li a:hover {
-      color: #ffffff;
-      text-decoration: underline;
-    }
-
-    .footer-bottom {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding-top: 20px;
-      border-top: 1px solid #334155;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      font-size: 0.85rem;
-      color: #94a3b8;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-
-    .social-links a {
-      color: #94a3b8;
-      text-decoration: none;
-      transition: color 0.2s;
-      font-weight: 500;
-    }
-
-    .social-links a:hover {
-      color: #ffffff;
-    }
-
-    /* Floating WhatsApp Button */
-    .floating-whatsapp {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background-color: var(--whatsapp-color);
-      color: white;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-      z-index: 1000;
-      text-decoration: none;
-      transition: transform 0.2s;
-    }
-
-    .floating-whatsapp:hover {
-      transform: scale(1.08);
-    }
-
-    /* Modals */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-
-    .modal-card {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-card h2 {
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-      color: var(--text-main);
-    }
-
-    .modal-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-main);
-    }
-
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-family: inherit;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .btn-secondary {
-      background: #e2e8f0;
-      color: #334155;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    .auth-switch-text {
-      font-size: 0.85rem;
-      text-align: center;
-      margin-top: 15px;
-      color: var(--text-muted);
-    }
-
-    .auth-switch-text span {
-      color: var(--primary-color);
-      cursor: pointer;
-      font-weight: 600;
-      text-decoration: underline;
-    }
-
-    @media (max-width: 640px) {
-      .desktop-nav {
-        display: none;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opportunity & Digital Hub</title>
+    <style>
+        :root {
+            --primary: #004d40;
+            --secondary: #00796b;
+            --accent: #26a69a;
+            --bg: #f4f6f8;
+            --text: #333333;
+            --white: #ffffff;
+            --danger: #d32f2f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem;
+        }
+
+        .badge {
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="logo">
-      <a href="#" onclick="switchTab('home')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        Opportunity & Digital Hub
-      </a>
-    </div>
-
-    <div class="nav-container">
-      <!-- Desktop Quick Links -->
-      <nav class="desktop-nav">
-        <a onclick="switchTab('home')">Home</a>
-        <a onclick="switchTab('about')">About Us</a>
-        <a onclick="switchTab('store')">My Store</a>
-        <a onclick="openModal('donateModal')">Donate</a>
-        <a id="adminNavTab" onclick="switchTab('admin')" style="display: none; color: var(--primary-color); font-weight: 600;">Admin Dashboard</a>
-      </nav>
-
-      <!-- Auth Buttons (Visible when Logged Out) -->
-      <div class="auth-actions" id="authActions">
-        <button class="btn-outline" onclick="openModal('loginModal')">Log In</button>
-      </div>
-
-      <!-- Profile Menu Wrapper (Visible when Logged In) -->
-      <div class="profile-menu-wrapper" id="profileWrapper">
-        <button class="profile-toggle-btn" id="menuToggle" aria-label="Toggle menu">
-          <div class="profile-avatar" id="navAvatarContainer">
-            <span class="avatar-fallback" id="userInitials">IH</span>
-          </div>
-          <span class="profile-name" id="navProfileName">Hubert</span>
-          <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
-        </button>
-
-        <!-- Dropdown Menu Box -->
-        <div class="dropdown-menu" id="dropdownMenu">
-          <div class="dropdown-header">
-            <p class="user-greeting" id="dropdownGreeting">Signed in as User</p>
-            <p class="user-email" id="dropdownEmail">user@student.rw</p>
-          </div>
-          
-          <div class="dropdown-divider"></div>
-
-          <button class="menu-item" onclick="switchTab('home')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            Home
-          </button>
-          <button class="menu-item" onclick="switchTab('about')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-            About Us
-          </button>
-          <button class="menu-item" onclick="switchTab('store')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-            My Store
-          </button>
-          <button class="menu-item" onclick="openModal('donateModal')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            Donate
-          </button>
-
-          <!-- Profile / Account Settings Menu Item -->
-          <button class="menu-item" onclick="openModal('profileSettingsModal')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            Profile & Settings
-          </button>
-
-          <!-- My Orders & Transaction History Menu Item -->
-          <button class="menu-item" onclick="switchTab('orders')">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            My Orders & Transactions
-          </button>
-
-          <!-- Admin Panel Dropdown Item (Only visible for Admin) -->
-          <button class="menu-item" id="adminDropdownItem" onclick="switchTab('admin')" style="display: none; font-weight: 600; color: var(--primary-color);">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c-.5.38-1.03.7-1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c-.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-            Admin Management Console
-          </button>
-
-          <div class="dropdown-divider"></div>
-
-          <button class="menu-item logout-item" onclick="handleLogout()">
-            <svg class="menu-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-            Log Out
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Content Container -->
-  <main class="main-container">
-    
-    <!-- HOME TAB -->
-    <div id="home-tab" class="tab-content active-tab">
-      <section class="hero-section">
+    <header>
         <h1>Opportunity & Digital Hub</h1>
-        <p>Empowering students and community members across Rwanda through integrated resources, announcements, job opportunities, and digital storefront services.</p>
-        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-          <button class="btn-primary" onclick="switchTab('store')">Explore All Listings</button>
-          <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20would%20like%20to%20chat%20regarding%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="btn-whatsapp">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-            Chat with Hubert
-          </a>
-        </div>
-      </section>
-
-      <!-- Live Category Sections Container -->
-      <div id="homeCategoriesContainer"></div>
-    </div>
-
-    <!-- ABOUT US TAB -->
-    <div id="about-tab" class="tab-content">
-      <section class="hero-section" style="text-align: left;">
-        <h1 style="text-align: center; margin-bottom: 20px;">About Our Initiative</h1>
-        <p><strong>Opportunity & Digital Hub</strong> is a vibrant, all-inclusive community platform built for everyone—students, entrepreneurs, job seekers, and dynamic professionals across Rwanda. Headquartered in <strong>Huye</strong>, we bridge the gap between daily practical needs and modern digital convenience.</p>
-        
-        <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
-          <div style="background: #ffffff; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
-            <h3 style="color: var(--primary-color); margin-bottom: 8px; font-size: 1.1rem;">📢 Announcements & Job Openings</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Stay updated with real-time announcements, scholarship alerts, career opportunities, public service announcements, and community updates.</p>
-          </div>
-          <div style="background: #ffffff; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
-            <h3 style="color: var(--primary-color); margin-bottom: 8px; font-size: 1.1rem;">📚 Academic & Skill Resources</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Access curated study notes, professional summaries, past examination papers, and guides tailored for learners and self-starters.</p>
-          </div>
-          <div style="background: #ffffff; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);">
-            <h3 style="color: var(--primary-color); margin-bottom: 8px; font-size: 1.1rem;">💳 Digital Marketplace & Services</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Seamlessly buy and sell digital products, book services, and complete transactions securely via integrated Mobile Money rails.</p>
-          </div>
-        </div>
-
-        <p style="margin-top: 24px;">Our mission is to foster inclusive growth, connection, and easy access to vital information for all community members.</p>
-      </section>
-    </div>
-
-    <!-- MY STORE TAB -->
-    <div id="store-tab" class="tab-content">
-      <div class="dashboard-toolbar">
-        <div>
-          <h2>Digital Student Store</h2>
-          <p style="color: var(--text-muted);">Purchase notes, revision sheets, and past papers instantly via Mobile Money or contact posters directly on WhatsApp.</p>
-        </div>
-        <div>
-          <span class="badge" id="roleBadge">Guest Mode</span>
-          <button class="btn-primary" id="addProductBtn" onclick="openModal('productModal')" style="margin-left: 10px; display: none;">+ Add Product</button>
-        </div>
-      </div>
-
-      <div class="store-grid" id="productStoreGrid"></div>
-    </div>
-
-    <!-- MY ORDERS & TRANSACTIONS TAB -->
-    <div id="orders-tab" class="tab-content">
-      <div class="dashboard-toolbar">
-        <div>
-          <h2>My Orders & Transaction History</h2>
-          <p style="color: var(--text-muted);">Review your purchase history and mobile money transaction statuses.</p>
-        </div>
-      </div>
-
-      <div class="admin-panel-section">
-        <h3>Recent Transactions (<span id="orderCount">0</span>)</h3>
-        <div style="overflow-x: auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Item Title</th>
-                <th>Price</th>
-                <th>MoMo Number</th>
-                <th>Date & Time</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="ordersTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ADMIN MANAGEMENT CONSOLE TAB -->
-    <div id="admin-tab" class="tab-content">
-      <div class="dashboard-toolbar">
-        <div>
-          <h2>Admin Management Console</h2>
-          <p style="color: var(--text-muted);">Manage registered user accounts, assign admin roles, update user settings, and add custom categories.</p>
-        </div>
-      </div>
-
-      <!-- Add Category Management Section -->
-      <div class="admin-panel-section" style="margin-bottom: 25px;">
-        <h3>Add New Marketplace Category</h3>
-        <form onsubmit="handleAddCategory(event)" style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <input type="text" id="newCatName" placeholder="Category Name (e.g., Job Announcements)" required style="flex: 1; min-width: 250px; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px;">
-          <button type="submit" class="btn-primary">Add Category</button>
-        </form>
-      </div>
-
-      <!-- User Accounts & Credentials Management Section -->
-      <div class="admin-panel-section">
-        <h3>Registered Accounts & Credentials (<span id="userCount">0</span>)</h3>
-        <div style="overflow-x: auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email Address</th>
-                <th>Tel</th>
-                <th>DOB</th>
-                <th>Password</th>
-                <th>Role</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="adminUserTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Posted Materials Management Section -->
-      <div class="admin-panel-section" style="margin-top: 30px;">
-        <h3>Posted Marketplace Materials (<span id="productCount">0</span>)</h3>
-        <div style="overflow-x: auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Posted By</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="adminProductTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-col">
-        <h4>Opportunity & Digital Hub</h4>
-        <p>An all-inclusive platform connecting everyone across Rwanda with vital announcements, academic resources, job alerts, and digital services.</p>
-        <p><strong>📍 Location:</strong> Huye, Rwanda</p>
-      </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a onclick="switchTab('home')">Home</a></li>
-          <li><a onclick="switchTab('about')">About Us</a></li>
-          <li><a onclick="switchTab('store')">Digital Marketplace</a></li>
-          <li><a onclick="openModal('donateModal')">Support & Donate</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact & Channels</h4>
-        <ul>
-          <li>📞 WhatsApp: <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20am%20reaching%20out%20from%20Opportunity%20%26%20Digital%20Hub" target="_blank">0796051492</a></li>
-          <li>📢 <a href="https://whatsapp.com" target="_blank">WhatsApp Channel</a></li>
-          <li>📷 <a href="https://instagram.com" target="_blank">Instagram (IG)</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 Opportunity & Digital Hub (Huye). All rights reserved.</p>
-      <div class="social-links">
-        <a href="https://wa.me/250796051492?text=Hello%20Hubert" target="_blank">WhatsApp: 0796051492</a>
-        <a href="https://whatsapp.com" target="_blank">WhatsApp Channel</a>
-        <a href="https://instagram.com" target="_blank">Instagram</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Floating WhatsApp Chat Button -->
-  <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20would%20like%20to%20chat%20with%20you%20regarding%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="floating-whatsapp" aria-label="Chat with Hubert on WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-  </a>
-
-  <!-- Donate Modal -->
-  <div class="modal-overlay" id="donateModal">
-    <div class="modal-card">
-      <h2>Support & Donate</h2>
-      <p>Help us sustain and expand the Opportunity & Digital Hub for everyone in Huye and across Rwanda.</p>
-      
-      <div style="background: #f0f9ff; border: 1px solid var(--primary-color); padding: 14px; border-radius: 8px; margin-bottom: 20px;">
-        <p style="font-size: 0.9rem; font-weight: 600; color: var(--primary-color); margin-bottom: 6px;">Mobile Money Support (MTN / Airtel)</p>
-        <p style="font-size: 0.95rem; color: var(--text-main); margin: 0;">Tel: <strong>0796051492</strong> (IRAHARI Hubert)</p>
-      </div>
-
-      <div class="form-group">
-        <label>Enter Donation Amount (RWF)</label>
-        <input type="text" id="donateAmount" placeholder="e.g., 2,000 RWF">
-      </div>
-      <div class="form-group">
-        <label>Your Mobile Money Number</label>
-        <input type="tel" id="donatePhone" placeholder="07XXXXXXXX" pattern="07[089][0-9]{7}">
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" onclick="closeModal('donateModal')">Close</button>
-        <button type="button" class="btn-primary" style="width: 100%;" onclick="processDonation()">Send Donation</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Login Modal -->
-  <div class="modal-overlay" id="loginModal">
-    <div class="modal-card">
-      <h2>Log In</h2>
-      <p>Access your user account or admin dashboard.</p>
-      
-      <form onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="loginEmail" placeholder="iraharihubert250@gmail.com" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="adminpassword" required>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Log In</button>
-        </div>
-      </form>
-      <div class="auth-switch-text">
-        Don't have an account? <span onclick="switchToRegister()">Sign Up</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sign Up / Register Modal -->
-  <div class="modal-overlay" id="registerModal">
-    <div class="modal-card">
-      <h2>Create Account</h2>
-      <p>Join the Opportunity & Digital Hub community. We verify all emails securely.</p>
-      
-      <form id="registerForm" onsubmit="initiateEmailVerification(event)">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" id="regName" placeholder="IRAHARI Hubert" required>
-        </div>
-        <div class="form-group">
-          <label>Email Address (Must be functional)</label>
-          <input type="email" id="regEmail" placeholder="you@example.com" required>
-        </div>
-        <div class="form-group">
-          <label>Telephone (Tel)</label>
-          <input type="tel" id="regTel" placeholder="07XXXXXXXX" required pattern="07[089][0-9]{7}">
-        </div>
-        <div class="form-group">
-          <label>Date of Birth (DOB)</label>
-          <input type="date" id="regDob" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="regPassword" placeholder="Create a password" required>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('registerModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Verify Email & Register</button>
-        </div>
-      </form>
-
-      <div class="auth-switch-text">
-        Already have an account? <span onclick="switchToLogin()">Log In</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Email Verification Code Modal -->
-  <div class="modal-overlay" id="verifyModal">
-    <div class="modal-card" style="text-align: center;">
-      <div style="font-size: 2.5rem; margin-bottom: 10px;">✉️</div>
-      <h2>Verify Your Email</h2>
-      <p>We sent a 4-digit verification code to <strong id="verificationEmailTarget" style="color: var(--primary-color);"></strong>. Please enter it below to confirm your email is functional.</p>
-      
-      <div style="background: #f0f9ff; border: 1px dashed var(--primary-color); padding: 10px; border-radius: 8px; margin-bottom: 16px;">
-        <p style="font-size: 0.8rem; color: var(--primary-color); margin: 0;">Demo Hint: Your generated code is <strong id="displayedDemoCode" style="font-size: 1rem;">1234</strong></p>
-      </div>
-
-      <form onsubmit="confirmEmailVerification(event)">
-        <div class="form-group">
-          <label>Enter 4-Digit Verification Code</label>
-          <input type="text" id="verificationCodeInput" placeholder="1234" maxlength="4" required style="text-align: center; font-size: 1.2rem; letter-spacing: 4px;">
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('verifyModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Confirm & Complete</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Profile & Settings Modal -->
-  <div class="modal-overlay" id="profileSettingsModal">
-    <div class="modal-card">
-      <h2>Profile & Settings</h2>
-      <p>Update your personal information, security password, profile picture, and theme color.</p>
-      
-      <form onsubmit="saveProfileSettings(event)">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" id="settingsName" required>
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="settingsEmail" readonly style="background: #f1f5f9; cursor: not-allowed;">
-        </div>
-        <div class="form-group">
-          <label>Telephone</label>
-          <input type="tel" id="settingsTel" required>
-        </div>
-        <div class="form-group">
-          <label>New Password (leave blank to keep current)</label>
-          <input type="password" id="settingsPassword" placeholder="New secure password">
-        </div>
-        <div class="form-group">
-          <label>Profile Picture URL (Image Link)</label>
-          <input type="url" id="settingsAvatar" placeholder="https://example.com/avatar.jpg">
-        </div>
-        <div class="form-group">
-          <label>Theme Accent Color</label>
-          <select id="settingsThemeColor">
-            <option value="#0284c7">Sky Blue (Default)</option>
-            <option value="#10b981">Emerald Green</option>
-            <option value="#8b5cf6">Vibrant Purple</option>
-            <option value="#f59e0b">Amber Orange</option>
-            <option value="#dc2626">Crimson Red</option>
-          </select>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('profileSettingsModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Save Changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Admin Edit User Modal -->
-  <div class="modal-overlay" id="adminEditUserModal">
-    <div class="modal-card">
-      <h2>Edit User Account</h2>
-      <p>Update account details as an administrator.</p>
-      
-      <form onsubmit="saveAdminUserEdit(event)">
-        <input type="hidden" id="editUserIndex">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" id="adminEditName" required>
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="adminEditEmail" required>
-        </div>
-        <div class="form-group">
-          <label>Telephone</label>
-          <input type="tel" id="adminEditTel" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="text" id="adminEditPassword" required>
-        </div>
-        <div class="form-group">
-          <label>Role</label>
-          <select id="adminEditRole">
-            <option value="student">User / Student</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Theme Color</label>
-          <select id="adminEditTheme">
-            <option value="#0284c7">Sky Blue</option>
-            <option value="#10b981">Emerald Green</option>
-            <option value="#8b5cf6">Vibrant Purple</option>
-            <option value="#f59e0b">Amber Orange</option>
-            <option value="#dc2626">Crimson Red</option>
-          </select>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('adminEditUserModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Update User</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Interactive Mobile Money Checkout Modal -->
-  <div class="modal-overlay" id="checkoutModal">
-    <div class="modal-card">
-      <h2 id="modalItemTitle">Complete Purchase</h2>
-      <p id="modalItemPrice">Price: 0 RWF</p>
-      <form onsubmit="processPayment(event)">
-        <div class="form-group">
-          <label>Mobile Money Number (MTN/Airtel)</label>
-          <input type="tel" id="momoNumber" placeholder="07XXXXXXXX" required pattern="07[089][0-9]{7}">
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('checkoutModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Pay Now</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Add Product Modal -->
-  <div class="modal-overlay" id="productModal">
-    <div class="modal-card">
-      <h2>Add New Listing</h2>
-      <p>List a product, announcement, or service to the hub.</p>
-      <form onsubmit="saveProduct(event)">
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" id="prodTitle" placeholder="e.g., Job Opportunity / Histology Notes" required>
-        </div>
-        <div class="form-group">
-          <label>Price (e.g., Free or 1,500 RWF)</label>
-          <input type="text" id="prodPrice" placeholder="Free / 1,500 RWF" required>
-        </div>
-        <div class="form-group">
-          <label>Category</label>
-          <select id="prodCategorySelect" required>
-            <!-- Dynamically populated categories -->
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Poster's WhatsApp Phone Number (e.g. 0796051492)</label>
-          <input type="tel" id="prodPhone" placeholder="07XXXXXXXX" required pattern="07[089][0-9]{7}">
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea id="prodDesc" rows="3" placeholder="Brief description..." required></textarea>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeModal('productModal')">Cancel</button>
-          <button type="submit" class="btn-primary" style="width: 100%;">Save Listing</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- JavaScript Functionality Logic -->
-  <script>
-    // Profile Dropdown Handling
-    const wrapper = document.getElementById('profileWrapper');
-    const toggleBtn = document.getElementById('menuToggle');
-
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      wrapper.classList.toggle('active');
-    });
-
-    document.addEventListener('click', () => {
-      if (wrapper.classList.contains('active')) {
-        wrapper.classList.remove('active');
-      }
-    });
-
-    // Functional Tab Navigation Switcher
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active-tab');
-      });
-      document.getElementById(tabName + '-tab').classList.add('active-tab');
-      wrapper.classList.remove('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Modal Management Helpers
-    function openModal(modalId) {
-      if (modalId === 'profileSettingsModal') {
-        const session = getSession();
-        if (!session) {
-          alert("Please log in first.");
-          openModal('loginModal');
-          return;
-        }
-        document.getElementById('settingsName').value = session.name;
-        document.getElementById('settingsEmail').value = session.email;
-        document.getElementById('settingsTel').value = session.tel || '';
-        document.getElementById('settingsPassword').value = '';
-        document.getElementById('settingsAvatar').value = session.avatar || '';
-        document.getElementById('settingsThemeColor').value = session.themeColor || '#0284c7';
-      }
-      document.getElementById(modalId).style.display = 'flex';
-      wrapper.classList.remove('active');
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = 'none';
-    }
-
-    function switchToRegister() {
-      closeModal('loginModal');
-      openModal('registerModal');
-    }
-
-    function switchToLogin() {
-      closeModal('registerModal');
-      openModal('loginModal');
-    }
-
-    // Data Management Initialization & Force Admin Sync
-    const defaultUsers = [
-      { name: "IRAHARI Hubert", email: "iraharihubert250@gmail.com", tel: "0796051492", dob: "2002-05-15", password: "adminpassword", role: "admin", themeColor: "#0284c7", avatar: "" },
-      { name: "Jean Claude", email: "jeanclaude@student.rw", tel: "0788123456", dob: "2001-08-20", password: "password123", role: "student", themeColor: "#10b981", avatar: "" }
-    ];
-
-    const defaultCategories = [
-      "Job Announcements & Opportunities",
-      "Pharmacy & Medical Sciences",
-      "Past Papers & Notes",
-      "Digital Services"
-    ];
-
-    const defaultProducts = [
-      {
-        title: "Community & Career Job Announcement",
-        price: "Free",
-        category: "Job Announcements & Opportunities",
-        desc: "Latest verified job postings, internships, and scholarship opportunities for all applicants.",
-        postedBy: "IRAHARI Hubert",
-        phone: "0796051492"
-      },
-      {
-        title: "Pharmacy & Systemic Anatomy Notes",
-        price: "1,500 RWF",
-        category: "Pharmacy & Medical Sciences",
-        desc: "Comprehensive structured study notes compiled for medical and pharmacy students.",
-        postedBy: "IRAHARI Hubert",
-        phone: "0796051492"
-      },
-      {
-        title: "University Past Papers Bundle",
-        price: "2,000 RWF",
-        category: "Past Papers & Notes",
-        desc: "Past examination papers with verified solutions and references.",
-        postedBy: "Jean Claude",
-        phone: "0788123456"
-      },
-      {
-        title: "Digital Service Consultation",
-        price: "5,000 RWF",
-        category: "Digital Services",
-        desc: "Direct support for student job application portals and resource submissions.",
-        postedBy: "IRAHARI Hubert",
-        phone: "0796051492"
-      }
-    ];
-
-    const defaultOrders = [
-      {
-        orderId: "ORD-98214",
-        title: "Pharmacy & Systemic Anatomy Notes",
-        price: "1,500 RWF",
-        momo: "0796051492",
-        date: "2026-08-01 12:30",
-        status: "Completed (Paid)"
-      }
-    ];
-
-    function getUsers() {
-      const stored = localStorage.getItem('hub_users_list');
-      if (!stored) {
-        localStorage.setItem('hub_users_list', JSON.stringify(defaultUsers));
-        return defaultUsers;
-      }
-      try {
-        let users = JSON.parse(stored);
-        const adminIndex = users.findIndex(u => u.email === 'iraharihubert250@gmail.com');
-        if (adminIndex === -1) {
-          users.unshift({ name: "IRAHARI Hubert", email: "iraharihubert250@gmail.com", tel: "0796051492", dob: "2002-05-15", password: "adminpassword", role: "admin", themeColor: "#0284c7", avatar: "" });
-        } else {
-          users[adminIndex].password = "adminpassword";
-          users[adminIndex].role = "admin";
-          if(!users[adminIndex].tel) users[adminIndex].tel = "0796051492";
-          if(!users[adminIndex].dob) users[adminIndex].dob = "2002-05-15";
-          if(!users[adminIndex].themeColor) users[adminIndex].themeColor = "#0284c7";
-        }
-        localStorage.setItem('hub_users_list', JSON.stringify(users));
-        return users;
-      } catch (e) {
-        localStorage.setItem('hub_users_list', JSON.stringify(defaultUsers));
-        return defaultUsers;
-      }
-    }
-
-    function getCategories() {
-      const stored = localStorage.getItem('hub_categories_list');
-      if (!stored) {
-        localStorage.setItem('hub_categories_list', JSON.stringify(defaultCategories));
-        return defaultCategories;
-      }
-      return JSON.parse(stored);
-    }
-
-    function getProducts() {
-      const stored = localStorage.getItem('hub_products');
-      if (!stored) {
-        localStorage.setItem('hub_products', JSON.stringify(defaultProducts));
-        return defaultProducts;
-      }
-      return JSON.parse(stored);
-    }
-
-    function getOrders() {
-      const stored = localStorage.getItem('hub_orders_list');
-      if (!stored) {
-        localStorage.setItem('hub_orders_list', JSON.stringify(defaultOrders));
-        return defaultOrders;
-      }
-      return JSON.parse(stored);
-    }
-
-    function getSession() {
-      const session = localStorage.getItem('hub_user_session');
-      if (!session) return null;
-      return JSON.parse(session);
-    }
-
-    function applyThemeColor(colorHex) {
-      if (!colorHex) colorHex = '#0284c7';
-      document.documentElement.style.setProperty('--primary-color', colorHex);
-      document.documentElement.style.setProperty('--primary-hover', colorHex);
-    }
-
-    function updateAuthUI() {
-      const session = getSession();
-      const authActions = document.getElementById('authActions');
-      const profileWrapper = document.getElementById('profileWrapper');
-      const addProductBtn = document.getElementById('addProductBtn');
-      const roleBadge = document.getElementById('roleBadge');
-      const adminNavTab = document.getElementById('adminNavTab');
-      const adminDropdownItem = document.getElementById('adminDropdownItem');
-
-      if (!session) {
-        authActions.style.display = 'flex';
-        profileWrapper.classList.remove('visible');
-        addProductBtn.style.display = 'inline-block';
-        roleBadge.innerText = "Guest Mode";
-        adminNavTab.style.display = 'none';
-        adminDropdownItem.style.display = 'none';
-        applyThemeColor('#0284c7');
-      } else {
-        authActions.style.display = 'none';
-        profileWrapper.classList.add('visible');
-        addProductBtn.style.display = 'inline-block';
-        
-        document.getElementById('navProfileName').innerText = session.name;
-        document.getElementById('dropdownEmail').innerText = session.email;
-        
-        applyThemeColor(session.themeColor || '#0284c7');
-
-        const avatarContainer = document.getElementById('navAvatarContainer');
-        if (session.avatar && session.avatar.trim() !== '') {
-          avatarContainer.style.backgroundImage = `url('${session.avatar}')`;
-          avatarContainer.innerText = '';
-        } else {
-          avatarContainer.style.backgroundImage = 'none';
-          const nameParts = session.name.split(' ');
-          const initials = nameParts.length > 1 ? nameParts[0][0] + nameParts[1][0] : nameParts[0].substring(0, 2).toUpperCase();
-          document.getElementById('userInitials').innerText = initials;
-        }
-
-        if (session.role === 'admin') {
-          document.getElementById('dropdownGreeting').innerText = "Signed in as Admin";
-          roleBadge.innerText = "Global Admin Mode";
-          adminNavTab.style.display = 'inline-block';
-          adminDropdownItem.style.display = 'flex';
-        } else {
-          document.getElementById('dropdownGreeting').innerText = "Signed in as User";
-          roleBadge.innerText = "User Mode";
-          adminNavTab.style.display = 'none';
-          adminDropdownItem.style.display = 'none';
-        }
-      }
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-      const password = document.getElementById('loginPassword').value.trim();
-      const users = getUsers();
-      
-      const foundUser = users.find(u => u.email.toLowerCase() === email && u.password === password);
-      if (!foundUser) {
-        alert("Invalid email or password. Use: iraharihubert250@gmail.com / adminpassword");
-        return;
-      }
-
-      localStorage.setItem('hub_user_session', JSON.stringify(foundUser));
-      closeModal('loginModal');
-      updateAuthUI();
-      renderAllViews();
-      e.target.reset();
-      alert(`Welcome back, ${foundUser.name}!`);
-    }
-
-    let pendingRegistrationData = null;
-    let currentVerificationCode = "";
-
-    function initiateEmailVerification(e) {
-      e.preventDefault();
-      const name = document.getElementById('regName').value.trim();
-      const email = document.getElementById('regEmail').value.trim().toLowerCase();
-      const tel = document.getElementById('regTel').value.trim();
-      const dob = document.getElementById('regDob').value;
-      const password = document.getElementById('regPassword').value.trim();
-
-      const users = getUsers();
-      if (users.some(u => u.email.toLowerCase() === email)) {
-        alert("An account with this email already exists.");
-        return;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert("Please enter a functional and properly formatted email address.");
-        return;
-      }
-
-      currentVerificationCode = Math.floor(1000 + Math.random() * 9000).toString();
-      
-      const role = (email === 'iraharihubert250@gmail.com') ? 'admin' : 'student';
-      pendingRegistrationData = { name, email, tel, dob, password, role, themeColor: "#0284c7", avatar: "" };
-
-      closeModal('registerModal');
-      document.getElementById('verificationEmailTarget').innerText = email;
-      document.getElementById('displayedDemoCode').innerText = currentVerificationCode;
-      openModal('verifyModal');
-    }
-
-    function confirmEmailVerification(e) {
-      e.preventDefault();
-      const enteredCode = document.getElementById('verificationCodeInput').value.trim();
-
-      if (enteredCode !== currentVerificationCode) {
-        alert("Invalid verification code. Please check the code provided and try again.");
-        return;
-      }
-
-      const users = getUsers();
-      users.push(pendingRegistrationData);
-      localStorage.setItem('hub_users_list', JSON.stringify(users));
-      localStorage.setItem('hub_user_session', JSON.stringify(pendingRegistrationData));
-
-      closeModal('verifyModal');
-      document.getElementById('registerForm').reset();
-      document.getElementById('verificationCodeInput').value = '';
-      
-      updateAuthUI();
-      renderAllViews();
-      alert(`Email verified successfully! Account created. Welcome, ${pendingRegistrationData.name}.`);
-      pendingRegistrationData = null;
-    }
-
-    function saveProfileSettings(e) {
-      e.preventDefault();
-      const session = getSession();
-      if (!session) return;
-
-      const name = document.getElementById('settingsName').value.trim();
-      const tel = document.getElementById('settingsTel').value.trim();
-      const newPassword = document.getElementById('settingsPassword').value.trim();
-      const avatar = document.getElementById('settingsAvatar').value.trim();
-      const themeColor = document.getElementById('settingsThemeColor').value;
-
-      session.name = name;
-      session.tel = tel;
-      if (newPassword) session.password = newPassword;
-      session.avatar = avatar;
-      session.themeColor = themeColor;
-
-      const users = getUsers();
-      const uIndex = users.findIndex(u => u.email === session.email);
-      if (uIndex !== -1) {
-        users[uIndex] = session;
-        localStorage.setItem('hub_users_list', JSON.stringify(users));
-      }
-
-      localStorage.setItem('hub_user_session', JSON.stringify(session));
-      closeModal('profileSettingsModal');
-      updateAuthUI();
-      renderAllViews();
-      alert("Profile and settings updated successfully!");
-    }
-
-    function handleLogout() {
-      localStorage.removeItem('hub_user_session');
-      updateAuthUI();
-      renderAllViews();
-      switchTab('home');
-      alert("Session logged out successfully.");
-    }
-
-    function handleAddCategory(e) {
-      e.preventDefault();
-      const catName = document.getElementById('newCatName').value.trim();
-      const categories = getCategories();
-
-      if (categories.includes(catName)) {
-        alert("Category already exists.");
-        return;
-      }
-
-      categories.push(catName);
-      localStorage.setItem('hub_categories_list', JSON.stringify(categories));
-      document.getElementById('newCatName').value = '';
-      renderAllViews();
-      alert(`Category "${catName}" added successfully!`);
-    }
-
-    function getCategoryTheme(categoryName) {
-      if (categoryName.includes('Announcement') || categoryName.includes('Opportunity')) return { color: '#2563eb', bg: '#eff6ff' };
-      if (categoryName.includes('Pharmacy') || categoryName.includes('Medical')) return { color: '#0ea5e9', bg: '#f0f9ff' };
-      if (categoryName.includes('Papers') || categoryName.includes('Notes')) return { color: '#8b5cf6', bg: '#f5f3ff' };
-      if (categoryName.includes('Digital')) return { color: '#f59e0b', bg: '#fffbeb' };
-      return { color: '#10b981', bg: '#ecfdf5' };
-    }
-
-    function populateCategoryDropdown() {
-      const select = document.getElementById('prodCategorySelect');
-      const categories = getCategories();
-      select.innerHTML = '';
-      categories.forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat;
-        opt.innerText = cat;
-        select.appendChild(opt);
-      });
-    }
-
-    function renderHomeCategories(filterCategory = null) {
-      const container = document.getElementById('homeCategoriesContainer');
-      const products = getProducts();
-      const categories = getCategories();
-      container.innerHTML = '';
-
-      let activeCategories = [...categories];
-      if (filterCategory) {
-        activeCategories = activeCategories.filter(c => c === filterCategory);
-      }
-
-      if (filterCategory) {
-        const backBtn = document.createElement('div');
-        backBtn.style.marginBottom = '20px';
-        backBtn.innerHTML = `<button class="btn-outline" onclick="renderHomeCategories()">← Show All Categories</button>`;
-        container.appendChild(backBtn);
-      }
-
-      activeCategories.forEach(cat => {
-        const catProducts = products.filter(p => p.category === cat);
-        const theme = getCategoryTheme(cat);
-
-        const section = document.createElement('div');
-        section.className = 'category-section-wrapper';
-        section.style.borderLeft = `5px solid ${theme.color}`;
-
-        let cardsHTML = '';
-        if (catProducts.length === 0) {
-          cardsHTML = `<p style="color: var(--text-muted); font-size: 0.9rem;">No posts under this category yet.</p>`;
-        } else {
-          catProducts.forEach((prod) => {
-            const globalIndex = products.findIndex(p => p.title === prod.title && p.category === prod.category);
-            const session = getSession();
-            let deleteBtn = (session && (session.role === 'admin' || session.name === prod.postedBy)) ? `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626; padding: 4px 8px; font-size: 0.8rem;" onclick="deleteProduct(${globalIndex})">×</button>` : '';
-            
-            let posterPhone = prod.phone || '0796051492';
-            let formattedPhone = posterPhone.startsWith('0') ? '250' + posterPhone.substring(1) : posterPhone;
-            let whatsappMsg = encodeURIComponent(`Hello ${prod.postedBy || 'Hubert'}, I am interested in your listing: "${prod.title}" (${prod.price}) posted on Opportunity & Digital Hub.`);
-
-            cardsHTML += `
-              <div class="store-card">
-                <div>
-                  <span class="badge" style="background: ${theme.bg}; color: ${theme.color}; margin-bottom: 8px;">${prod.category}</span>
-                  <h3>${prod.title}</h3>
-                  <div class="price" style="color: ${theme.color};">${prod.price}</div>
-                  <p>${prod.desc}</p>
-                  <div class="post-author-meta">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    Posted by: <strong>${prod.postedBy || 'Hubert'}</strong>
-                  </div>
+        <nav>
+            <a onclick="showSection('home')">Home</a>
+            <a onclick="showSection('marketplace')">Marketplace</a>
+            <a onclick="showSection('requests')">Request Board</a>
+            <a onclick="showSection('about')">About Us</a>
+            <span id="nav-auth-link"><a onclick="showSection('auth')">Login / Register</a></span>
+            <span id="nav-admin-link" class="hidden"><a onclick="showSection('admin')">Admin Panel</a></span>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- HOME SECTION -->
+        <section id="home-section" class="card">
+            <h2>Welcome to Opportunity & Digital Hub</h2>
+            <p>Your premier platform connecting students with academic resources, digital services, job listings, and verified marketplace items. Tailored for academic excellence and regional growth.</p>
+            <br>
+            <button class="btn" onclick="showSection('marketplace')">Explore Marketplace</button>
+        </section>
+
+        <!-- AUTHENTICATION SECTION -->
+        <section id="auth-section" class="card hidden">
+            <h2>User Authentication</h2>
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h3>Login</h3>
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <button type="submit" class="btn">Login</button>
+                    </form>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-                  <div style="display: flex; gap: 8px;">
-                    <button class="btn-primary" style="background-color: ${theme.color}; width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Order & Pay</button>
-                    ${deleteBtn}
-                  </div>
-                  <a href="https://wa.me/${formattedPhone}?text=${whatsappMsg}" target="_blank" class="btn-whatsapp" style="width: 100%; font-size: 0.85rem; padding: 8px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                    Contact Poster on WhatsApp
-                  </a>
+                <div style="flex: 1; min-width: 250px;">
+                    <h3>Register</h3>
+                    <form id="register-form" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="reg-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="reg-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="reg-password" required>
+                        </div>
+                        <button type="submit" class="btn">Create Account</button>
+                    </form>
                 </div>
-              </div>
-            `;
-          });
-        }
-
-        section.innerHTML = `
-          <div class="category-header">
-            <div class="category-title-area" onclick="renderHomeCategories('${cat}')">
-              <div class="category-dot" style="background-color: ${theme.color};"></div>
-              <h2 style="color: ${theme.color};">${cat} (${catProducts.length})</h2>
             </div>
-            <button class="view-all-link" style="color: ${theme.color};" onclick="renderHomeCategories('${cat}')">View All →</button>
-          </div>
-          <div class="store-grid">
-            ${cardsHTML}
-          </div>
-        `;
-        container.appendChild(section);
-      });
-    }
+        </section>
 
-    function renderStoreProducts() {
-      const grid = document.getElementById('productStoreGrid');
-      const products = getProducts();
-      const session = getSession();
-      grid.innerHTML = '';
-
-      if (products.length === 0) {
-        grid.innerHTML = `<p style="color: var(--text-muted);">No listings available in the hub.</p>`;
-        return;
-      }
-
-      products.forEach((prod, index) => {
-        const theme = getCategoryTheme(prod.category);
-        const card = document.createElement('div');
-        card.className = 'store-card';
-        
-        let deleteBtnHTML = (session && (session.role === 'admin' || session.name === prod.postedBy)) ? `<button class="btn-secondary" style="width: auto; background: #fee2e2; color: #dc2626;" onclick="deleteProduct(${index})">×</button>` : '';
-
-        let posterPhone = prod.phone || '0796051492';
-        let formattedPhone = posterPhone.startsWith('0') ? '250' + posterPhone.substring(1) : posterPhone;
-        let whatsappMsg = encodeURIComponent(`Hello ${prod.postedBy || 'Hubert'}, I am interested in your listing: "${prod.title}" (${prod.price}) posted on Opportunity & Digital Hub.`);
-
-        card.innerHTML = `
-          <div>
-            <span class="badge" style="background: ${theme.bg}; color: ${theme.color}; margin-bottom: 8px;">${prod.category}</span>
-            <h3>${prod.title}</h3>
-            <div class="price" style="color: ${theme.color};">${prod.price}</div>
-            <p>${prod.desc}</p>
-            <div class="post-author-meta">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              Posted by: <strong>${prod.postedBy || 'Hubert'}</strong>
+        <!-- MARKETPLACE SECTION -->
+        <section id="marketplace-section" class="card hidden">
+            <h2>Student Marketplace</h2>
+            <div id="seller-post-container" class="hidden" style="margin-bottom: 2rem; background: #fafafa; padding: 1.5rem; border-radius: 6px;">
+                <h3>Post a New Listing</h3>
+                <form id="product-form" onsubmit="handleAddProduct(event)">
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input type="text" id="prod-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="prod-category">
+                            <option value="Past Papers">Past Papers</option>
+                            <option value="Notebooks & Notes">Notebooks & Notes</option>
+                            <option value="Services">Services</option>
+                            <option value="Electronics & Accessories">Electronics & Accessories</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (RWF)</label>
+                        <input type="number" id="prod-price" required>
+                    </div>
+                    <button type="submit" class="btn">Publish Listing</button>
+                </form>
             </div>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-            <div style="display: flex; gap: 8px;">
-              <button class="btn-primary" style="background-color: ${theme.color}; width: 100%;" onclick="openCheckout('${prod.title}', '${prod.price}')">Order & Pay</button>
-              ${deleteBtnHTML}
+            <h3>Available Listings</h3>
+            <div id="product-grid" class="grid">
+                <!-- Products dynamically loaded here -->
             </div>
-            <a href="https://wa.me/${formattedPhone}?text=${whatsappMsg}" target="_blank" class="btn-whatsapp" style="width: 100%; font-size: 0.85rem; padding: 8px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-              Contact Poster on WhatsApp
-            </a>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
+        </section>
 
-    function renderOrdersTable() {
-      const orders = getOrders();
-      document.getElementById('orderCount').innerText = orders.length;
-      const tbody = document.getElementById('ordersTableBody');
-      tbody.innerHTML = '';
+        <!-- REQUEST BOARD SECTION -->
+        <section id="requests-section" class="card hidden">
+            <h2>Student Request Board</h2>
+            <p>Looking for a specific past paper or study note? Post your request here for peers to fulfill.</p>
+            <br>
+            <form onsubmit="handleRequestSubmit(event)" style="margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <input type="text" id="req-text" placeholder="e.g., Looking for 2024 Systemic Anatomy Past Papers..." required>
+                </div>
+                <button type="submit" class="btn">Submit Request</button>
+            </form>
+            <div id="request-list">
+                <!-- Requests loaded here -->
+            </div>
+        </section>
 
-      if (orders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No transactions recorded yet.</td></tr>`;
-        return;
-      }
+        <!-- ABOUT SECTION -->
+        <section id="about-section" class="card hidden">
+            <h2>About Us</h2>
+            <p><strong>Opportunity & Digital Hub</strong> is a visionary initiative designed to bridge the digital resource gap for students and local communities.</p>
+            <br>
+            <p>As a visionary leader looking forward to an improved health sector and patient-centered care, our mission stems from a dedication to empowerment through accessible technology and streamlined educational tools supporting the <strong>School of Medicine and Pharmacy</strong>.</p>
+            <br>
+            <p><strong>Contact & Support:</strong> Phone: 0796051492 | Email: iraharihubert250@gmail.com</p>
+        </section>
 
-      orders.forEach(ord => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><code>${ord.orderId}</code></td>
-          <td><strong>${ord.title}</strong></td>
-          <td style="font-weight: 600; color: var(--primary-color);">${ord.price}</td>
-          <td>${ord.momo}</td>
-          <td>${ord.date}</td>
-          <td><span class="badge" style="background: #dcfce7; color: #16a34a;">${ord.status}</span></td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
+        <!-- ADMIN PANEL SECTION -->
+        <section id="admin-section" class="card hidden">
+            <h2>Administrator Management Dashboard</h2>
+            <p>Full oversight over system users, credentials, and active listings.</p>
+            <h3>Manage Listings</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-product-table">
+                        <!-- Populated via script -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-    function renderAdminTables() {
-      const users = getUsers();
-      const products = getProducts();
+    </div>
 
-      document.getElementById('userCount').innerText = users.length;
-      document.getElementById('productCount').innerText = products.length;
+    <footer>
+        <p>&copy; 2026 Opportunity & Digital Hub. All rights reserved.</p>
+    </footer>
 
-      const userTableBody = document.getElementById('adminUserTableBody');
-      userTableBody.innerHTML = '';
-      users.forEach((user, index) => {
-        const tr = document.createElement('tr');
-        
-        let roleToggleBtn = '';
-        if (user.role === 'admin') {
-          roleToggleBtn = `<button class="action-badge-btn btn-secondary" onclick="toggleUserRole(${index})">Make User</button>`;
-        } else {
-          roleToggleBtn = `<button class="action-badge-btn btn-success-light" onclick="toggleUserRole(${index})">Make Admin</button>`;
+    <script>
+        // State Management
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let products = JSON.parse(localStorage.getItem('products')) || [
+            { id: 1, name: 'Systemic Anatomy Complete Notes', category: 'Notebooks & Notes', price: 2500 },
+            { id: 2, name: 'Thermodynamics Exam Past Papers 2025', category: 'Past Papers', price: 1500 }
+        ];
+        let requests = JSON.parse(localStorage.getItem('requests')) || [
+            { id: 1, text: 'Looking for Histology & Embryology practical guides.' }
+        ];
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.container > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(sectionId + '-section').classList.remove('hidden');
+            renderUI();
         }
 
-        let editUserBtn = `<button class="action-badge-btn" style="background: #e0f2fe; color: #0284c7;" onclick="openAdminEditUser(${index})">Edit</button>`;
+        function renderUI() {
+            const authLink = document.getElementById('nav-auth-link');
+            const adminLink = document.getElementById('nav-admin-link');
+            const sellerContainer = document.getElementById('seller-post-container');
 
-        let removeBtn = '';
-        if (user.email !== 'iraharihubert250@gmail.com') {
-          removeBtn = `<button class="action-badge-btn btn-danger-light" onclick="deleteUser(${index})">Remove</button>`;
-        } else {
-          removeBtn = '<span style="font-size:0.8rem; color:var(--text-muted);">Protected</span>';
+            if (currentUser) {
+                authLink.innerHTML = `<a onclick="handleLogout()">Logout (${currentUser.name})</a>`;
+                if(currentUser.isAdmin) {
+                    adminLink.classList.remove('hidden');
+                } else {
+                    adminLink.classList.add('hidden');
+                }
+                sellerContainer.classList.remove('hidden');
+            } else {
+                authLink.innerHTML = `<a onclick="showSection('auth')">Login / Register</a>`;
+                adminLink.classList.add('hidden');
+                sellerContainer.classList.add('hidden');
+            }
+
+            renderProducts();
+            renderRequests();
+            if(currentUser && currentUser.isAdmin) renderAdminTable();
         }
 
-        tr.innerHTML = `
-          <td><strong>${user.name}</strong></td>
-          <td>${user.email}</td>
-          <td>${user.tel || 'N/A'}</td>
-          <td>${user.dob || 'N/A'}</td>
-          <td><code>${user.password}</code></td>
-          <td><span class="badge" style="background: ${user.role === 'admin' ? '#e0f2fe' : '#f1f5f9'}; color: ${user.role === 'admin' ? '#0284c7' : '#475569'};">${user.role}</span></td>
-          <td>
-            ${editUserBtn}
-            ${roleToggleBtn}
-            ${removeBtn}
-          </td>
-        `;
-        userTableBody.appendChild(tr);
-      });
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
 
-      const productTableBody = document.getElementById('adminProductTableBody');
-      productTableBody.innerHTML = '';
-      products.forEach((prod, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${prod.title}</strong></td>
-          <td>${prod.category}</td>
-          <td>${prod.postedBy || 'Hubert'}</td>
-          <td style="font-weight: 600; color: var(--primary-color);">${prod.price}</td>
-          <td style="color: var(--text-muted); max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${prod.desc}</td>
-          <td>
-            <button class="action-badge-btn btn-danger-light" onclick="deleteProduct(${index})">Delete</button>
-          </td>
-        `;
-        productTableBody.appendChild(tr);
-      });
-    }
-
-    function openAdminEditUser(index) {
-      const users = getUsers();
-      const u = users[index];
-      document.getElementById('editUserIndex').value = index;
-      document.getElementById('adminEditName').value = u.name;
-      document.getElementById('adminEditEmail').value = u.email;
-      document.getElementById('adminEditTel').value = u.tel || '';
-      document.getElementById('adminEditPassword').value = u.password;
-      document.getElementById('adminEditRole').value = u.role;
-      document.getElementById('adminEditTheme').value = u.themeColor || '#0284c7';
-      openModal('adminEditUserModal');
-    }
-
-    function saveAdminUserEdit(e) {
-      e.preventDefault();
-      const index = parseInt(document.getElementById('editUserIndex').value);
-      const users = getUsers();
-
-      users[index].name = document.getElementById('adminEditName').value.trim();
-      users[index].email = document.getElementById('adminEditEmail').value.trim().toLowerCase();
-      users[index].tel = document.getElementById('adminEditTel').value.trim();
-      users[index].password = document.getElementById('adminEditPassword').value.trim();
-      users[index].role = document.getElementById('adminEditRole').value;
-      users[index].themeColor = document.getElementById('adminEditTheme').value;
-
-      localStorage.setItem('hub_users_list', JSON.stringify(users));
-
-      const session = getSession();
-      if (session && session.email === users[index].email) {
-        localStorage.setItem('hub_user_session', JSON.stringify(users[index]));
-      }
-
-      closeModal('adminEditUserModal');
-      renderAllViews();
-      updateAuthUI();
-      alert("User account updated successfully by Admin!");
-    }
-
-    function toggleUserRole(index) {
-      const users = getUsers();
-      const targetUser = users[index];
-      
-      const newRole = targetUser.role === 'admin' ? 'student' : 'admin';
-      targetUser.role = newRole;
-
-      localStorage.setItem('hub_users_list', JSON.stringify(users));
-
-      const session = getSession();
-      if (session && session.email === targetUser.email) {
-        localStorage.setItem('hub_user_session', JSON.stringify(targetUser));
-      }
-
-      renderAllViews();
-      updateAuthUI();
-      alert(`User ${targetUser.name}'s role has been successfully updated to ${newRole.toUpperCase()}.`);
-    }
-
-    function renderAllViews() {
-      renderHomeCategories();
-      renderStoreProducts();
-      renderOrdersTable();
-      renderAdminTables();
-      populateCategoryDropdown();
-    }
-
-    const originalOpenModal = openModal;
-    window.openModal = function(modalId) {
-      if (modalId === 'productModal' && !getSession()) {
-        alert("Please log in or create an account first to post.");
-        openModal('loginModal');
-        return;
-      }
-      if (modalId === 'productModal') {
-        const session = getSession();
-        if (session && session.tel) {
-          document.getElementById('prodPhone').value = session.tel;
-        } else {
-          document.getElementById('prodPhone').value = '0796051492';
+            const isAdmin = email === 'iraharihubert250@gmail.com';
+            currentUser = { name, email, isAdmin };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            alert('Account created successfully!');
+            showSection('marketplace');
         }
-      }
-      originalOpenModal(modalId);
-    };
 
-    let checkoutTargetItem = null;
-    let checkoutTargetPrice = null;
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const isAdmin = email === 'iraharihubert250@gmail.com';
+            currentUser = { name: isAdmin ? 'IRAHARI Hubert' : 'Student User', email, isAdmin };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            alert('Logged in successfully!');
+            showSection('marketplace');
+        }
 
-    function openCheckout(itemName, price) {
-      checkoutTargetItem = itemName;
-      checkoutTargetPrice = price;
-      document.getElementById('modalItemTitle').innerText = "Order & Pay: " + itemName;
-      document.getElementById('modalItemPrice').innerText = "Amount: " + price;
-      openModal('checkoutModal');
-      wrapper.classList.remove('active');
-    }
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showSection('home');
+        }
 
-    function processPayment(e) {
-      e.preventDefault();
-      const phone = document.getElementById('momoNumber').value;
-      
-      const orders = getOrders();
-      const now = new Date();
-      const dateStr = now.toISOString().slice(0,10) + ' ' + now.toTimeString().slice(0,5);
-      const newOrder = {
-        orderId: 'ORD-' + Math.floor(10000 + Math.random() * 90000),
-        title: checkoutTargetItem,
-        price: checkoutTargetPrice,
-        momo: phone,
-        date: dateStr,
-        status: "Completed (Paid)"
-      };
-      orders.unshift(newOrder);
-      localStorage.setItem('hub_orders_list', JSON.stringify(orders));
+        function handleAddProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('prod-name').value;
+            const category = document.getElementById('prod-category').value;
+            const price = document.getElementById('prod-price').value;
 
-      alert(`Order processed successfully! Confirmation sent to ${phone}.`);
-      closeModal('checkoutModal');
-      document.getElementById('momoNumber').value = '';
-      renderOrdersTable();
-    }
+            products.push({ id: Date.now(), name, category, price });
+            localStorage.setItem('products', JSON.stringify(products));
+            document.getElementById('product-form').reset();
+            renderProducts();
+            alert('Listing published successfully!');
+        }
 
-    function processDonation() {
-      const amount = document.getElementById('donateAmount').value.trim();
-      const phone = document.getElementById('donatePhone').value.trim();
-      if (!amount || !phone) {
-        alert("Please fill in both the donation amount and your mobile money number.");
-        return;
-      }
-      alert(`Thank you so much for your donation of ${amount} from ${phone}! Your support helps keep Opportunity & Digital Hub running in Huye.`);
-      closeModal('donateModal');
-      document.getElementById('donateAmount').value = '';
-      document.getElementById('donatePhone').value = '';
-    }
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <div>
+                        <span class="badge">${p.category}</span>
+                        <h3>${p.name}</h3>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <p style="font-size: 1.1rem; font-weight: bold; color: var(--primary);">${p.price} RWF</p>
+                        <button class="btn" style="width: 100%; margin-top: 0.5rem;" onclick="alert('Contact seller at 0796051492')">Get Item</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-    function saveProduct(e) {
-      e.preventDefault();
-      const title = document.getElementById('prodTitle').value;
-      const price = document.getElementById('prodPrice').value;
-      const category = document.getElementById('prodCategorySelect').value;
-      const phone = document.getElementById('prodPhone').value;
-      const desc = document.getElementById('prodDesc').value;
-      const session = getSession();
-      const postedBy = session ? session.name : "Hubert";
+        function handleRequestSubmit(e) {
+            e.preventDefault();
+            const text = document.getElementById('req-text').value;
+            requests.push({ id: Date.now(), text });
+            localStorage.setItem('requests', JSON.stringify(requests));
+            document.getElementById('req-text').value = '';
+            renderRequests();
+        }
 
-      const products = getProducts();
-      products.push({ title, price, category, phone, desc, postedBy });
-      localStorage.setItem('hub_products', JSON.stringify(products));
+        function renderRequests() {
+            const list = document.getElementById('request-list');
+            list.innerHTML = requests.map(r => `
+                <div style="background: #fafafa; padding: 1rem; border-left: 4px solid var(--accent); margin-bottom: 0.5rem;">
+                    <p>${r.text}</p>
+                </div>
+            `).join('');
+        }
 
-      renderAllViews();
-      closeModal('productModal');
-      e.target.reset();
-      alert("Post added successfully with your WhatsApp contact number!");
-    }
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-product-table');
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.category}</td>
+                    <td>${p.price} RWF</td>
+                    <td><button class="btn btn-danger" onclick="deleteProduct(${p.id})">Delete</button></td>
+                </tr>
+            `).join('');
+        }
 
-    function deleteProduct(index) {
-      if (confirm("Are you sure you want to delete this listing?")) {
-        const products = getProducts();
-        products.splice(index, 1);
-        localStorage.setItem('hub_products', JSON.stringify(products));
-        renderAllViews();
-      }
-    }
+        function deleteProduct(id) {
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('products', JSON.stringify(products));
+            renderProducts();
+            renderAdminTable();
+        }
 
-    function deleteUser(index) {
-      const users = getUsers();
-      if (confirm(`Are you sure you want to remove user ${users[index].name}?`)) {
-        users.splice(index, 1);
-        localStorage.setItem('hub_users_list', JSON.stringify(users));
-        renderAdminTables();
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      getUsers();
-      updateAuthUI();
-      renderAllViews();
-    });
-  </script>
+        window.onload = renderUI;
+    </script>
 </body>
 </html>
