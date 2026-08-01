@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Opportunity & Digital Hub - Market</title>
+    <title>Opportunity & Digital Hub - Ultimate Professional Marketplace</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
-        /* Vibrant Modern Gradient Background */
         body { 
             background: linear-gradient(135deg, #f8fafc 0%, #ede9fe 50%, #fef3c7 100%);
             background-attachment: fixed;
@@ -17,60 +16,49 @@
             min-height: 100vh; 
         }
         
-        /* Navigation Bar */
-        nav { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25); }
-        nav h1 { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
-        nav .nav-links { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
-        nav .nav-links a, nav .nav-links span { color: #ede9fe; text-decoration: none; margin-left: 15px; font-size: 14px; font-weight: 600; transition: color 0.2s; cursor: pointer; }
+        nav { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25); flex-wrap: wrap; gap: 10px; }
+        nav h1 { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; cursor: pointer; }
+        nav .nav-links { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+        nav .nav-links a, nav .nav-links span { color: #ede9fe; text-decoration: none; margin-left: 12px; font-size: 14px; font-weight: 600; transition: color 0.2s; cursor: pointer; }
         nav .nav-links a:hover { color: #ffffff; text-decoration: underline; }
 
-        /* User Profile Pill */
         .user-pill { background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); }
 
-        /* Hero Section */
         .hero { background: linear-gradient(135deg, #4f46e5, #9333ea, #ec4899); color: white; text-align: center; padding: 60px 20px; box-shadow: 0 10px 30px rgba(147, 51, 234, 0.2); }
         .hero h2 { margin-bottom: 12px; font-size: 36px; font-weight: 900; letter-spacing: -0.5px; }
         .hero p { color: #f3e8ff; font-size: 17px; font-weight: 500; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
         
-        /* Search Bar */
-        .search-bar { display: flex; justify-content: center; margin-bottom: 0px; }
-        .search-bar input { padding: 16px 24px; width: 60%; max-width: 500px; background-color: rgba(255, 255, 255, 0.95); border: none; color: #1e293b; border-radius: 35px; outline: none; font-size: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); text-align: center; backdrop-filter: blur(8px); transition: all 0.3s ease; }
-        .search-bar input:focus { text-align: left; padding-left: 28px; background-color: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .search-bar { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+        .search-bar input { padding: 16px 24px; flex: 1; min-width: 240px; background-color: rgba(255, 255, 255, 0.95); border: none; color: #1e293b; border-radius: 35px; outline: none; font-size: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); backdrop-filter: blur(8px); }
+        .search-bar select { padding: 16px 18px; background-color: rgba(255, 255, 255, 0.95); border: none; color: #1e293b; border-radius: 35px; outline: none; font-size: 14px; font-weight: 700; box-shadow: 0 8px 25px rgba(0,0,0,0.15); cursor: pointer; }
 
-        /* Main Container */
         .container { max-width: 1050px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
         
-        /* Admin Panel positioned directly below Search/Hero area */
         .form-container { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 2px solid rgba(224, 231, 255, 0.8); border-radius: 24px; padding: 35px; box-shadow: 0 15px 35px rgba(99, 102, 241, 0.1); margin-bottom: 35px; display: none; }
-        .form-container.admin-visible { display: block; }
+        .form-container.active-panel { display: block; }
         
-        /* Stats Banner */
-        .stats-banner { display: flex; justify-content: space-around; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 2px solid rgba(224, 231, 255, 0.8); border-radius: 20px; padding: 22px; margin-bottom: 35px; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.08); text-align: center; }
+        .stats-banner { display: flex; justify-content: space-around; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 2px solid rgba(224, 231, 255, 0.8); border-radius: 20px; padding: 22px; margin-bottom: 35px; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.08); text-align: center; flex-wrap: wrap; gap: 15px; }
         .stat-item h4 { font-size: 26px; background: linear-gradient(135deg, #6366f1, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; margin-bottom: 4px; }
         .stat-item p { font-size: 12px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .section-title { font-size: 16px; background: linear-gradient(135deg, #4f46e5, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Category Filter Buttons with Vibrant Modern Colors */
-        .categories { display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; }
-        .cat-btn { background: rgba(255, 255, 255, 0.9); border: 2px solid transparent; color: #475569; padding: 10px 18px; border-radius: 25px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-        .cat-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-        
-        .cat-btn[data-filter="all"].active, .cat-btn[data-filter="all"]:hover { background: linear-gradient(135deg, #4f46e5, #6366f1); color: white; border-color: #4f46e5; }
-        .cat-btn[data-filter="Digital Services"].active, .cat-btn[data-filter="Digital Services"]:hover { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; border-color: #0ea5e9; }
-        .cat-btn[data-filter="Study Materials"].active, .cat-btn[data-filter="Study Materials"]:hover { background: linear-gradient(135deg, #10b981, #059669); color: white; border-color: #10b981; }
-        .cat-btn[data-filter="House for Rent"].active, .cat-btn[data-filter="House for Rent"]:hover { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-color: #f59e0b; }
-        .cat-btn[data-filter="Opportunities"].active, .cat-btn[data-filter="Opportunities"]:hover { background: linear-gradient(135deg, #ec4899, #be185d); color: white; border-color: #ec4899; }
+        .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 35px; }
+        .cat-card { background: rgba(255, 255, 255, 0.92); border: 2px solid rgba(224, 231, 255, 0.8); border-radius: 20px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.06); }
+        .cat-card:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgba(147, 51, 234, 0.15); border-color: #c084fc; background: #ffffff; }
+        .cat-card.active { background: linear-gradient(135deg, #4f46e5, #9333ea); color: white; border-color: #4f46e5; }
+        .cat-card.active h4 { color: white; }
+        .cat-card.active p { color: #f3e8ff; }
+        .cat-card h4 { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
+        .cat-card p { font-size: 12px; color: #64748b; font-weight: 600; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
         
-        /* Cards */
         .card { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .card:hover { transform: translateY(-6px); box-shadow: 0 16px 35px rgba(147, 51, 234, 0.15); border-color: #c084fc; }
         
         .card-img-preview { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 14px; border: 1px solid #e2e8f0; background: #f8fafc; }
-        
         .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         
         .card-category { display: inline-block; font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -79,62 +67,86 @@
         .card-category.house { background: #fef3c7; color: #d97706; }
         .card-category.opportunity { background: #fce7f3; color: #db2777; }
 
-        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; transition: color 0.2s; padding: 4px; display: none; }
-        .btn-delete.admin-visible { display: inline-block; }
+        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; transition: color 0.2s; padding: 4px; }
         .btn-delete:hover { color: #ef4444; }
         .card h3 { font-size: 18px; margin-bottom: 8px; color: #1e293b; font-weight: 800; }
         .card p { color: #64748b; font-size: 14px; margin-bottom: 14px; line-height: 1.5; }
-        .file-badge { display: inline-block; background: #f1f5f9; color: #334155; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 8px; margin-bottom: 14px; }
+        .file-badge { display: inline-block; background: #f1f5f9; color: #334155; font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 8px; margin-bottom: 10px; }
+        .seller-info { font-size: 12px; font-weight: 700; color: #4f46e5; margin-bottom: 6px; }
+        .faculty-badge { display: inline-block; font-size: 11px; font-weight: 800; background: #ede9fe; color: #6d28d9; padding: 3px 8px; border-radius: 6px; margin-bottom: 8px; }
+        .rating-stars { color: #f59e0b; font-size: 13px; font-weight: 800; margin-bottom: 12px; }
         .price { font-weight: 900; color: #059669; margin-bottom: 18px; font-size: 16px; }
         .card-actions { display: flex; gap: 8px; }
         .btn-view { flex: 1; text-align: center; padding: 12px; text-decoration: none; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; border: none; transition: all 0.2s; background: linear-gradient(135deg, #6366f1, #9333ea); color: #ffffff; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
         .btn-view:hover { opacity: 0.95; transform: translateY(-1px); }
 
-        /* Floating "Chat with Us" Corner Button */
-        .chat-float-btn { position: fixed; bottom: 25px; right: 25px; background: linear-gradient(135deg, #25d366, #128c7e); color: white; padding: 14px 24px; border-radius: 35px; font-weight: 800; font-size: 15px; text-decoration: none; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); display: flex; align-items: center; gap: 10px; z-index: 999; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .chat-float-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6); }
+        .chat-float-btn { position: fixed; bottom: 25px; right: 25px; background: linear-gradient(135deg, #25d366, #128c7e); color: white; padding: 14px 24px; border-radius: 35px; font-weight: 800; font-size: 15px; text-decoration: none; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); display: flex; align-items: center; gap: 10px; z-index: 999; transition: transform 0.3s ease; }
+        .chat-float-btn:hover { transform: translateY(-4px); }
 
-        /* Modal Popup Styles */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal { background: #ffffff; border-radius: 24px; max-width: 650px; width: 100%; padding: 35px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: translateY(20px); transition: transform 0.3s ease; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal { background: #ffffff; border-radius: 24px; max-width: 680px; width: 100%; padding: 35px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: translateY(20px); transition: transform 0.3s ease; position: relative; max-height: 90vh; overflow-y: auto; }
         .modal-overlay.active .modal { transform: translateY(0); }
         .modal-category { display: inline-block; background: #e0e7ff; color: #4f46e5; font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 8px; margin-bottom: 12px; text-transform: uppercase; }
         .modal h2 { font-size: 24px; color: #1e293b; margin-bottom: 12px; font-weight: 900; }
-        .modal p { color: #475569; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
-        .modal .price { font-size: 18px; margin-bottom: 24px; }
+        .modal p { color: #475569; font-size: 15px; line-height: 1.6; margin-bottom: 16px; }
+        .modal .price { font-size: 18px; margin-bottom: 20px; }
         
         .preview-container { margin-bottom: 20px; border: 2px solid #e2e8f0; border-radius: 16px; overflow: hidden; background: #f8fafc; text-align: center; padding: 10px; }
-        .preview-container img { max-width: 100%; max-height: 350px; object-fit: contain; border-radius: 12px; }
-        .preview-container iframe { width: 100%; height: 350px; border: none; border-radius: 12px; background: white; }
+        .preview-container img { max-width: 100%; max-height: 280px; object-fit: contain; border-radius: 12px; }
+        .preview-container iframe { width: 100%; height: 280px; border: none; border-radius: 12px; background: white; }
 
-        .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .messaging-box { margin-top: 20px; border-top: 2px solid #e2e8f0; padding-top: 15px; }
+        .chat-messages-scroll { max-height: 150px; overflow-y: auto; background: #f8fafc; border-radius: 12px; padding: 10px; margin-bottom: 10px; border: 1px solid #e2e8f0; }
+        .chat-bubble { font-size: 13px; margin-bottom: 8px; padding: 8px 12px; border-radius: 10px; max-width: 85%; line-height: 1.4; }
+        .chat-bubble.incoming { background: #e2e8f0; color: #1e293b; align-self: flex-start; }
+        .chat-bubble.outgoing { background: #6366f1; color: white; margin-left: auto; }
+        .chat-input-row { display: flex; gap: 8px; }
+        .chat-input-row input { flex: 1; padding: 10px 14px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 13px; outline: none; }
+        .btn-chat-send { background: #6366f1; color: white; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+
+        .reviews-section { margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .review-card { background: #f8fafc; padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; font-size: 13px; color: #334155; }
+        .review-card span { font-weight: 800; color: #4f46e5; }
+        .review-form { display: flex; gap: 8px; margin-top: 10px; }
+        .review-form select, .review-form input { padding: 8px 10px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; }
+        .review-form input { flex: 1; }
+        .btn-review-submit { background: #4f46e5; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+
+        .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
         .btn-whatsapp { flex: 1; background: linear-gradient(135deg, #25d366, #128c7e); color: white; text-align: center; padding: 14px; border-radius: 14px; text-decoration: none; font-weight: 800; font-size: 15px; transition: opacity 0.2s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
         .btn-whatsapp:hover { opacity: 0.95; }
         .btn-close { background-color: #f1f5f9; color: #475569; border: none; padding: 14px 24px; border-radius: 14px; font-weight: 800; cursor: pointer; transition: background 0.2s; }
         .btn-close:hover { background-color: #e2e8f0; }
 
-        /* Auth Form Elements inside Modal */
-        .auth-form-group { margin-bottom: 18px; text-align: left; }
+        .auth-form-group { margin-bottom: 16px; text-align: left; }
         .auth-form-group label { display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
-        .auth-form-group input { width: 100%; padding: 12px 16px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 15px; outline: none; transition: border-color 0.2s; }
-        .auth-form-group input:focus { border-color: #6366f1; }
-        .btn-auth-action { background: linear-gradient(135deg, #6366f1, #9333ea); color: white; border: none; width: 100%; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: opacity 0.2s; margin-top: 5px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
-        .btn-auth-action:hover { opacity: 0.95; }
+        .auth-form-group input, .auth-form-group select { width: 100%; padding: 12px 16px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 15px; outline: none; background: #fff; }
+        .btn-auth-action { background: linear-gradient(135deg, #6366f1, #9333ea); color: white; border: none; width: 100%; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 5px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
 
-        /* Form Inputs inside Admin Panel */
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: #1e293b; font-size: 14px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 15px; outline: none; background: #fff; transition: border-color 0.2s; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #6366f1; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 15px; outline: none; background: #fff; }
         .form-group textarea { resize: vertical; height: 110px; }
-        .file-upload-box { border: 2px dashed #a5b4fc; padding: 24px; text-align: center; border-radius: 14px; background: #f8fafc; cursor: pointer; transition: background 0.2s; }
-        .file-upload-box:hover { background: #f0f4f8; }
+        .file-upload-box { border: 2px dashed #a5b4fc; padding: 24px; text-align: center; border-radius: 14px; background: #f8fafc; cursor: pointer; }
         .file-upload-box input { display: none; }
-        .btn-submit { background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 16px 24px; font-size: 16px; font-weight: 800; border-radius: 14px; cursor: pointer; width: 100%; transition: opacity 0.2s; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3); }
-        .btn-submit:hover { opacity: 0.95; }
+        .btn-submit { background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 16px 24px; font-size: 16px; font-weight: 800; border-radius: 14px; cursor: pointer; width: 100%; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3); }
 
-        /* Professional Footer & Quick Links */
+        .dashboard-container { background: rgba(255, 255, 255, 0.95); border-radius: 24px; padding: 30px; box-shadow: 0 15px 35px rgba(99, 102, 241, 0.1); margin-bottom: 35px; display: none; }
+        .dashboard-container.active-panel { display: block; }
+        .admin-table-container { overflow-x: auto; margin-top: 15px; }
+        .admin-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .admin-table th, .admin-table td { padding: 12px 16px; text-align: left; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
+        .admin-table th { background: #f8fafc; font-weight: 800; color: #475569; }
+        .badge-role { background: #e0e7ff; color: #4f46e5; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+
+        .requests-section { background: rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 25px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08); border: 2px solid rgba(224, 231, 255, 0.8); }
+        .requests-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 15px; }
+        .request-card { background: white; padding: 16px; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .request-card h5 { font-size: 15px; color: #1e293b; margin-bottom: 6px; font-weight: 800; }
+        .request-card p { font-size: 13px; color: #64748b; margin-bottom: 10px; }
+        .request-card .req-meta { font-size: 11px; font-weight: 700; color: #6366f1; margin-bottom: 10px; }
+
         footer { background-color: #0f172a; color: #94a3b8; padding: 50px 20px 35px; margin-top: 70px; font-size: 14px; border-top: 1px solid #1e293b; }
         .footer-content { max-width: 1050px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 35px; margin-bottom: 35px; }
         .footer-section h4 { color: #ffffff; font-size: 16px; margin-bottom: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -149,42 +161,100 @@
 </head>
 <body>
 
-    <!-- Floating "Chat with Us" Corner Button -->
-    <a href="https://wa.me/250783230084?text=Hello%20Opportunity%20%26%20Digital%20Hub%2C%20I%20would%20like%20to%20chat%20with%20you." target="_blank" class="chat-float-btn">
+    <!-- Floating Chat Button -->
+    <a href="https://wa.me/250783230084?text=Hello%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="chat-float-btn">
         💬 Chat with Us
     </a>
 
     <!-- Navigation Bar -->
     <nav>
-        <h1>Opportunity & Digital Hub</h1>
+        <h1 onclick="resetHomeView()">Opportunity & Digital Hub</h1>
         <div class="nav-links">
             <span id="userStatusNav"></span>
-            <a href="#">Home</a>
-            <a id="authNavBtn" onclick="openAuthModal()">👤 Account / Login</a>
-            <a id="adminNavBtn" onclick="toggleAdminLogin()">🔐 Admin Login</a>
+            <a onclick="resetHomeView()">Home</a>
+            <a onclick="openAboutModal()">ℹ️ About Us</a>
+            <a onclick="openDonateModal()">❤️ Donate (0796051492)</a>
+            <a id="myDashboardNavBtn" onclick="toggleUserDashboard()" style="display:none;">📂 My Storefront</a>
+            <a id="postNavBtn" onclick="openPostModal()" style="display:none;">📦 Post Product</a>
+            <a id="adminDashboardBtn" onclick="toggleAdminDashboard()" style="display:none;">⚙️ Admin Panel</a>
+            <a id="authNavBtn" onclick="openAuthModal('login')">👤 Account / Login</a>
             <a href="https://chat.whatsapp.com/E4wIwA477OjHOMJuA824hD?s=sh&p=a&ilr=0" target="_blank">WhatsApp Channel</a>
         </div>
     </nav>
 
-    <!-- Header Search Area -->
+    <!-- Header Search & Advanced Filters Area -->
     <div class="hero">
-        <h2>Online Student & Housing Market</h2>
-        <p>Explore study materials, digital services, housing in Huye, and career opportunities easily.</p>
+        <h2>Ultimate Professional Marketplace</h2>
+        <p>Explore verified study materials, digital services, housing in Huye, and career opportunities.</p>
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search products, study materials, or houses in Huye...">
+            <input type="text" id="searchInput" placeholder="Search products, notes, or housing...">
+            <select id="facultyFilter">
+                <option value="all">All Faculties / Departments</option>
+                <option value="School of Medicine and Pharmacy">Medicine & Pharmacy</option>
+                <option value="School of ICT & Computing">ICT & Computing</option>
+                <option value="Business & Economics">Business & Economics</option>
+                <option value="General Campus">General Campus</option>
+            </select>
+            <select id="priceFilter">
+                <option value="all">All Prices / Free</option>
+                <option value="free">Free Only</option>
+                <option value="under2000">Under RWF 2,000</option>
+            </select>
+            <select id="sortSelect">
+                <option value="newest">Sort: Newest First</option>
+                <option value="priceLow">Price: Low to High</option>
+                <option value="rating">Top Rated ⭐</option>
+            </select>
         </div>
     </div>
 
     <!-- Main Container -->
     <div class="container">
 
-        <!-- Admin Marketplace Upload Panel (Positioned immediately below Search/Hero area when logged in) -->
+        <!-- User Dashboard (My Listings Manager) -->
+        <div id="userDashboardSection" class="dashboard-container">
+            <div class="section-header">
+                <h3 class="section-title">My Storefront & Uploaded Listings</h3>
+                <button class="btn-close" onclick="toggleUserDashboard()">Close</button>
+            </div>
+            <p id="sellerCategoryRestrictionNote" style="font-size:14px; color:#4f46e5; font-weight:700; margin-bottom:20px;"></p>
+            <div class="grid" id="myListingsGrid"></div>
+        </div>
+
+        <!-- Admin Management Dashboard -->
+        <div id="adminDashboardSection" class="dashboard-container">
+            <div class="section-header">
+                <h3 class="section-title">Admin Management Control Center</h3>
+                <button class="btn-close" onclick="toggleAdminDashboard()">Close</button>
+            </div>
+            <h4 style="font-size:15px; margin-bottom:10px; color:#1e293b; font-weight:800;">Registered Platform Users & Selling Categories</h4>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email Address</th>
+                            <th>Selling Category</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Product Upload Panel -->
         <div id="post-section" class="form-container">
-            <h3 class="section-title" style="margin-bottom: 20px;">Admin Marketplace Upload Panel</h3>
-            <form id="itemForm">
+            <div class="section-header">
+                <h3 class="section-title">Publish Your Listing / Product</h3>
+                <button class="btn-close" onclick="closePostModal()">Cancel</button>
+            </div>
+            <p id="postCategoryWarning" style="font-size:13px; color:#6366f1; font-weight:700; margin-bottom:15px;"></p>
+            <form id="itemForm" onsubmit="handlePublish(event)">
                 <div class="form-group">
-                    <label for="category">Category</label>
-                    <select id="category" required>
+                    <label for="category">Category (Locked to your registered selling category)</label>
+                    <select id="category" required disabled style="background:#f1f5f9; cursor:not-allowed;">
                         <option value="Digital Services">Digital Services</option>
                         <option value="Study Materials">Study Materials</option>
                         <option value="House for Rent">House for Rent</option>
@@ -192,25 +262,34 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="title">Title (e.g., Chemistry Lecture Notes or Modern House in Huye)</label>
+                    <label for="faculty">Faculty / Department</label>
+                    <select id="faculty" required>
+                        <option value="School of Medicine and Pharmacy">School of Medicine and Pharmacy</option>
+                        <option value="School of ICT & Computing">School of ICT & Computing</option>
+                        <option value="Business & Economics">Business & Economics</option>
+                        <option value="General Campus">General Campus</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title (e.g., Chemistry Notes or House in Huye)</label>
                     <input type="text" id="title" placeholder="Enter title..." required>
                 </div>
                 <div class="form-group">
-                    <label for="price">Price (e.g., RWF 1,500 or Free)</label>
-                    <input type="text" id="price" placeholder="Enter price (type 'Free' for zero cost)..." required>
+                    <label for="numericPrice">Numeric Price in RWF (e.g., 1500 or 0 for Free)</label>
+                    <input type="number" id="numericPrice" placeholder="Enter price in numbers..." required>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea id="description" placeholder="Provide details about this listing or file..." required></textarea>
+                    <textarea id="description" placeholder="Describe your product or service..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Upload File / Image (Preview Only for Opportunities & Digital Services)</label>
+                    <label>Upload File / Image</label>
                     <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
                         <p id="fileLabel">📁 Click here to select file or image from your device</p>
                         <input type="file" id="fileInput">
                     </div>
                 </div>
-                <button type="button" class="btn-submit" onclick="handleDirectPublish()">Publish to Online Market</button>
+                <button type="submit" class="btn-submit">Publish Listing</button>
             </form>
         </div>
 
@@ -230,40 +309,983 @@
             </div>
         </div>
 
+        <!-- Buyer Requests Board Section -->
+        <div class="requests-section">
+            <div class="section-header" style="margin-bottom:12px;">
+                <h3 class="section-title">"Request a Note / Service" Board</h3>
+                <button class="btn-view" style="flex:unset; padding:8px 16px; font-size:12px;" onclick="openRequestModal()">+ Post a Request</button>
+            </div>
+            <p style="font-size:13px; color:#64748b;">Looking for specific past papers, housing, or notes? Post your request here for student sellers to fulfill.</p>
+            <div class="requests-grid" id="requestsGrid"></div>
+        </div>
+
         <div class="section-header">
-            <h3 class="section-title">Marketplace Listings & Study Materials</h3>
+            <h3 class="section-title" id="marketHeaderTitle">Marketplace Categories & Products</h3>
         </div>
         
-        <!-- Category Filter Buttons -->
-        <div class="categories">
-            <button class="cat-btn active" data-filter="all">All Listings</button>
-            <button class="cat-btn" data-filter="Digital Services">Digital Services</button>
-            <button class="cat-btn" data-filter="Study Materials">Study Materials</button>
-            <button class="cat-btn" data-filter="House for Rent">House for Rent</button>
-            <button class="cat-btn" data-filter="Opportunities">Opportunities</button>
+        <!-- Interactive Category Cards (Click to explore category items directly) -->
+        <div class="categories" id="categoryCardsContainer">
+            <div class="cat-card active" data-filter="all" onclick="filterByCategory('all')">
+                <h4>📂 All Listings</h4>
+                <p id="countAll">0 items</p>
+            </div>
+            <div class="cat-card" data-filter="Digital Services" onclick="filterByCategory('Digital Services')">
+                <h4>💻 Digital Services</h4>
+                <p id="countDigital">0 items</p>
+            </div>
+            <div class="cat-card" data-filter="Study Materials" onclick="filterByCategory('Study Materials')">
+                <h4>📚 Study Materials</h4>
+                <p id="countStudy">0 items</p>
+            </div>
+            <div class="cat-card" data-filter="House for Rent" onclick="filterByCategory('House for Rent')">
+                <h4>🏠 House for Rent</h4>
+                <p id="countHouse">0 items</p>
+            </div>
+            <div class="cat-card" data-filter="Opportunities" onclick="filterByCategory('Opportunities')">
+                <h4>🚀 Opportunities</h4>
+                <p id="countOpportunity">0 items</p>
+            </div>
         </div>
 
-        <div class="grid" id="productGrid">
-            <!-- Dynamic items load here -->
-        </div>
+        <div class="grid" id="productGrid"></div>
     </div>
 
-    <!-- Detail Modal Popup -->
+    <!-- Detail Modal Popup with In-App Messaging & Reviews -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal">
             <span class="modal-category" id="modalCategory">Category</span>
+            <div id="modalFacultyBadge" class="faculty-badge" style="display:inline-block; margin-left:8px;">Faculty</div>
             <h2 id="modalTitle">Listing Title</h2>
-            
             <div id="modalPreviewContainer" class="preview-container" style="display: none;"></div>
-
             <p id="modalDescription">Detailed description goes here...</p>
+            <div id="modalSeller" class="seller-info">Seller: Name</div>
+            <div class="rating-stars" id="modalRatingStars">⭐⭐⭐⭐⭐ (0 reviews)</div>
             <div class="price" id="modalPrice">RWF 0</div>
             
-            <div class="modal-actions" id="modalActionsContainer">
-                <!-- Injected dynamically based on category rules -->
+            <!-- In-App Messaging Hub -->
+            <div class="messaging-box">
+                <h4 style="font-size:14px; font-weight:800; color:#1e293b; margin-bottom:8px;">In-App Direct Chat Inbox 💬</h4>
+                <div class="chat-messages-scroll" id="chatMessagesScroll"></div>
+                <div class="chat-input-row">
+                    <input type="text" id="chatMessageInput" placeholder="Type direct message to seller...">
+                    <button class="btn-chat-send" onclick="sendInAppMessage()">Send</button>
+                </div>
+            </div>
+
+            <!-- Review Section -->
+            <div class="reviews-section">
+                <h4 style="font-size:14px; font-weight:800; color:#1e293b; margin-bottom:8px;">Student Reviews & Feedback</h4>
+                <div id="modalReviewsList" style="max-height: 120px; overflow-y: auto; margin-bottom: 10px;"></div>
+                <div class="review-form">
+                    <select id="reviewRating">
+                        <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                        <option value="4">4 ⭐⭐⭐⭐</option>
+                        <option value="3">3 ⭐⭐⭐</option>
+                        <option value="2">2 ⭐⭐</option>
+                        <option value="1">1 ⭐</option>
+                    </select>
+                    <input type="text" id="reviewComment" placeholder="Leave your review...">
+                    <button class="btn-review-submit" onclick="submitReview()">Post</button>
+                </div>
+            </div>
+
+            <div class="modal-actions" id="modalActionsContainer"></div>
+        </div>
+    </div>
+
+    <!-- About Us Modal -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal" style="max-width: 550px;">
+            <span class="modal-category">About Our Platform</span>
+            <h2>Opportunity & Digital Hub</h2>
+            <p style="font-size:14px; line-height: 1.7; color:#334155;">
+                Welcome to <strong>Opportunity & Digital Hub</strong>, an advanced academic and peer-to-peer marketplace founded by visionary leader <strong>Hubert IRAHARI</strong> (School of Medicine and Pharmacy, University of Rwanda - Reg No: 225057559).
+            </p>
+            <p style="font-size:14px; line-height: 1.7; color:#334155;">
+                Our core mission is to empower student academic excellence, improve access to verified study past papers, streamline housing solutions in Huye, and bridge the gap for digital services and career opportunities across Rwanda.
+            </p>
+            <div style="margin-top:20px; text-align:right;">
+                <button class="btn-close" onclick="closeAboutModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donate Modal -->
+    <div class="modal-overlay" id="donateModal">
+        <div class="modal" style="max-width: 480px; text-align: center;">
+            <span class="modal-category" style="background:#fce7f3; color:#db2777;">Support Our Mission</span>
+            <h2 style="font-size: 22px; margin-bottom: 15px;">Support Opportunity & Digital Hub ❤️</h2>
+            <p style="font-size: 14px; color:#475569; margin-bottom: 20px; line-height: 1.6;">
+                Your generous contribution helps us maintain servers, expand student digital tools, and distribute free educational resources across Rwanda.
+            </p>
+            <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 20px; margin-bottom: 20px;">
+                <p style="font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px;">Mobile Money / Donation Number</p>
+                <h3 style="font-size: 24px; color: #059669; font-weight: 900; letter-spacing: 1px;">0796051492</h3>
+                <p style="font-size: 12px; color: #64748b; margin-top: 6px;">Account Name: Hubert IRAHARI</p>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <a href="tel:0796051492" class="btn-whatsapp" style="background:linear-gradient(135deg, #10b981, #059669); text-decoration:none;">Call to Donate</a>
+                <button class="btn-close" onclick="closeDonateModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Request Modal -->
+    <div class="modal-overlay" id="requestModal">
+        <div class="modal" style="max-width: 450px;">
+            <h2 style="font-size:20px; margin-bottom:12px;">Post a Buyer Request</h2>
+            <p style="font-size:13px; color:#64748b; margin-bottom:15px;">Tell the community what study material or service you are searching for.</p>
+            <div class="auth-form-group">
+                <label>Request Title (e.g., Need Histology Notes)</label>
+                <input type="text" id="reqTitleInput" placeholder="What are you looking for?">
+            </div>
+            <div class="auth-form-group">
+                <label>Faculty / Department</label>
+                <select id="reqFacultyInput">
+                    <option value="School of Medicine and Pharmacy">School of Medicine and Pharmacy</option>
+                    <option value="School of ICT & Computing">School of ICT & Computing</option>
+                    <option value="Business & Economics">Business & Economics</option>
+                    <option value="General Campus">General Campus</option>
+                </select>
+            </div>
+            <div class="auth-form-group">
+                <label>Detailed Description & Contact Info</label>
+                <textarea id="reqDescInput" placeholder="Describe specifics and how to reach you..." style="width:100%; padding:12px; border:2px solid #cbd5e1; border-radius:12px; height:90px; outline:none;"></textarea>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button class="btn-auth-action" onclick="submitBuyerRequest()">Submit Request</button>
+                <button class="btn-close" onclick="closeRequestModal()">Cancel</button>
             </div>
         </div>
     </div>
 
     <!-- Auth / Account Modal Popup -->
-    <div class="modal-over
+    <div class="modal-overlay" id="authModal">
+        <div class="modal" style="max-width: 420px; text-align: center;">
+            <span class="modal-category" id="authModalCategory">User Account</span>
+            <h2 id="authModalTitle" style="font-size: 20px; margin-bottom: 15px;">Sign In to Your Account</h2>
+            <div id="authContentContainer"></div>
+            <div style="margin-top: 20px;">
+                <button class="btn-close" onclick="closeAuthModal()" style="width: 100%;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Opportunity & Digital Hub</h4>
+                <p>Your ultimate marketplace for student services, study materials, housing in Huye, and career opportunities.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a onclick="resetHomeView()">Home</a></li>
+                    <li><a onclick="openAboutModal()">About Us</a></li>
+                    <li><a onclick="openDonateModal()">Donate (0796051492)</a></li>
+                    <li><a href="https://chat.whatsapp.com/E4wIwA477OjHOMJuA824hD?s=sh&p=a&ilr=0" target="_blank">WhatsApp Channel</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li>📱 Phones: 0783230084 / 0791245403 / 0796051492</li>
+                    <li>💬 WhatsApp: <a href="https://wa.me/250783230084?text=Hello%20Opportunity%20Hub" target="_blank">0783230084</a></li>
+                    <li>📢 Channel: <a href="https://chat.whatsapp.com/E4wIwA477OjHOMJuA824hD?s=sh&p=a&ilr=0" target="_blank">WhatsApp Channel</a></li>
+                    <li>✉️ Email: <a href="mailto:iraharihubert250@gmail.com">iraharihubert250@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Opportunity & Digital Hub. All rights reserved.</p>
+            <p class="footer-sub">Empowering student applications, digital services, housing, and peer opportunities.</p>
+            <p class="developer-tag">Developed by Hubert IRAHARI</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const productGrid = document.getElementById('productGrid');
+        const myListingsGrid = document.getElementById('myListingsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const facultyFilter = document.getElementById('facultyFilter');
+        const priceFilter = document.getElementById('priceFilter');
+        const sortSelect = document.getElementById('sortSelect');
+        const categoryCards = document.querySelectorAll('.cat-card');
+        const fileInput = document.getElementById('fileInput');
+        const fileLabel = document.getElementById('fileLabel');
+        
+        const postSection = document.getElementById('post-section');
+        const postNavBtn = document.getElementById('postNavBtn');
+        const myDashboardNavBtn = document.getElementById('myDashboardNavBtn');
+        const userDashboardSection = document.getElementById('userDashboardSection');
+        const adminDashboardBtn = document.getElementById('adminDashboardBtn');
+        const adminDashboardSection = document.getElementById('adminDashboardSection');
+        const authNavBtn = document.getElementById('authNavBtn');
+        const userStatusNav = document.getElementById('userStatusNav');
+        
+        const totalCountEl = document.getElementById('totalCount');
+        const digitalCountEl = document.getElementById('digitalCount');
+        const studyCountEl = document.getElementById('studyCount');
+        const marketHeaderTitle = document.getElementById('marketHeaderTitle');
+
+        const countAll = document.getElementById('countAll');
+        const countDigital = document.getElementById('countDigital');
+        const countStudy = document.getElementById('countStudy');
+        const countHouse = document.getElementById('countHouse');
+        const countOpportunity = document.getElementById('countOpportunity');
+
+        const detailModal = document.getElementById('detailModal');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalFacultyBadge = document.getElementById('modalFacultyBadge');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalSeller = document.getElementById('modalSeller');
+        const modalRatingStars = document.getElementById('modalRatingStars');
+        const modalReviewsList = document.getElementById('modalReviewsList');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalActionsContainer = document.getElementById('modalActionsContainer');
+        const modalPreviewContainer = document.getElementById('modalPreviewContainer');
+        const chatMessagesScroll = document.getElementById('chatMessagesScroll');
+
+        const authModal = document.getElementById('authModal');
+        const authContentContainer = document.getElementById('authContentContainer');
+        const authModalTitle = document.getElementById('authModalTitle');
+
+        const aboutModal = document.getElementById('aboutModal');
+        const donateModal = document.getElementById('donateModal');
+        const requestModal = document.getElementById('requestModal');
+        requestsGrid = document.getElementById('requestsGrid');
+
+        let currentFilter = 'all';
+        let uploadedFiledata = null;
+        let uploadedFileName = "";
+        let activeModalItemIndex = null;
+        
+        let currentUser = JSON.parse(localStorage.getItem('hubCurrentUser')) || null;
+        let users = JSON.parse(localStorage.getItem('hubUsers')) || [
+            { name: "Hubert IRAHARI", email: "iraharihubert250@gmail.com", whatsapp: "0783230084", password: "Hub2026Admin", sellCategory: "Study Materials", role: "admin" }
+        ];
+
+        let adminUser = users.find(u => u.role === 'admin');
+        if (adminUser) {
+            adminUser.email = "iraharihubert250@gmail.com";
+            adminUser.sellCategory = "Study Materials";
+        } else {
+            users.push({ name: "Hubert IRAHARI", email: "iraharihubert250@gmail.com", whatsapp: "0783230084", password: "Hub2026Admin", sellCategory: "Study Materials", role: "admin" });
+        }
+
+        let buyerRequests = JSON.parse(localStorage.getItem('hubBuyerRequests')) || [
+            {
+                title: "Looking for Anatomy CAT Past Papers",
+                faculty: "School of Medicine and Pharmacy",
+                description: "Urgent! Need histology and anatomy review past papers. Contact via WhatsApp 0783230084.",
+                author: "Jean Paul",
+                timestamp: Date.now() - 40000
+            }
+        ];
+
+        let listings = JSON.parse(localStorage.getItem('hubListings')) || [
+            {
+                category: "Study Materials",
+                faculty: "School of Medicine and Pharmacy",
+                title: "Advanced Chemistry & Thermodynamics Notes",
+                numericPrice: 1500,
+                price: "RWF 1,500",
+                description: "Comprehensive lecture notes covering core chemistry, reaction kinetics, and thermodynamics principles.",
+                fileName: "Chemistry_Notes.pdf",
+                fileData: null,
+                sellerName: "Hubert IRAHARI",
+                sellerEmail: "iraharihubert250@gmail.com",
+                sellerWhatsapp: "0783230084",
+                timestamp: Date.now() - 100000,
+                reviews: [{ user: "Jean Paul", rating: 5, comment: "Very helpful notes for exams!" }],
+                chatMessages: [{ sender: "Jean Paul", text: "Is this still available for download?" }, { sender: "Hubert IRAHARI", text: "Yes, instant download is active!" }]
+            },
+            {
+                category: "House for Rent",
+                faculty: "General Campus",
+                title: "Modern Student House in Huye (Near Campus)",
+                numericPrice: 45000,
+                price: "RWF 45,000 / month",
+                description: "Clean, secure, and spacious rooms available for rent in Huye with reliable water and electricity.",
+                fileName: "",
+                fileData: null,
+                sellerName: "Hubert IRAHARI",
+                sellerEmail: "iraharihubert250@gmail.com",
+                sellerWhatsapp: "0783230084",
+                timestamp: Date.now() - 50000,
+                reviews: [{ user: "Alice", rating: 5, comment: "Quiet place and close to University." }],
+                chatMessages: []
+            }
+        ];
+
+        function saveData() {
+            localStorage.setItem('hubListings', JSON.stringify(listings));
+            localStorage.setItem('hubUsers', JSON.stringify(users));
+            localStorage.setItem('hubBuyerRequests', JSON.stringify(buyerRequests));
+        }
+
+        function updateNavbar() {
+            if (currentUser) {
+                userStatusNav.innerHTML = `<span class="user-pill">👤 ${currentUser.name} (${currentUser.sellCategory || currentUser.role})</span>`;
+                authNavBtn.textContent = "Logout";
+                postNavBtn.style.display = "inline-block";
+                myDashboardNavBtn.style.display = "inline-block";
+                if (currentUser.role === 'admin') {
+                    adminDashboardBtn.style.display = "inline-block";
+                } else {
+                    adminDashboardBtn.style.display = "none";
+                }
+            } else {
+                userStatusNav.innerHTML = "";
+                authNavBtn.textContent = "👤 Account / Login";
+                postNavBtn.style.display = "none";
+                myDashboardNavBtn.style.display = "none";
+                adminDashboardBtn.style.display = "none";
+                adminDashboardSection.classList.remove('active-panel');
+                userDashboardSection.classList.remove('active-panel');
+                postSection.classList.remove('active-panel');
+            }
+        }
+        updateNavbar();
+
+        window.resetHomeView = function() {
+            currentFilter = 'all';
+            categoryCards.forEach(c => {
+                if(c.getAttribute('data-filter') === 'all') c.classList.add('active');
+                else c.classList.remove('active');
+            });
+            postSection.classList.remove('active-panel');
+            userDashboardSection.classList.remove('active-panel');
+            adminDashboardSection.classList.remove('active-panel');
+            renderListings();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.openAboutModal = function() { aboutModal.classList.add('active'); }
+        window.closeAboutModal = function() { aboutModal.classList.remove('active'); }
+
+        window.openDonateModal = function() { donateModal.classList.add('active'); }
+        window.closeDonateModal = function() { donateModal.classList.remove('active'); }
+
+        window.openAuthModal = function(view = 'login') {
+            if (currentUser) {
+                if (confirm(`Logged in as ${currentUser.email}. Do you want to log out?`)) {
+                    localStorage.removeItem('hubCurrentUser');
+                    currentUser = null;
+                    updateNavbar();
+                    renderListings();
+                    alert("Logged out successfully.");
+                }
+                return;
+            }
+
+            authModal.classList.add('active');
+            if (view === 'login') {
+                authModalTitle.textContent = "Sign In to Your Account";
+                authContentContainer.innerHTML = `
+                    <div class="auth-form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="Enter valid email (e.g. user@example.com)..." required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password..." required>
+                    </div>
+                    <button class="btn-auth-action" onclick="handleLogin()">Sign In</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:13px;">
+                        <a href="#" onclick="openAuthModal('forgot')" style="color:#6366f1; font-weight:700; text-decoration:none;">Lost Password? 🔑</a>
+                        <a href="#" onclick="openAuthModal('register')" style="color:#6366f1; font-weight:700; text-decoration:none;">Create Account</a>
+                    </div>
+                `;
+            } else if (view === 'register') {
+                authModalTitle.textContent = "Create New Account & Select Selling Category";
+                authContentContainer.innerHTML = `
+                    <div class="auth-form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="regName" placeholder="Enter full name..." required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Valid Email Address</label>
+                        <input type="email" id="regEmail" placeholder="Enter active valid email..." required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>WhatsApp Number</label>
+                        <input type="text" id="regWhatsapp" placeholder="e.g., 0783230084" required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Category You Want to Sell In (Restricted to this category)</label>
+                        <select id="regSellCategory" required>
+                            <option value="Digital Services">Digital Services</option>
+                            <option value="Study Materials">Study Materials</option>
+                            <option value="House for Rent">House for Rent</option>
+                            <option value="Opportunities">Opportunities</option>
+                        </select>
+                    </div>
+                    <div class="auth-form-group">
+                        <label>Password</label>
+                        <input type="password" id="regPassword" placeholder="Create secure password..." required>
+                    </div>
+                    <button class="btn-auth-action" onclick="handleRegister()">Register Account</button>
+                    <p style="font-size:13px; margin-top:12px; color:#64748b;">Already have an account? <a href="#" onclick="openAuthModal('login')" style="color:#6366f1; font-weight:700; text-decoration:none;">Sign In</a></p>
+                `;
+            } else if (view === 'forgot') {
+                authModalTitle.textContent = "Reset Password 🔑";
+                authContentContainer.innerHTML = `
+                    <p style="font-size:13px; color:#64748b; margin-bottom:15px;">Enter your valid registered email address or WhatsApp number to receive your secure reset link.</p>
+                    <div class="auth-form-group">
+                        <label>Valid Email or WhatsApp Number</label>
+                        <input type="text" id="resetContact" placeholder="Enter valid email or WhatsApp..." required>
+                    </div>
+                    <button class="btn-auth-action" onclick="handlePasswordReset()">Send Reset Link</button>
+                    <p style="font-size:13px; margin-top:12px;"><a href="#" onclick="openAuthModal('login')" style="color:#6366f1; font-weight:700; text-decoration:none;">Back to Sign In</a></p>
+                `;
+            }
+        }
+
+        window.closeAuthModal = function() { authModal.classList.remove('active'); }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        window.handleRegister = function() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const whatsapp = document.getElementById('regWhatsapp').value.trim();
+            const sellCategory = document.getElementById('regSellCategory').value;
+            const password = document.getElementById('regPassword').value.trim();
+
+            if (!name || !email || !whatsapp || !password) {
+                alert("Please fill in all essential registration details.");
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert("Please provide a valid email address (e.g., name@domain.com).");
+                return;
+            }
+
+            if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+                alert("An account with this email already exists!");
+                return;
+            }
+
+            let role = (email.toLowerCase() === "iraharihubert250@gmail.com") ? "admin" : "user";
+
+            const newUser = { name, email, whatsapp, sellCategory, password, role };
+            users.push(newUser);
+            currentUser = newUser;
+            localStorage.setItem('hubCurrentUser', JSON.stringify(currentUser));
+            saveData();
+            updateNavbar();
+            closeAuthModal();
+            renderListings();
+            alert(`Account registered successfully! You are registered to sell in: ${sellCategory}.`);
+        }
+
+        window.handleLogin = function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!email || !password) {
+                alert("Please enter both email and password.");
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert("Please provide a valid email address format.");
+                return;
+            }
+
+            const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+            if (foundUser) {
+                currentUser = foundUser;
+                localStorage.setItem('hubCurrentUser', JSON.stringify(currentUser));
+                updateNavbar();
+                closeAuthModal();
+                renderListings();
+                alert(`Welcome back, ${foundUser.name}! Selling category: ${foundUser.sellCategory || 'All'}`);
+            } else {
+                alert("Invalid email or password!");
+            }
+        }
+
+        window.handlePasswordReset = function() {
+            const contact = document.getElementById('resetContact').value.trim();
+            if (!contact) {
+                alert("Please provide your valid email or WhatsApp number.");
+                return;
+            }
+            const found = users.find(u => u.email.toLowerCase() === contact.toLowerCase() || u.whatsapp === contact);
+            if (found) {
+                alert(`SUCCESS! A password reset link has been dispatched to your email (${found.email}) and WhatsApp (${found.whatsapp}).`);
+                closeAuthModal();
+            } else {
+                alert("Account not found with this contact detail.");
+            }
+        }
+
+        window.openPostModal = function() {
+            if (!currentUser) {
+                alert("Please sign in to sell products.");
+                openAuthModal('login');
+                return;
+            }
+            
+            const catSelect = document.getElementById('category');
+            catSelect.value = currentUser.sellCategory;
+            document.getElementById('postCategoryWarning').textContent = `🔒 You are restricted to post items exclusively in your registered selling category: ${currentUser.sellCategory}`;
+
+            postSection.classList.add('active-panel');
+            userDashboardSection.classList.remove('active-panel');
+            adminDashboardSection.classList.remove('active-panel');
+            window.location.hash = "#post-section";
+        }
+
+        window.closePostModal = function() { postSection.classList.remove('active-panel'); }
+
+        window.toggleUserDashboard = function() {
+            userDashboardSection.classList.toggle('active-panel');
+            postSection.classList.remove('active-panel');
+            adminDashboardSection.classList.remove('active-panel');
+            if (userDashboardSection.classList.contains('active-panel')) {
+                document.getElementById('sellerCategoryRestrictionNote').textContent = `👤 Storefront Category Restriction: You are authorized to sell and post exclusively in '${currentUser.sellCategory}'. You can view and buy all products across the marketplace.`;
+                renderMyListings();
+                window.location.hash = "#userDashboardSection";
+            }
+        }
+
+        window.toggleAdminDashboard = function() {
+            if (!currentUser || currentUser.role !== 'admin') return;
+            adminDashboardSection.classList.toggle('active-panel');
+            postSection.classList.remove('active-panel');
+            userDashboardSection.classList.remove('active-panel');
+            if (adminDashboardSection.classList.contains('active-panel')) {
+                renderAdminUsersTable();
+                window.location.hash = "#adminDashboardSection";
+            }
+        }
+
+        function renderAdminUsersTable() {
+            const tbody = document.getElementById('adminUsersTableBody');
+            tbody.innerHTML = '';
+            users.forEach((u, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${u.name}</strong></td>
+                    <td>${u.email}</td>
+                    <td><span style="font-weight:700; color:#4f46e5;">${u.sellCategory || 'N/A'}</span></td>
+                    <td><span class="badge-role">${u.role}</span></td>
+                    <td>${u.email !== 'iraharihubert250@gmail.com' ? `<button class="btn-delete" onclick="deleteUser(${idx})">🗑️</button>` : 'Protected Admin'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.deleteUser = function(index) {
+            if (confirm(`Remove user ${users[index].name}?`)) {
+                users.splice(index, 1);
+                saveData();
+                renderAdminUsersTable();
+            }
+        }
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                uploadedFileName = file.name;
+                fileLabel.textContent = `📎 Selected: ${file.name}`;
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    uploadedFiledata = uploadEvent.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        window.handlePublish = function(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const category = currentUser.sellCategory;
+            const faculty = document.getElementById('faculty').value;
+            const title = document.getElementById('title').value.trim();
+            const numericPrice = parseFloat(document.getElementById('numericPrice').value) || 0;
+            const price = numericPrice === 0 ? "Free" : `RWF ${numericPrice.toLocaleString()}`;
+            const description = document.getElementById('description').value.trim();
+
+            if (!title || !description) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            const newItem = {
+                category,
+                faculty,
+                title,
+                numericPrice,
+                price,
+                description,
+                fileName: uploadedFileName || "Resource_File.pdf",
+                fileData: uploadedFiledata,
+                sellerName: currentUser.name,
+                sellerEmail: currentUser.email,
+                sellerWhatsapp: currentUser.whatsapp || "0783230084",
+                timestamp: Date.now(),
+                reviews: [],
+                chatMessages: []
+            };
+
+            listings.unshift(newItem);
+            saveData();
+            renderListings();
+
+            document.getElementById('itemForm').reset();
+            uploadedFiledata = null;
+            uploadedFileName = "";
+            fileLabel.textContent = "📁 Click here to select file or image from your device";
+            closePostModal();
+            alert(`Listing successfully published under your category: ${category}!`);
+        }
+
+        window.deleteItem = function(index) {
+            if (!currentUser || (currentUser.role !== 'admin' && currentUser.email !== listings[index].sellerEmail)) {
+                alert("Unauthorized action!");
+                return;
+            }
+            if (confirm("Delete this listing?")) {
+                listings.splice(index, 1);
+                saveData();
+                renderListings();
+                if (userDashboardSection.classList.contains('active-panel')) renderMyListings();
+            }
+        }
+
+        function getAverageRating(reviews) {
+            if (!reviews || reviews.length === 0) return 0;
+            let sum = reviews.reduce((acc, r) => acc + parseInt(r.rating), 0);
+            return (sum / reviews.length).toFixed(1);
+        }
+
+        window.filterByCategory = function(categoryName) {
+            currentFilter = categoryName;
+            categoryCards.forEach(c => {
+                if (c.getAttribute('data-filter') === categoryName) {
+                    c.classList.add('active');
+                } else {
+                    c.classList.remove('active');
+                }
+            });
+
+            if (categoryName === 'all') {
+                marketHeaderTitle.textContent = "All Marketplace Categories & Products";
+            } else {
+                marketHeaderTitle.textContent = `Category: ${categoryName}`;
+            }
+
+            renderListings();
+        }
+
+        function renderListings() {
+            productGrid.innerHTML = '';
+            let searchQuery = searchInput.value.toLowerCase();
+            let fFilter = facultyFilter.value;
+            let pFilter = priceFilter.value;
+            let sSort = sortSelect.value;
+
+            let total = listings.length;
+            let digitalCount = 0;
+            let studyCount = 0;
+            let houseCount = 0;
+            let opportunityCount = 0;
+
+            listings.forEach(item => {
+                if (item.category === 'Digital Services') digitalCount++;
+                if (item.category === 'Study Materials') studyCount++;
+                if (item.category === 'House for Rent') houseCount++;
+                if (item.category === 'Opportunities') opportunityCount++;
+            });
+
+            countAll.textContent = `${total} items`;
+            countDigital.textContent = `${digitalCount} items`;
+            countStudy.textContent = `${studyCount} items`;
+            countHouse.textContent = `${houseCount} items`;
+            countOpportunity.textContent = `${opportunityCount} items`;
+
+            totalCountEl.textContent = total;
+            digitalCountEl.textContent = digitalCount;
+            studyCountEl.textContent = studyCount;
+
+            let filtered = listings.filter(item => {
+                let matchesFilter = (currentFilter === 'all' || item.category === currentFilter);
+                let matchesFaculty = (fFilter === 'all' || item.faculty === fFilter);
+                let matchesSearch = item.title.toLowerCase().includes(searchQuery) || 
+                                    item.description.toLowerCase().includes(searchQuery) || 
+                                    item.category.toLowerCase().includes(searchQuery);
+
+                let matchesPrice = true;
+                if (pFilter === 'free') {
+                    matchesPrice = (item.numericPrice === 0 || item.price.toLowerCase().includes('free'));
+                } else if (pFilter === 'under2000') {
+                    matchesPrice = (item.numericPrice <= 2000);
+                }
+
+                return matchesFilter && matchesFaculty && matchesSearch && matchesPrice;
+            });
+
+            filtered.sort((a, b) => {
+                if (sSort === 'newest') return b.timestamp - a.timestamp;
+                if (sSort === 'priceLow') return a.numericPrice - b.numericPrice;
+                if (sSort === 'rating') return getAverageRating(b.reviews) - getAverageRating(a.reviews);
+                return 0;
+            });
+
+            filtered.forEach((item) => {
+                let realIndex = listings.indexOf(item);
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                let catClass = 'digital';
+                if (item.category === 'Study Materials') catClass = 'study';
+                if (item.category === 'House for Rent') catClass = 'house';
+                if (item.category === 'Opportunities') catClass = 'opportunity';
+
+                let avgRating = getAverageRating(item.reviews);
+                let starsText = avgRating > 0 ? `⭐ ${avgRating} (${item.reviews.length} reviews)` : `⭐ No reviews yet`;
+                let canDelete = currentUser && (currentUser.role === 'admin' || currentUser.email === item.sellerEmail);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="card-top">
+                            <span class="card-category ${catClass}">${item.category}</span>
+                            ${canDelete ? `<button class="btn-delete" onclick="deleteItem(${realIndex})" title="Delete">🗑️</button>` : ''}
+                        </div>
+                        <div class="faculty-badge">🏛️ ${item.faculty || 'General Campus'}</div>
+                        ${item.fileData && item.fileData.startsWith('data:image') ? `<img src="${item.fileData}" class="card-img-preview" alt="Preview">` : ''}
+                        <h3>${item.title}</h3>
+                        <p>${item.description.substring(0, 80)}...</p>
+                        <div class="seller-info">👤 Seller: ${item.sellerName || 'Admin'}</div>
+                        <div class="rating-stars">${starsText}</div>
+                        <div class="file-badge">📄 ${item.fileName || 'Document'}</div>
+                        <div class="price">${item.price}</div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-view" onclick="openDetailModal(${realIndex})">View & Buy / Chat</button>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+
+            renderBuyerRequests();
+        }
+
+        function renderBuyerRequests() {
+            requestsGrid.innerHTML = '';
+            buyerRequests.forEach((req, idx) => {
+                const div = document.createElement('div');
+                div.className = 'request-card';
+                div.innerHTML = `
+                    <h5>${req.title}</h5>
+                    <div class="req-meta">🏛️ ${req.faculty} | By: ${req.author}</div>
+                    <p>${req.description}</p>
+                    ${currentUser && (currentUser.role === 'admin' || currentUser.name === req.author) ? `<button onclick="deleteRequest(${idx})" style="background:none; border:none; color:#ef4444; font-size:12px; cursor:pointer; font-weight:700;">Delete Request</button>` : ''}
+                `;
+                requestsGrid.appendChild(div);
+            });
+        }
+
+        window.openRequestModal = function() {
+            if (!currentUser) {
+                alert("Please sign in to post a buyer request.");
+                openAuthModal('login');
+                return;
+            }
+            requestModal.classList.add('active');
+        }
+
+        window.closeRequestModal = function() { requestModal.classList.remove('active'); }
+
+        window.submitBuyerRequest = function() {
+            const title = document.getElementById('reqTitleInput').value.trim();
+            const faculty = document.getElementById('reqFacultyInput').value;
+            const description = document.getElementById('reqDescInput').value.trim();
+
+            if (!title || !description) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            buyerRequests.unshift({
+                title,
+                faculty,
+                description,
+                author: currentUser.name,
+                timestamp: Date.now()
+            });
+            saveData();
+            renderBuyerRequests();
+            document.getElementById('reqTitleInput').value = '';
+            document.getElementById('reqDescInput').value = '';
+            closeRequestModal();
+            alert("Buyer request successfully posted!");
+        }
+
+        window.deleteRequest = function(index) {
+            if (confirm("Remove this request?")) {
+                buyerRequests.splice(index, 1);
+                saveData();
+                renderBuyerRequests();
+            }
+        }
+
+        function renderMyListings() {
+            myListingsGrid.innerHTML = '';
+            if (!currentUser) return;
+            let myList = listings.filter(i => i.sellerEmail === currentUser.email);
+            if (myList.length === 0) {
+                myListingsGrid.innerHTML = `<p style="color:#64748b; font-size:14px;">You haven't posted any listings in your category (${currentUser.sellCategory}) yet.</p>`;
+                return;
+            }
+            myList.forEach(item => {
+                let realIndex = listings.indexOf(item);
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div>
+                        <h3>${item.title}</h3>
+                        <p>${item.description.substring(0, 70)}...</p>
+                        <div class="price">${item.price}</div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-view" onclick="openDetailModal(${realIndex})">View</button>
+                        <button class="btn-delete" onclick="deleteItem(${realIndex}); toggleUserDashboard();" style="background:#fee2e2; color:#dc2626; border-radius:12px; padding:0 12px; font-weight:800;">Delete</button>
+                    </div>
+                `;
+                myListingsGrid.appendChild(card);
+            });
+        }
+
+        searchInput.addEventListener('input', () => renderListings());
+        facultyFilter.addEventListener('change', () => renderListings());
+        priceFilter.addEventListener('change', () => renderListings());
+        sortSelect.addEventListener('change', () => renderListings());
+
+        window.openDetailModal = function(index) {
+            activeModalItemIndex = index;
+            const item = listings[index];
+            modalCategory.textContent = item.category;
+            modalFacultyBadge.textContent = item.faculty || 'General Campus';
+            modalTitle.textContent = item.title;
+            modalDescription.textContent = item.description;
+            modalSeller.textContent = `👤 Seller: ${item.sellerName || 'Admin'} | Contact: ${item.sellerWhatsapp || '0783230084'}`;
+            modalPrice.textContent = item.price;
+
+            let avgRating = getAverageRating(item.reviews);
+            modalRatingStars.textContent = avgRating > 0 ? `⭐ ${avgRating} / 5.0 (${item.reviews.length} student reviews)` : `⭐ No reviews yet.`;
+
+            chatMessagesScroll.innerHTML = '';
+            if (item.chatMessages && item.chatMessages.length > 0) {
+                item.chatMessages.forEach(msg => {
+                    const bubble = document.createElement('div');
+                    bubble.className = `chat-bubble ${currentUser && msg.sender === currentUser.name ? 'outgoing' : 'incoming'}`;
+                    bubble.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text}`;
+                    chatMessagesScroll.appendChild(bubble);
+                });
+                chatMessagesScroll.scrollTop = chatMessagesScroll.scrollHeight;
+            } else {
+                chatMessagesScroll.innerHTML = `<p style="font-size:12px; color:#94a3b8; text-align:center; padding:10px;">No messages yet. Start a conversation below!</p>`;
+            }
+
+            modalReviewsList.innerHTML = '';
+            if (item.reviews && item.reviews.length > 0) {
+                item.reviews.forEach(r => {
+                    const rev = document.createElement('div');
+                    rev.className = 'review-card';
+                    rev.innerHTML = `<span>${r.user} (${r.rating}⭐):</span> ${r.comment}`;
+                    modalReviewsList.appendChild(rev);
+                });
+            } else {
+                modalReviewsList.innerHTML = `<p style="font-size:13px; color:#94a3b8;">No feedback posted yet.</p>`;
+            }
+
+            let whatsappNum = item.sellerWhatsapp || "250783230084";
+            let whatsappUrl = `https://wa.me/${whatsappNum}?text=Hello%20${encodeURIComponent(item.sellerName || 'Hub')}%2C%20I%20want%20to%20buy%20your%20product%3A%20${encodeURIComponent(item.title)}%20(${item.price})`;
+
+            let downloadHref = item.fileData || "#";
+            modalActionsContainer.innerHTML = `
+                <a href="${whatsappUrl}" target="_blank" class="btn-whatsapp">🛒 Buy / Contact Seller on WhatsApp</a>
+                ${item.fileData ? `<a href="${downloadHref}" download="${item.fileName}" class="btn-whatsapp" style="background:linear-gradient(135deg, #10b981, #059669); text-align:center; text-decoration:none;">Download File 📄</a>` : ''}
+                <button class="btn-close" onclick="document.getElementById('detailModal').classList.remove('active')">Close</button>
+            `;
+
+            if (item.fileData) {
+                modalPreviewContainer.style.display = 'block';
+                if (item.fileData.startsWith('data:image')) {
+                    modalPreviewContainer.innerHTML = `<img src="${item.fileData}" alt="Preview">`;
+                } else {
+                    modalPreviewContainer.innerHTML = `<iframe src="${item.fileData}"></iframe>`;
+                }
+            } else {
+                modalPreviewContainer.style.display = 'none';
+                modalPreviewContainer.innerHTML = '';
+            }
+
+            detailModal.classList.add('active');
+        }
+
+        window.sendInAppMessage = function() {
+            if (!currentUser) {
+                alert("Please sign in to send messages.");
+                openAuthModal('login');
+                return;
+            }
+            const textInput = document.getElementById('chatMessageInput');
+            const text = textInput.value.trim();
+            if (!text) return;
+
+            if (activeModalItemIndex !== null) {
+                listings[activeModalItemIndex].chatMessages.push({
+                    sender: currentUser.name,
+                    text: text
+                });
+                saveData();
+                textInput.value = '';
+                openDetailModal(activeModalItemIndex);
+            }
+        }
+
+        window.submitReview = function() {
+            if (!currentUser) {
+                alert("Please sign in to leave a review.");
+                openAuthModal('login');
+                return;
+            }
+            const rating = document.getElementById('reviewRating').value;
+            const comment = document.getElementById('reviewComment').value.trim();
+            if (!comment) {
+                alert("Please write a review comment.");
+                return;
+            }
+
+            if (activeModalItemIndex !== null) {
+                listings[activeModalItemIndex].reviews.push({
+                    user: currentUser.name,
+                    rating: rating,
+                    comment: comment
+                });
+                saveData();
+                document.getElementById('reviewComment').value = '';
+                openDetailModal(activeModalItemIndex);
+                renderListings();
+                alert("Review submitted successfully!");
+            }
+        }
+
+        renderListings();
+    </script>
+</body>
+</html>
