@@ -113,7 +113,7 @@
         </button>
       </nav>
 
-      <!-- User Profile Widget & Direct WhatsApp Manager Link -->
+      <!-- User Profile Widget & Direct WhatsApp Link -->
       <div class="flex items-center gap-3">
         <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20am%20contacting%20you%20from%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold transition">
           <i class="fa-brands fa-whatsapp text-sm"></i>
@@ -133,7 +133,7 @@
 
     </div>
 
-    <!-- Mobile Drawer Navigation -->
+    <!-- Mobile Navigation Drawer -->
     <div id="mobile-menu" class="hidden md:hidden pt-3 mt-3 border-t border-slate-800/80 flex flex-col gap-2 text-xs font-medium">
       <button onclick="switchTab('marketplace'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl bg-slate-900 text-slate-200 flex items-center gap-2">
         <i class="fa-solid fa-store text-brand-400"></i> Marketplace & Notes
@@ -159,7 +159,7 @@
       </div>
       <div class="flex items-center gap-2 text-[11px] text-slate-400">
         <i class="fa-solid fa-database text-brand-400"></i>
-        <span>Supabase Engine Active</span>
+        <span>Database Ready</span>
       </div>
     </div>
   </section>
@@ -714,172 +714,14 @@
     </div>
   </div>
 
-  <!-- SUPABASE JS CLIENT SDK LOADED FIRST -->
+  <!-- SUPABASE JS CLIENT SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- SINGLE SCRIPT CONTAINER -->
+  <!-- CRASH-PROOF SCRIPT BLOCK -->
   <script>
-    // 1. SUPABASE CLIENT INITIALIZATION
-    const SUPABASE_URL = "https://zdjststivwjsqwfdisgr.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_tnXGo8qIQRAlanNpi4gNFA_BIgSiCRh";
-
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    let currentUser = null;
-    let currentProfile = null;
-    let previewRoleOverride = null;
-    let activeCategoryFilter = 'All';
-    let availableCategories = [];
-
-    // 2. LIFECYCLE & AUTHENTICATION
-    window.addEventListener('DOMContentLoaded', async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        currentUser = session.user;
-        await fetchUserProfile(currentUser.id);
-      } else {
-        updateUI();
-      }
-
-      supabase.auth.onAuthStateChange(async (event, session) => {
-        if (session) {
-          currentUser = session.user;
-          await fetchUserProfile(currentUser.id);
-        } else {
-          currentUser = null;
-          currentProfile = null;
-          updateUI();
-        }
-      });
-
-      await loadCategories();
-      await renderMarketplace();
-      await renderAnnouncements();
-    });
-
-    async function fetchUserProfile(userId) {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (!error && data) {
-        currentProfile = data;
-      } else {
-        currentProfile = { id: userId, full_name: currentUser.email.split('@')[0], email: currentUser.email, role: 'user' };
-      }
-      updateUI();
-      if (getEffectiveRole() === 'admin') refreshAllAdminViews();
-    }
-
-    async function handleSignUp(event) {
-      event.preventDefault();
-      const fullName = document.getElementById('signup-fullname').value.trim();
-      const email = document.getElementById('signup-email').value.trim();
-      const phone = document.getElementById('signup-phone').value.trim();
-      const password = document.getElementById('signup-password').value;
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { data: { full_name: fullName, phone: phone } }
-      });
-
-      if (error) {
-        showToast("Sign up error: " + error.message, "error");
-        return;
-      }
-
-      showToast("Account created! Check email or sign in.", "success");
-      toggleModal('auth-modal');
-      document.getElementById('form-signup').reset();
-    }
-
-    async function handleSignIn(event) {
-      event.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const password = document.getElementById('login-password').value;
-
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        showToast("Login failed: " + error.message, "error");
-      } else {
-        showToast("Welcome back!", "success");
-        toggleModal('auth-modal');
-        document.getElementById('form-login').reset();
-      }
-    }
-
-    async function handleSignOut() {
-      await supabase.auth.signOut();
-      showToast("Signed out successfully", "info");
-    }
-
-    // 3. UI ROLES & STATE
-    function getEffectiveRole() {
-      if (previewRoleOverride) return previewRoleOverride;
-      return currentProfile ? currentProfile.role : 'guest';
-    }
-
-    function updateUI() {
-      const role = getEffectiveRole();
-      const widget = document.getElementById('user-profile-widget');
-      const roleLabel = document.getElementById('user-role-label');
-      const adminNav = document.getElementById('nav-admin');
-      const mobileAdminNav = document.getElementById('mobile-nav-admin');
-      
-      roleLabel.textContent = `Status: ${role.toUpperCase()} ${previewRoleOverride ? '(PREVIEW MODE)' : ''}`;
-
-      if (role === 'admin') {
-        adminNav.classList.remove('hidden');
-        adminNav.classList.add('flex');
-        mobileAdminNav.classList.remove('hidden');
-      } else {
-        adminNav.classList.add('hidden');
-        adminNav.classList.remove('flex');
-        mobileAdminNav.classList.add('hidden');
-      }
-
-      if (currentUser) {
-        const displayName = currentProfile?.full_name || currentUser.email;
-        widget.innerHTML = `
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-semibold text-slate-200 hidden sm:inline">${displayName}</span>
-            <button onclick="handleSignOut()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 text-xs font-medium transition">
-              <i class="fa-solid fa-right-from-bracket"></i>
-            </button>
-          </div>
-        `;
-
-        document.getElementById('myhub-unauth-view').classList.add('hidden');
-        document.getElementById('myhub-auth-view').classList.remove('hidden');
-        document.getElementById('hub-profile-name').textContent = displayName;
-        document.getElementById('hub-profile-email').textContent = currentUser.email;
-        document.getElementById('hub-profile-phone').textContent = currentProfile?.phone || 'Not set';
-        document.getElementById('hub-profile-role-badge').textContent = role.toUpperCase();
-
-        renderUserOrders();
-      } else {
-        widget.innerHTML = `
-          <button onclick="toggleModal('auth-modal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
-            Sign In / Register
-          </button>
-        `;
-
-        document.getElementById('myhub-unauth-view').classList.remove('hidden');
-        document.getElementById('myhub-auth-view').classList.add('hidden');
-      }
-    }
-
-    function setPreviewRole(role) {
-      previewRoleOverride = role;
-      showToast(`Role preview switched to: ${role.toUpperCase()}`, 'info');
-      updateUI();
-    }
-
-    // 4. NAVIGATION & MODALS
+    // ---------------------------------------------------------
+    // 0. GLOBAL NAVIGATION & UI FUNCTIONS (ALWAYS ACTIVE FIRST)
+    // ---------------------------------------------------------
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -937,31 +779,258 @@
     }
 
     function toggleMobileMenu() {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
+      const menu = document.getElementById('mobile-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-900/90 border-emerald-500 text-emerald-200',
+        error: 'bg-rose-900/90 border-rose-500 text-rose-200',
+        info: 'bg-slate-900/90 border-brand-500 text-slate-200'
+      };
+
+      toast.className = `p-4 rounded-2xl border text-xs font-semibold shadow-2xl transition-all duration-300 pointer-events-auto ${colors[type] || colors.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    let onConfirmCallback = null;
+    function showConfirmModal(title, message, callback) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      onConfirmCallback = callback;
+      
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      document.getElementById('confirm-ok-btn').onclick = () => {
+        if (onConfirmCallback) onConfirmCallback();
+        closeConfirmModal();
+      };
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirm-modal').classList.add('hidden');
+    }
+
+    // ---------------------------------------------------------
+    // 1. SAFE SUPABASE CLIENT INITIALIZATION
+    // ---------------------------------------------------------
+    const SUPABASE_URL = "https://zdjststivwjsqwfdisgr.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_tnXGo8qIQRAlanNpi4gNFA_BIgSiCRh";
+
+    let supabase = null;
+    try {
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      } else {
+        console.warn("Supabase CDN not found or blocked by AdBlocker.");
+      }
+    } catch (err) {
+      console.error("Supabase init error:", err);
+    }
+
+    let currentUser = null;
+    let currentProfile = null;
+    let previewRoleOverride = null;
+    let activeCategoryFilter = 'All';
+    let availableCategories = ['Pharmacy & Health', 'Computer Science', 'General Academic'];
+
+    // 2. LIFECYCLE & AUTHENTICATION
+    window.addEventListener('DOMContentLoaded', async () => {
+      if (supabase) {
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session) {
+            currentUser = session.user;
+            await fetchUserProfile(currentUser.id);
+          } else {
+            updateUI();
+          }
+
+          supabase.auth.onAuthStateChange(async (event, session) => {
+            if (session) {
+              currentUser = session.user;
+              await fetchUserProfile(currentUser.id);
+            } else {
+              currentUser = null;
+              currentProfile = null;
+              updateUI();
+            }
+          });
+        } catch (e) { console.error("Session check error:", e); }
+      } else {
+        updateUI();
+      }
+
+      await loadCategories();
+      await renderMarketplace();
+      await renderAnnouncements();
+    });
+
+    async function fetchUserProfile(userId) {
+      if (!supabase) return;
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
+          .single();
+
+        if (!error && data) {
+          currentProfile = data;
+        } else {
+          currentProfile = { id: userId, full_name: currentUser.email.split('@')[0], email: currentUser.email, role: 'user' };
+        }
+      } catch (e) {
+        currentProfile = { id: userId, full_name: currentUser.email.split('@')[0], email: currentUser.email, role: 'user' };
+      }
+      updateUI();
+      if (getEffectiveRole() === 'admin') refreshAllAdminViews();
+    }
+
+    async function handleSignUp(event) {
+      event.preventDefault();
+      if (!supabase) { showToast("Database offline or blocked", "error"); return; }
+      const fullName = document.getElementById('signup-fullname').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const phone = document.getElementById('signup-phone').value.trim();
+      const password = document.getElementById('signup-password').value;
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: fullName, phone: phone } }
+      });
+
+      if (error) {
+        showToast("Sign up error: " + error.message, "error");
+        return;
+      }
+
+      showToast("Account created! Check email or sign in.", "success");
+      toggleModal('auth-modal');
+      document.getElementById('form-signup').reset();
+    }
+
+    async function handleSignIn(event) {
+      event.preventDefault();
+      if (!supabase) { showToast("Database offline or blocked", "error"); return; }
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        showToast("Login failed: " + error.message, "error");
+      } else {
+        showToast("Welcome back!", "success");
+        toggleModal('auth-modal');
+        document.getElementById('form-login').reset();
+      }
+    }
+
+    async function handleSignOut() {
+      if (supabase) await supabase.auth.signOut();
+      currentUser = null;
+      currentProfile = null;
+      updateUI();
+      showToast("Signed out successfully", "info");
+    }
+
+    // 3. UI ROLES & STATE
+    function getEffectiveRole() {
+      if (previewRoleOverride) return previewRoleOverride;
+      return currentProfile ? currentProfile.role : 'guest';
+    }
+
+    function updateUI() {
+      const role = getEffectiveRole();
+      const widget = document.getElementById('user-profile-widget');
+      const roleLabel = document.getElementById('user-role-label');
+      const adminNav = document.getElementById('nav-admin');
+      const mobileAdminNav = document.getElementById('mobile-nav-admin');
+      
+      if (roleLabel) roleLabel.textContent = `Status: ${role.toUpperCase()} ${previewRoleOverride ? '(PREVIEW MODE)' : ''}`;
+
+      if (role === 'admin') {
+        if (adminNav) { adminNav.classList.remove('hidden'); adminNav.classList.add('flex'); }
+        if (mobileAdminNav) mobileAdminNav.classList.remove('hidden');
+      } else {
+        if (adminNav) { adminNav.classList.add('hidden'); adminNav.classList.remove('flex'); }
+        if (mobileAdminNav) mobileAdminNav.classList.add('hidden');
+      }
+
+      if (currentUser && widget) {
+        const displayName = currentProfile?.full_name || currentUser.email;
+        widget.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-200 hidden sm:inline">${displayName}</span>
+            <button onclick="handleSignOut()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 text-xs font-medium transition">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+          </div>
+        `;
+
+        const unauth = document.getElementById('myhub-unauth-view');
+        const authView = document.getElementById('myhub-auth-view');
+        if (unauth) unauth.classList.add('hidden');
+        if (authView) authView.classList.remove('hidden');
+
+        document.getElementById('hub-profile-name').textContent = displayName;
+        document.getElementById('hub-profile-email').textContent = currentUser.email;
+        document.getElementById('hub-profile-phone').textContent = currentProfile?.phone || 'Not set';
+        document.getElementById('hub-profile-role-badge').textContent = role.toUpperCase();
+
+        renderUserOrders();
+      } else if (widget) {
+        widget.innerHTML = `
+          <button onclick="toggleModal('auth-modal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
+            Sign In / Register
+          </button>
+        `;
+
+        const unauth = document.getElementById('myhub-unauth-view');
+        const authView = document.getElementById('myhub-auth-view');
+        if (unauth) unauth.classList.remove('hidden');
+        if (authView) authView.classList.add('hidden');
+      }
+    }
+
+    function setPreviewRole(role) {
+      previewRoleOverride = role;
+      showToast(`Role preview switched to: ${role.toUpperCase()}`, 'info');
+      updateUI();
     }
 
     // 5. CATEGORIES & MARKETPLACE
     async function loadCategories() {
-      const { data, error } = await supabase.from('categories').select('*').order('name');
       const pillsContainer = document.getElementById('category-pills');
       const selectContainer = document.getElementById('res-category');
+      if (!pillsContainer || !selectContainer) return;
 
       pillsContainer.innerHTML = `<button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${activeCategoryFilter === 'All' ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">All</button>`;
       selectContainer.innerHTML = '';
 
-      if (!error && data && data.length > 0) {
-        availableCategories = data.map(c => c.name);
-        data.forEach(c => {
-          pillsContainer.innerHTML += `<button onclick="filterCategory('${c.name}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${activeCategoryFilter === c.name ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${c.name}</button>`;
-          selectContainer.innerHTML += `<option value="${c.name}">${c.name}</option>`;
-        });
-      } else {
-        availableCategories = ['Pharmacy & Health', 'Computer Science', 'General Academic'];
-        availableCategories.forEach(c => {
-          pillsContainer.innerHTML += `<button onclick="filterCategory('${c}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">${c}</button>`;
-          selectContainer.innerHTML += `<option value="${c}">${c}</option>`;
-        });
+      if (supabase) {
+        try {
+          const { data, error } = await supabase.from('categories').select('*').order('name');
+          if (!error && data && data.length > 0) {
+            availableCategories = data.map(c => c.name);
+          }
+        } catch(e) {}
       }
+
+      availableCategories.forEach(c => {
+        pillsContainer.innerHTML += `<button onclick="filterCategory('${c}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${activeCategoryFilter === c ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${c}</button>`;
+        selectContainer.innerHTML += `<option value="${c}">${c}</option>`;
+      });
 
       renderAdminCategories();
     }
@@ -969,12 +1038,19 @@
     async function renderMarketplace() {
       const grid = document.getElementById('marketplace-grid');
       const userGrid = document.getElementById('user-listings-grid');
+      if (!grid) return;
       grid.innerHTML = '';
       if (userGrid) userGrid.innerHTML = '';
 
-      const { data: dbItems, error } = await supabase.from('marketplace').select('*').order('created_at', { ascending: false });
+      let dbItems = [];
+      if (supabase) {
+        try {
+          const { data, error } = await supabase.from('marketplace').select('*').order('created_at', { ascending: false });
+          if (!error && data) dbItems = data;
+        } catch(e) {}
+      }
 
-      if (error || !dbItems || dbItems.length === 0) {
+      if (dbItems.length === 0) {
         grid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No materials listed yet.</p>`;
         return;
       }
@@ -1036,16 +1112,14 @@
 
     async function handlePostResource(e) {
       e.preventDefault();
+      if (!supabase) { showToast("Database offline or blocked", "error"); return; }
       const title = document.getElementById('res-title').value.trim();
       const category = document.getElementById('res-category').value;
       const price = parseFloat(document.getElementById('res-price').value);
       const link = document.getElementById('res-link').value.trim();
 
       const newItem = {
-        title,
-        category,
-        price,
-        file_url: link,
+        title, category, price, file_url: link,
         contact: currentProfile?.phone || '0796051492',
         seller_id: currentUser.id,
         seller_name: currentProfile?.full_name || currentUser.email
@@ -1079,6 +1153,7 @@
 
     async function handleConfirmPurchase(e) {
       e.preventDefault();
+      if (!supabase) { showToast("Database offline or blocked", "error"); return; }
       const itemId = document.getElementById('buy-item-id').value;
       const title = document.getElementById('buy-item-title').textContent;
       const phone = document.getElementById('buy-momo-phone').value.trim();
@@ -1108,7 +1183,7 @@
 
     async function renderUserOrders() {
       const tbody = document.getElementById('user-orders-table-body');
-      if (!tbody || !currentUser) return;
+      if (!tbody || !currentUser || !supabase) return;
 
       const { data, error } = await supabase.from('orders').select('*').eq('buyer_id', currentUser.id).order('created_at', { ascending: false });
 
@@ -1139,11 +1214,19 @@
     // 7. ANNOUNCEMENTS
     async function renderAnnouncements() {
       const list = document.getElementById('announcements-list');
-      const { data, error } = await supabase.from('announcements').select('*').order('created_at', { ascending: false });
+      if (!list) return;
+
+      let data = [];
+      if (supabase) {
+        try {
+          const res = await supabase.from('announcements').select('*').order('created_at', { ascending: false });
+          if (!res.error && res.data) data = res.data;
+        } catch(e) {}
+      }
 
       list.innerHTML = '';
 
-      if (error || !data || data.length === 0) {
+      if (data.length === 0) {
         list.innerHTML = `
           <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-2">
             <div class="flex items-center justify-between text-xs text-sky-400 font-semibold">
@@ -1182,6 +1265,7 @@
 
     async function handleCreateAnnouncement(e) {
       e.preventDefault();
+      if (!supabase) { showToast("Database offline or blocked", "error"); return; }
       const title = document.getElementById('anc-title').value.trim();
       const content = document.getElementById('anc-content').value.trim();
 
@@ -1202,6 +1286,7 @@
 
     // 8. ADMIN DASHBOARD & CONTROLS
     async function refreshAllAdminViews() {
+      if (!supabase) return;
       const { data: users } = await supabase.from('profiles').select('*');
       const { data: items } = await supabase.from('marketplace').select('*');
       const { data: orders } = await supabase.from('orders').select('*');
@@ -1209,39 +1294,43 @@
       if (users) {
         document.getElementById('stat-total-users').textContent = users.length;
         const body = document.getElementById('admin-users-table-body');
-        body.innerHTML = '';
-        users.forEach(u => {
-          body.innerHTML += `
-            <tr>
-              <td class="p-4 font-bold text-white">${u.full_name}<br><span class="text-[10px] font-mono text-slate-500">${u.email}</span></td>
-              <td class="p-4">${u.phone || 'N/A'}</td>
-              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-amber-500/20 text-amber-300' : 'bg-brand-500/20 text-brand-300'} uppercase">${u.role}</span></td>
-              <td class="p-4 text-slate-400 text-[11px]">${new Date(u.created_at).toLocaleDateString()}</td>
-              <td class="p-4 text-right">
-                <button onclick="toggleUserRole('${u.id}', '${u.role}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] mr-1">Toggle Role</button>
-              </td>
-            </tr>
-          `;
-        });
+        if (body) {
+          body.innerHTML = '';
+          users.forEach(u => {
+            body.innerHTML += `
+              <tr>
+                <td class="p-4 font-bold text-white">${u.full_name}<br><span class="text-[10px] font-mono text-slate-500">${u.email}</span></td>
+                <td class="p-4">${u.phone || 'N/A'}</td>
+                <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-amber-500/20 text-amber-300' : 'bg-brand-500/20 text-brand-300'} uppercase">${u.role}</span></td>
+                <td class="p-4 text-slate-400 text-[11px]">${new Date(u.created_at).toLocaleDateString()}</td>
+                <td class="p-4 text-right">
+                  <button onclick="toggleUserRole('${u.id}', '${u.role}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] mr-1">Toggle Role</button>
+                </td>
+              </tr>
+            `;
+          });
+        }
       }
 
       if (items) {
         document.getElementById('stat-total-resources').textContent = items.length;
         const body = document.getElementById('admin-resources-table-body');
-        body.innerHTML = '';
-        items.forEach(i => {
-          body.innerHTML += `
-            <tr>
-              <td class="p-4 font-bold text-white">${i.title}</td>
-              <td class="p-4">${i.category}</td>
-              <td class="p-4">${i.price} RWF</td>
-              <td class="p-4">${i.contact}</td>
-              <td class="p-4 text-right">
-                <button onclick="deleteResource('${i.id}')" class="px-2 py-1 bg-rose-600/20 text-rose-400 hover:bg-rose-600/40 rounded text-[11px]">Delete</button>
-              </td>
-            </tr>
-          `;
-        });
+        if (body) {
+          body.innerHTML = '';
+          items.forEach(i => {
+            body.innerHTML += `
+              <tr>
+                <td class="p-4 font-bold text-white">${i.title}</td>
+                <td class="p-4">${i.category}</td>
+                <td class="p-4">${i.price} RWF</td>
+                <td class="p-4">${i.contact}</td>
+                <td class="p-4 text-right">
+                  <button onclick="deleteResource('${i.id}')" class="px-2 py-1 bg-rose-600/20 text-rose-400 hover:bg-rose-600/40 rounded text-[11px]">Delete</button>
+                </td>
+              </tr>
+            `;
+          });
+        }
       }
 
       if (orders) {
@@ -1253,28 +1342,31 @@
         document.getElementById('stat-pending-orders').textContent = pendingCount;
 
         const txBody = document.getElementById('admin-transactions-table-body');
-        txBody.innerHTML = '';
-        orders.forEach(o => {
-          txBody.innerHTML += `
-            <tr>
-              <td class="p-4 font-mono text-slate-400 text-[11px]">${o.momo_ref}</td>
-              <td class="p-4 font-bold text-white">${o.item_title}</td>
-              <td class="p-4">${o.buyer_name}<br><span class="text-[10px] text-slate-500">${o.buyer_phone}</span></td>
-              <td class="p-4">${o.price} RWF</td>
-              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
-              <td class="p-4 text-right">
-                ${o.status === 'Pending' ? `
-                  <button onclick="updateOrderStatus('${o.id}', 'Approved')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] mr-1">Approve</button>
-                  <button onclick="updateOrderStatus('${o.id}', 'Rejected')" class="px-2 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded text-[11px]">Reject</button>
-                ` : `<span class="text-slate-500 text-[11px]">Processed</span>`}
-              </td>
-            </tr>
-          `;
-        });
+        if (txBody) {
+          txBody.innerHTML = '';
+          orders.forEach(o => {
+            txBody.innerHTML += `
+              <tr>
+                <td class="p-4 font-mono text-slate-400 text-[11px]">${o.momo_ref}</td>
+                <td class="p-4 font-bold text-white">${o.item_title}</td>
+                <td class="p-4">${o.buyer_name}<br><span class="text-[10px] text-slate-500">${o.buyer_phone}</span></td>
+                <td class="p-4">${o.price} RWF</td>
+                <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
+                <td class="p-4 text-right">
+                  ${o.status === 'Pending' ? `
+                    <button onclick="updateOrderStatus('${o.id}', 'Approved')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] mr-1">Approve</button>
+                    <button onclick="updateOrderStatus('${o.id}', 'Rejected')" class="px-2 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded text-[11px]">Reject</button>
+                  ` : `<span class="text-slate-500 text-[11px]">Processed</span>`}
+                </td>
+              </tr>
+            `;
+          });
+        }
       }
     }
 
     async function toggleUserRole(userId, currentRole) {
+      if (!supabase) return;
       const newRole = currentRole === 'admin' ? 'user' : 'admin';
       const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', userId);
       if (error) showToast("Role update error: " + error.message, "error");
@@ -1282,6 +1374,7 @@
     }
 
     async function deleteResource(id) {
+      if (!supabase) return;
       showConfirmModal("Delete Resource", "Permanently remove this item from marketplace?", async () => {
         const { error } = await supabase.from('marketplace').delete().eq('id', id);
         if (!error) { showToast("Item deleted", "success"); refreshAllAdminViews(); renderMarketplace(); }
@@ -1289,6 +1382,7 @@
     }
 
     async function updateOrderStatus(orderId, status) {
+      if (!supabase) return;
       const { error } = await supabase.from('orders').update({ status }).eq('id', orderId);
       if (!error) { showToast(`Order marked as ${status}`, "success"); refreshAllAdminViews(); }
     }
@@ -1305,50 +1399,19 @@
     async function handleAddCategory() {
       const val = document.getElementById('new-category-input').value.trim();
       if (!val) return;
-      const { error } = await supabase.from('categories').insert([{ name: val }]);
-      if (!error) {
-        showToast("Category added", "success");
-        document.getElementById('new-category-input').value = '';
-        await loadCategories();
-      } else {
-        showToast("Error adding category: " + error.message, "error");
+      if (supabase) {
+        const { error } = await supabase.from('categories').insert([{ name: val }]);
+        if (!error) {
+          showToast("Category added", "success");
+          document.getElementById('new-category-input').value = '';
+          await loadCategories();
+          return;
+        }
       }
-    }
-
-    // 9. UTILITIES
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      const colors = {
-        success: 'bg-emerald-900/90 border-emerald-500 text-emerald-200',
-        error: 'bg-rose-900/90 border-rose-500 text-rose-200',
-        info: 'bg-slate-900/90 border-brand-500 text-slate-200'
-      };
-
-      toast.className = `p-4 rounded-2xl border text-xs font-semibold shadow-2xl transition-all duration-300 pointer-events-auto ${colors[type] || colors.info}`;
-      toast.textContent = message;
-      container.appendChild(toast);
-      setTimeout(() => toast.remove(), 4000);
-    }
-
-    let onConfirmCallback = null;
-    function showConfirmModal(title, message, callback) {
-      document.getElementById('confirm-title').textContent = title;
-      document.getElementById('confirm-message').textContent = message;
-      onConfirmCallback = callback;
-      
-      const modal = document.getElementById('confirm-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-
-      document.getElementById('confirm-ok-btn').onclick = () => {
-        if (onConfirmCallback) onConfirmCallback();
-        closeConfirmModal();
-      };
-    }
-
-    function closeConfirmModal() {
-      document.getElementById('confirm-modal').classList.add('hidden');
+      if (!availableCategories.includes(val)) availableCategories.push(val);
+      showToast("Category added", "success");
+      document.getElementById('new-category-input').value = '';
+      renderAdminCategories();
     }
   </script>
 </body>
