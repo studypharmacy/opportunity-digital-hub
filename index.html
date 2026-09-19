@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opportunity & Digital Hub - Huye, Rwanda</title>
 
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -41,7 +41,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- Glassmorphism & Custom CSS -->
   <style>
     body { font-family: 'Inter', sans-serif; }
     .glass-panel {
@@ -66,41 +65,39 @@
   <!-- Toast Notification Portal -->
   <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
 
-  <!-- Custom Confirmation Modal -->
+  <!-- Confirmation Modal -->
   <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
     <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
       <div class="flex items-center gap-3 text-amber-400">
         <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
         <h3 id="confirm-title" class="text-lg font-bold text-slate-100">Confirm Action</h3>
       </div>
-      <p id="confirm-message" class="text-sm text-slate-300">Are you sure you want to perform this operation?</p>
+      <p id="confirm-message" class="text-sm text-slate-300">Are you sure you want to proceed?</p>
       <div class="flex justify-end gap-3 pt-2">
-        <button id="confirm-cancel-btn" onclick="closeConfirmModal(false)" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Cancel</button>
+        <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Cancel</button>
         <button id="confirm-ok-btn" class="px-4 py-2 rounded-xl text-xs font-medium bg-rose-600 hover:bg-rose-500 text-white transition">Proceed</button>
       </div>
     </div>
   </div>
 
-  <!-- Navigation Header -->
+  <!-- Header Navigation -->
   <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 bg-slate-950/90 px-4 lg:px-8 py-3.5">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       
-      <!-- Brand Logo & City Location -->
+      <!-- Brand Logo -->
       <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('marketplace')">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-emerald-500 to-teal-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-brand-500/20">
           ODH
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <h1 class="font-bold text-base md:text-lg text-slate-100 tracking-tight leading-none">Opportunity & Digital Hub</h1>
-          </div>
+          <h1 class="font-bold text-base md:text-lg text-slate-100 tracking-tight leading-none">Opportunity & Digital Hub</h1>
           <p class="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
             <i class="fa-solid fa-location-dot text-rose-500 text-[10px]"></i> Huye, Rwanda
           </p>
         </div>
       </div>
 
-      <!-- Navigation Links -->
+      <!-- Navigation Bar -->
       <nav class="hidden md:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800 text-xs font-semibold">
         <button id="nav-marketplace" onclick="switchTab('marketplace')" class="nav-btn active px-4 py-2 rounded-xl flex items-center gap-2 transition text-brand-400 bg-brand-500/10 border border-brand-500/20">
           <i class="fa-solid fa-store"></i> Marketplace & Notes
@@ -116,22 +113,19 @@
         </button>
       </nav>
 
-      <!-- User Widget & WhatsApp Quick Link -->
+      <!-- Auth Action Widget & Quick Contact -->
       <div class="flex items-center gap-3">
-        <!-- Direct WhatsApp Quick Chat with IRAHARI Hubert -->
         <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20am%20contacting%20you%20from%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold transition">
           <i class="fa-brands fa-whatsapp text-sm"></i>
           <span>Hub Manager</span>
         </a>
 
-        <!-- Dynamic User Auth Widget -->
         <div id="user-profile-widget">
           <button onclick="toggleModal('auth-modal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
             Sign In / Register
           </button>
         </div>
 
-        <!-- Mobile Menu Toggle -->
         <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
           <i class="fa-solid fa-bars text-base"></i>
         </button>
@@ -139,7 +133,7 @@
 
     </div>
 
-    <!-- Mobile Navigation Drawer -->
+    <!-- Mobile Navigation Menu -->
     <div id="mobile-menu" class="hidden md:hidden pt-3 mt-3 border-t border-slate-800/80 flex flex-col gap-2 text-xs font-medium">
       <button onclick="switchTab('marketplace'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl bg-slate-900 text-slate-200 flex items-center gap-2">
         <i class="fa-solid fa-store text-brand-400"></i> Marketplace & Notes
@@ -156,16 +150,16 @@
     </div>
   </header>
 
-  <!-- Active Environment Role Banner -->
+  <!-- System Role Banner -->
   <section id="environment-banner" class="bg-slate-900/80 border-b border-slate-800 px-4 py-2">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2">
-      <div id="env-badge-container" class="flex items-center gap-2 font-mono text-[11px]">
+      <div class="flex items-center gap-2 font-mono text-[11px]">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span id="user-role-label">Status: Guest User</span>
       </div>
-      <div id="env-action-container" class="flex items-center gap-2 text-[11px] text-slate-400">
+      <div class="flex items-center gap-2 text-[11px] text-slate-400">
         <i class="fa-solid fa-database text-brand-400"></i>
-        <span>Supabase Auth & Database Connected</span>
+        <span>Supabase Engine Connected</span>
       </div>
     </div>
   </section>
@@ -173,12 +167,9 @@
   <!-- Main View Container -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-8">
 
-    <!-- =================================================================== -->
-    <!-- SECTION 1: MARKETPLACE & NOTES TAB (PUBLIC / ALL USERS)            -->
-    <!-- =================================================================== -->
+    <!-- TAB 1: MARKETPLACE & NOTES -->
     <section id="tab-marketplace" class="tab-content space-y-6">
       
-      <!-- Hero Banner -->
       <div class="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900/90 to-emerald-950/40">
         <div class="relative z-10 max-w-2xl space-y-3">
           <div class="flex items-center gap-2">
@@ -193,7 +184,7 @@
             Academic Notes, Past Papers & Career Opportunities
           </h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            Buy revision materials, modules, and study sheets from verified learners. Post your own materials to earn money or share free academic resources.
+            Buy revision materials, modules, and study sheets directly from verified learners in Huye. Post your own materials to earn revenue or share free resources.
           </p>
           
           <div class="pt-2 flex flex-wrap items-center gap-3">
@@ -205,12 +196,9 @@
             </a>
           </div>
         </div>
-        <div class="absolute -right-10 -bottom-10 opacity-10 text-brand-400 pointer-events-none">
-          <i class="fa-solid fa-graduation-cap text-[200px]"></i>
-        </div>
       </div>
 
-      <!-- Search & Filters Bar -->
+      <!-- Search & Category Filters -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
         <div class="relative w-full sm:w-80">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
@@ -220,23 +208,18 @@
         <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 custom-scrollbar">
           <span class="text-xs text-slate-400 whitespace-nowrap mr-1"><i class="fa-solid fa-filter mr-1"></i>Filter:</span>
           <div id="category-pills" class="flex items-center gap-1.5">
-            <button onclick="filterCategory('All')" class="cat-pill active px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white transition">All</button>
-            <button onclick="filterCategory('Pharmacy & Health')" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Pharmacy & Health</button>
-            <button onclick="filterCategory('Computer Science')" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Computer Science</button>
-            <button onclick="filterCategory('General')" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">General</button>
+            <!-- Dynamically Loaded Categories -->
           </div>
         </div>
       </div>
 
-      <!-- Marketplace Cards Grid -->
+      <!-- Marketplace Dynamic Grid -->
       <div id="marketplace-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Dynamically Rendered -->
+        <p class="col-span-full text-center text-xs text-slate-500 py-12"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading items from database...</p>
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- SECTION 2: ANNOUNCEMENTS TAB                                        -->
-    <!-- =================================================================== -->
+    <!-- TAB 2: ANNOUNCEMENTS -->
     <section id="tab-announcements" class="tab-content hidden space-y-6">
       <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex justify-between items-center flex-wrap gap-4">
         <div>
@@ -245,28 +228,26 @@
           </h2>
           <p class="text-xs text-slate-400 mt-1">Scholarships, Huye community alerts, and official platform news.</p>
         </div>
-        <button id="btn-add-announcement" onclick="handlePostAnnouncementClick()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition flex items-center gap-2 shadow-lg shadow-sky-600/20">
+        <button id="btn-add-announcement" onclick="openAnnouncementModal()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition flex items-center gap-2 shadow-lg shadow-sky-600/20">
           <i class="fa-solid fa-plus"></i> Post Official Notice
         </button>
       </div>
 
       <div id="announcements-list" class="space-y-4">
-        <!-- Dynamically Rendered -->
+        <p class="text-center text-xs text-slate-500 py-8"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Fetching announcements...</p>
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- SECTION 3: MY HUB & USER STORE TAB (LOGIN REQUIRED)                -->
-    <!-- =================================================================== -->
+    <!-- TAB 3: MY HUB & USER STORE -->
     <section id="tab-myhub" class="tab-content hidden space-y-6">
-      <!-- Unauthenticated View Guard -->
+      <!-- Unauthenticated View -->
       <div id="myhub-unauth-view" class="glass-panel p-10 rounded-3xl border border-slate-800 text-center space-y-4 max-w-xl mx-auto my-12">
         <div class="w-16 h-16 rounded-2xl bg-brand-500/10 text-brand-400 border border-brand-500/20 flex items-center justify-center text-2xl mx-auto">
           <i class="fa-solid fa-user-lock"></i>
         </div>
         <h2 class="text-xl font-bold text-white">Authentication Required</h2>
         <p class="text-xs text-slate-400 leading-relaxed">
-          Log in or register your account to manage your listings, view purchased revision materials, and update your personal details.
+          Log in or register your account to manage your listings, view purchased revision materials, and track MoMo orders.
         </p>
         <div class="pt-2 flex justify-center gap-3">
           <button onclick="switchAuthForm('login'); toggleModal('auth-modal')" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
@@ -278,10 +259,9 @@
         </div>
       </div>
 
-      <!-- Authenticated User Content Container -->
+      <!-- Authenticated View -->
       <div id="myhub-auth-view" class="hidden space-y-6">
         
-        <!-- User Profile Card Banner -->
         <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40">
           <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-2xl font-black">
@@ -306,20 +286,19 @@
           </button>
         </div>
 
-        <!-- User Hub Sub-Tabs -->
         <div class="border-b border-slate-800 flex items-center gap-6 text-xs font-semibold text-slate-400">
           <button onclick="switchUserSubTab('listings')" id="user-subtab-btn-listings" class="user-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2">
             <i class="fa-solid fa-folder-open"></i> My Posted Listings
           </button>
           <button onclick="switchUserSubTab('orders')" id="user-subtab-btn-orders" class="user-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2">
-            <i class="fa-solid fa-receipt"></i> My Purchase History
+            <i class="fa-solid fa-receipt"></i> My MoMo Purchase History
           </button>
         </div>
 
         <!-- USER SUBTAB 1: MY LISTINGS -->
         <div id="user-subtab-listings" class="space-y-4">
           <div id="user-listings-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <!-- Dynamically Rendered -->
+            <!-- Dynamically Loaded -->
           </div>
         </div>
 
@@ -329,17 +308,17 @@
             <table class="w-full text-left text-xs text-slate-300">
               <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
                 <tr>
-                  <th class="p-4">Order ID</th>
-                  <th class="p-4">Resource Item</th>
+                  <th class="p-4">Order Ref</th>
+                  <th class="p-4">Resource Title</th>
                   <th class="p-4">Price (RWF)</th>
-                  <th class="p-4">MoMo Contact</th>
+                  <th class="p-4">MoMo Phone</th>
                   <th class="p-4">Status</th>
                   <th class="p-4">Date</th>
-                  <th class="p-4 text-right">Access Material</th>
+                  <th class="p-4 text-right">Access Link</th>
                 </tr>
               </thead>
               <tbody id="user-orders-table-body" class="divide-y divide-slate-800/60">
-                <!-- Dynamically Rendered -->
+                <!-- Dynamically Loaded -->
               </tbody>
             </table>
           </div>
@@ -348,12 +327,9 @@
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- SECTION 4: STRICT PROTECTED ADMIN CONTROL CENTER (ADMIN ONLY)       -->
-    <!-- =================================================================== -->
+    <!-- TAB 4: STRICT PROTECTED ADMIN CONTROL CENTER -->
     <section id="tab-admin" class="tab-content hidden space-y-8">
       
-      <!-- Admin Control Header -->
       <div class="glass-panel p-6 rounded-3xl border border-amber-500/30 bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/30 flex flex-wrap items-center justify-between gap-4">
         <div class="space-y-1">
           <div class="flex items-center gap-2">
@@ -367,22 +343,22 @@
         
         <div class="flex items-center gap-3">
           <button onclick="refreshAllAdminViews()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
-            <i class="fa-solid fa-rotate"></i> Refresh Data
+            <i class="fa-solid fa-rotate"></i> Refresh System Data
           </button>
         </div>
       </div>
 
-      <!-- ADMIN-ONLY QUICK SWITCHER TOOL -->
+      <!-- Quick Role Switcher (Admin Feature) -->
       <div id="admin-quick-switcher" class="glass-panel p-4 rounded-2xl border border-amber-500/40 bg-amber-950/10 space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2 text-amber-400 text-xs font-bold">
             <i class="fa-solid fa-sliders"></i>
-            <span>ADMIN-ONLY QUICK ROLE PREVIEW TOOL</span>
+            <span>ADMIN-ONLY ROLE PREVIEW CONTROLLER</span>
           </div>
-          <span class="text-[10px] text-amber-300/80 bg-amber-500/20 px-2 py-0.5 rounded font-mono">STRICTLY ADMIN RESTRICTED</span>
+          <span class="text-[10px] text-amber-300/80 bg-amber-500/20 px-2 py-0.5 rounded font-mono">ADMIN PRIVILEGED</span>
         </div>
         <p class="text-xs text-slate-300">
-          As an Administrator, you can temporarily preview the application UI as a Guest or Standard User without logging out.
+          Temporarily preview the UI interface as a Guest or Standard User without logging out of your admin session.
         </p>
         <div class="flex flex-wrap items-center gap-2 pt-1">
           <button onclick="setPreviewRole('guest')" id="btn-switch-guest" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
@@ -397,7 +373,7 @@
         </div>
       </div>
 
-      <!-- Admin Stat Cards -->
+      <!-- Analytics Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex items-center justify-between text-slate-400">
@@ -405,16 +381,16 @@
             <i class="fa-solid fa-users text-indigo-400"></i>
           </div>
           <div id="stat-total-users" class="text-2xl font-black text-white">0</div>
-          <p class="text-[11px] text-slate-400">Verified platform accounts</p>
+          <p class="text-[11px] text-slate-400">Verified database users</p>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex items-center justify-between text-slate-400">
-            <span class="text-xs font-medium">Active Resources Listed</span>
+            <span class="text-xs font-medium">Active Resources</span>
             <i class="fa-solid fa-book-open text-brand-400"></i>
           </div>
           <div id="stat-total-resources" class="text-2xl font-black text-white">0</div>
-          <p class="text-[11px] text-slate-400">Academic & career items</p>
+          <p class="text-[11px] text-slate-400">Academic materials online</p>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
@@ -423,20 +399,20 @@
             <i class="fa-solid fa-coins text-amber-400"></i>
           </div>
           <div id="stat-total-revenue" class="text-2xl font-black text-amber-400">0 RWF</div>
-          <p class="text-[11px] text-slate-400">Completed MoMo transactions</p>
+          <p class="text-[11px] text-slate-400">Approved MoMo sales</p>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex items-center justify-between text-slate-400">
-            <span class="text-xs font-medium">Pending MoMo Orders</span>
+            <span class="text-xs font-medium">Pending Approvals</span>
             <i class="fa-solid fa-clock-rotate-left text-sky-400"></i>
           </div>
           <div id="stat-pending-orders" class="text-2xl font-black text-white">0</div>
-          <p class="text-[11px] text-slate-400">Awaiting approval</p>
+          <p class="text-[11px] text-slate-400">Awaiting MoMo verification</p>
         </div>
       </div>
 
-      <!-- Admin Sub-Navigation Tabs -->
+      <!-- Admin Sub-Navigation -->
       <div class="border-b border-slate-800 flex items-center gap-6 text-xs font-semibold text-slate-400 overflow-x-auto">
         <button onclick="switchAdminSubTab('users')" id="admin-tab-btn-users" class="admin-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-user-gear"></i> User Management Console
@@ -448,44 +424,32 @@
           <i class="fa-solid fa-tags"></i> Categories
         </button>
         <button onclick="switchAdminSubTab('transactions')" id="admin-tab-btn-transactions" class="admin-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2 whitespace-nowrap">
-          <i class="fa-solid fa-receipt"></i> MoMo Transactions
+          <i class="fa-solid fa-receipt"></i> MoMo Transactions & Orders
         </button>
       </div>
 
-      <!-- SUBTAB 1: USER ACCOUNT MANAGEMENT CONSOLE -->
+      <!-- ADMIN SUBTAB 1: USER MANAGEMENT -->
       <div id="admin-subtab-users" class="space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <h3 class="text-base font-bold text-slate-200">Registered Platform Users</h3>
-          <p class="text-xs text-slate-400">Manage privileges, change roles, ban or delete accounts.</p>
-        </div>
-
         <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
-                <th class="p-4">User Details</th>
+                <th class="p-4">User Info</th>
                 <th class="p-4">Phone Number</th>
                 <th class="p-4">Role</th>
-                <th class="p-4">Status</th>
+                <th class="p-4">Joined Date</th>
                 <th class="p-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody id="admin-users-table-body" class="divide-y divide-slate-800/60">
-              <!-- Dynamically Rendered -->
+              <!-- Loaded via JS -->
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- SUBTAB 2: MARKETPLACE LISTINGS MODERATION -->
+      <!-- ADMIN SUBTAB 2: MARKETPLACE MODERATION -->
       <div id="admin-subtab-resources" class="hidden space-y-4">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <h3 class="text-base font-bold text-slate-200">Marketplace Resource Inventory</h3>
-          <button onclick="toggleModal('resource-modal')" class="px-3.5 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-lg shadow-brand-600/20">
-            <i class="fa-solid fa-plus-circle"></i> Create New Item
-          </button>
-        </div>
-
         <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
@@ -498,16 +462,16 @@
               </tr>
             </thead>
             <tbody id="admin-resources-table-body" class="divide-y divide-slate-800/60">
-              <!-- Dynamically Rendered -->
+              <!-- Loaded via JS -->
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- SUBTAB 3: CATEGORY MANAGEMENT -->
+      <!-- ADMIN SUBTAB 3: CATEGORY MANAGER -->
       <div id="admin-subtab-categories" class="hidden space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <h3 class="text-base font-bold text-slate-200">Resource Categories</h3>
+          <h3 class="text-base font-bold text-slate-200">Category List</h3>
           <div class="flex items-center gap-2">
             <input type="text" id="new-category-input" placeholder="New Category Name..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500" />
             <button onclick="handleAddCategory()" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
@@ -518,32 +482,27 @@
 
         <div class="glass-panel rounded-2xl border border-slate-800 p-4">
           <div id="admin-categories-list" class="flex flex-wrap gap-2">
-            <!-- Dynamically Rendered -->
+            <!-- Loaded via JS -->
           </div>
         </div>
       </div>
 
-      <!-- SUBTAB 4: TRANSACTION & MOMO CONSOLE -->
+      <!-- ADMIN SUBTAB 4: TRANSACTION & MOMO APPROVALS -->
       <div id="admin-subtab-transactions" class="hidden space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-base font-bold text-slate-200">Mobile Money Orders & Approvals</h3>
-        </div>
-
         <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
-                <th class="p-4">Order ID</th>
+                <th class="p-4">Order Ref</th>
                 <th class="p-4">Item Name</th>
-                <th class="p-4">Buyer Contact</th>
-                <th class="p-4">Price (RWF)</th>
+                <th class="p-4">Buyer Details</th>
+                <th class="p-4">Price</th>
                 <th class="p-4">Status</th>
-                <th class="p-4">Date</th>
-                <th class="p-4 text-right">Update Order Status</th>
+                <th class="p-4 text-right">MoMo Approvals</th>
               </tr>
             </thead>
             <tbody id="admin-transactions-table-body" class="divide-y divide-slate-800/60">
-              <!-- Dynamically Rendered -->
+              <!-- Loaded via JS -->
             </tbody>
           </table>
         </div>
@@ -552,7 +511,7 @@
     </section>
   </main>
 
-  <!-- MODAL 1: AUTHENTICATION (SIGN IN / REGISTRATION) -->
+  <!-- MODAL 1: AUTHENTICATION (LOGIN / REGISTER) -->
   <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
     <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative space-y-5">
       
@@ -560,13 +519,11 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <!-- Auth Header Tabs -->
       <div class="flex border-b border-slate-800 gap-6 text-sm font-bold">
         <button id="auth-tab-login" onclick="switchAuthForm('login')" class="pb-3 text-brand-400 border-b-2 border-brand-500">Sign In</button>
         <button id="auth-tab-signup" onclick="switchAuthForm('signup')" class="pb-3 text-slate-400 hover:text-slate-200 border-b-2 border-transparent">Create Account</button>
       </div>
 
-      <!-- Sign In Form -->
       <form id="form-login" onsubmit="handleSignIn(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Email Address</label>
@@ -581,7 +538,6 @@
         </button>
       </form>
 
-      <!-- Create Account Form -->
       <form id="form-signup" onsubmit="handleSignUp(event)" class="hidden space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Full Name</label>
@@ -607,7 +563,7 @@
     </div>
   </div>
 
-  <!-- MODAL 2: ADD RESOURCE / MATERIAL -->
+  <!-- MODAL 2: ADD RESOURCE -->
   <div id="resource-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
     <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative space-y-4">
       <button onclick="toggleModal('resource-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
@@ -625,9 +581,7 @@
           <div>
             <label class="block text-xs font-medium text-slate-300 mb-1">Category</label>
             <select id="res-category" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500">
-              <option value="Pharmacy & Health">Pharmacy & Health</option>
-              <option value="Computer Science">Computer Science</option>
-              <option value="General">General</option>
+              <!-- Populated dynamically -->
             </select>
           </div>
           <div>
@@ -636,7 +590,7 @@
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Download Link / Document URL</label>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Download Link / Google Drive URL</label>
           <input type="url" id="res-link" required placeholder="https://drive.google.com/..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500" />
         </div>
         <button type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
@@ -646,41 +600,87 @@
     </div>
   </div>
 
-  <!-- SINGLE SUPABASE JS CLIENT INITIALIZATION -->
+  <!-- MODAL 3: MOMO CHECKOUT BUY MODAL -->
+  <div id="buy-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl relative space-y-4">
+      <button onclick="toggleModal('buy-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        <span>Mobile Money Order Checkout</span>
+      </div>
+
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+        <h4 id="buy-item-title" class="font-bold text-white text-sm">Resource Name</h4>
+        <p id="buy-item-price" class="text-xs text-emerald-400 font-extrabold">Price: 0 RWF</p>
+      </div>
+
+      <form onsubmit="handleConfirmPurchase(event)" class="space-y-4">
+        <input type="hidden" id="buy-item-id" />
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Your MoMo Phone Number</label>
+          <input type="tel" id="buy-momo-phone" required placeholder="0788000000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+        </div>
+        <div class="text-[11px] text-slate-400 leading-relaxed bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
+          <i class="fa-solid fa-circle-info text-amber-400 mr-1"></i> Pay via MoMo code (*182#) to <strong>0796051492</strong> (Hubert). Your access link unlocks once approved.
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
+          Submit MoMo Payment Request
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: ANNOUNCEMENT MODAL -->
+  <div id="announcement-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-lg w-full shadow-2xl relative space-y-4">
+      <button onclick="toggleModal('announcement-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-white">Post Official Announcement</h3>
+
+      <form onsubmit="handleCreateAnnouncement(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Title</label>
+          <input type="text" id="anc-title" required placeholder="Notice Title..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Content Details</label>
+          <textarea id="anc-content" required rows="4" placeholder="Write notice content..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs transition">
+          Publish Announcement
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUPABASE JS CLIENT SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     // =========================================================
-    // 1. SUPABASE CLIENT INITIALIZATION & GLOBAL STATE
+    // 1. CLIENT INITIALIZATION & STATE
     // =========================================================
     const SUPABASE_URL = "https://zdjststivwjsqwfdisgr.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_tnXGo8qIQRAlanNpi4gNFA_BIgSiCRh";
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log("Supabase connected successfully!");
 
     let currentUser = null;
     let currentProfile = null;
     let previewRoleOverride = null;
     let activeCategoryFilter = 'All';
-
-    let categoriesList = ['Pharmacy & Health', 'Computer Science', 'General'];
-
-    let sampleResources = [
-      { id: '1', title: 'Human Physiology & Somatosensory Notes', category: 'Pharmacy & Health', price: 1500, contact: '0796051492', seller: 'Hubert Irahari' },
-      { id: '2', title: 'Organic Chemistry Reactions & Back Titrations', category: 'Pharmacy & Health', price: 0, contact: '0780000000', seller: 'Academic Peer' },
-      { id: '3', title: 'Database Systems & SQL Overview', category: 'Computer Science', price: 2000, contact: '0796051492', seller: 'Hubert Irahari' }
-    ];
-
-    let sampleOrders = [
-      { id: 'ORD-101', item: 'Human Physiology Notes', price: 1500, contact: '0788123456', status: 'Approved', date: '2026-03-28' },
-      { id: 'ORD-102', item: 'Database Systems Overview', price: 2000, contact: '0796051492', status: 'Pending', date: '2026-04-01' }
-    ];
+    let availableCategories = [];
 
     // =========================================================
-    // 2. AUTHENTICATION & SESSION HANDLING
+    // 2. LIFECYCLE & AUTHENTICATION
     // =========================================================
     window.addEventListener('DOMContentLoaded', async () => {
+      // Restore Session
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         currentUser = session.user;
@@ -689,6 +689,7 @@
         updateUI();
       }
 
+      // Realtime Session Listener
       supabase.auth.onAuthStateChange(async (event, session) => {
         if (session) {
           currentUser = session.user;
@@ -700,9 +701,9 @@
         }
       });
 
-      renderMarketplace();
-      renderAnnouncements();
-      renderCategories();
+      await loadCategories();
+      await renderMarketplace();
+      await renderAnnouncements();
     });
 
     async function fetchUserProfile(userId) {
@@ -728,24 +729,20 @@
       const phone = document.getElementById('signup-phone').value.trim();
       const password = document.getElementById('signup-password').value;
 
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: fullName, phone: phone } }
+      });
 
       if (error) {
-        showToast("Registration error: " + error.message, "error");
+        showToast("Sign up error: " + error.message, "error");
         return;
       }
 
-      if (data.user) {
-        const { error: profileErr } = await supabase
-          .from('profiles')
-          .insert([{ id: data.user.id, full_name: fullName, email: email, phone: phone, role: 'user' }]);
-
-        if (profileErr) console.warn("Profile table sync:", profileErr.message);
-
-        showToast("Account created successfully! Welcome aboard.", "success");
-        toggleModal('auth-modal');
-        document.getElementById('form-signup').reset();
-      }
+      showToast("Account created successfully! Check email or sign in.", "success");
+      toggleModal('auth-modal');
+      document.getElementById('form-signup').reset();
     }
 
     async function handleSignIn(event) {
@@ -758,7 +755,7 @@
       if (error) {
         showToast("Login failed: " + error.message, "error");
       } else {
-        showToast("Logged in successfully!", "success");
+        showToast("Welcome back!", "success");
         toggleModal('auth-modal');
         document.getElementById('form-login').reset();
       }
@@ -770,7 +767,7 @@
     }
 
     // =========================================================
-    // 3. UI STATE & ROLE CONTROL
+    // 3. UI ROLES & STATE
     // =========================================================
     function getEffectiveRole() {
       if (previewRoleOverride) return previewRoleOverride;
@@ -811,7 +808,7 @@
         document.getElementById('myhub-auth-view').classList.remove('hidden');
         document.getElementById('hub-profile-name').textContent = displayName;
         document.getElementById('hub-profile-email').textContent = currentUser.email;
-        document.getElementById('hub-profile-phone').textContent = currentProfile?.phone || 'Not provided';
+        document.getElementById('hub-profile-phone').textContent = currentProfile?.phone || 'Not set';
         document.getElementById('hub-profile-role-badge').textContent = role.toUpperCase();
 
         renderUserOrders();
@@ -829,7 +826,7 @@
 
     function setPreviewRole(role) {
       previewRoleOverride = role;
-      showToast(`Switched view to: ${role.toUpperCase()}`, 'info');
+      showToast(`Role preview switched to: ${role.toUpperCase()}`, 'info');
       updateUI();
     }
 
@@ -856,14 +853,6 @@
     function switchUserSubTab(subTab) {
       document.getElementById('user-subtab-listings').classList.toggle('hidden', subTab !== 'listings');
       document.getElementById('user-subtab-orders').classList.toggle('hidden', subTab !== 'orders');
-
-      document.getElementById('user-subtab-btn-listings').className = subTab === 'listings' ? 
-        'user-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2' : 
-        'user-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2';
-
-      document.getElementById('user-subtab-btn-orders').className = subTab === 'orders' ? 
-        'user-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2' : 
-        'user-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2';
     }
 
     function switchAdminSubTab(subTab) {
@@ -901,23 +890,53 @@
     }
 
     function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+      document.getElementById('mobile-menu').classList.toggle('hidden');
     }
 
     // =========================================================
-    // 5. MARKETPLACE & USER STORE LOGIC
+    // 5. CATEGORIES & MARKETPLACE
     // =========================================================
+    async function loadCategories() {
+      const { data, error } = await supabase.from('categories').select('*').order('name');
+      const pillsContainer = document.getElementById('category-pills');
+      const selectContainer = document.getElementById('res-category');
+
+      pillsContainer.innerHTML = `<button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${activeCategoryFilter === 'All' ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">All</button>`;
+      selectContainer.innerHTML = '';
+
+      if (!error && data && data.length > 0) {
+        availableCategories = data.map(c => c.name);
+        data.forEach(c => {
+          pillsContainer.innerHTML += `
+            <button onclick="filterCategory('${c.name}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${activeCategoryFilter === c.name ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${c.name}</button>
+          `;
+          selectContainer.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+        });
+      } else {
+        availableCategories = ['Pharmacy & Health', 'Computer Science', 'General Academic'];
+        availableCategories.forEach(c => {
+          pillsContainer.innerHTML += `<button onclick="filterCategory('${c}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">${c}</button>`;
+          selectContainer.innerHTML += `<option value="${c}">${c}</option>`;
+        });
+      }
+
+      renderAdminCategories();
+    }
+
     async function renderMarketplace() {
       const grid = document.getElementById('marketplace-grid');
       const userGrid = document.getElementById('user-listings-grid');
       grid.innerHTML = '';
       if (userGrid) userGrid.innerHTML = '';
 
-      const { data: dbItems, error } = await supabase.from('marketplace').select('*');
-      const itemsToRender = (!error && dbItems && dbItems.length > 0) ? dbItems : sampleResources;
+      const { data: dbItems, error } = await supabase.from('marketplace').select('*').order('created_at', { ascending: false });
 
-      const filtered = itemsToRender.filter(item => {
+      if (error || !dbItems || dbItems.length === 0) {
+        grid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No marketplace materials listed yet.</p>`;
+        return;
+      }
+
+      const filtered = dbItems.filter(item => {
         const matchesCategory = (activeCategoryFilter === 'All' || item.category === activeCategoryFilter);
         const searchVal = document.getElementById('search-resources')?.value.toLowerCase() || '';
         const matchesSearch = item.title.toLowerCase().includes(searchVal);
@@ -925,7 +944,7 @@
       });
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No materials found.</p>`;
+        grid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No results match your search.</p>`;
         return;
       }
 
@@ -936,25 +955,30 @@
             <div class="space-y-2">
               <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">${item.category}</span>
               <h3 class="font-bold text-white text-base leading-snug">${item.title}</h3>
-              <p class="text-xs text-slate-400">Seller: ${item.seller || 'Verified Learner'}</p>
+              <p class="text-xs text-slate-400">Seller: ${item.seller_name || 'Hub Member'}</p>
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
               <span class="text-xs font-bold text-slate-200">${priceTag}</span>
-              <a href="https://wa.me/250${item.contact || '796051492'}?text=Hello,%20I%20want%20to%20buy:%20${encodeURIComponent(item.title)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
+              <button onclick="openBuyModal('${item.id}', '${escapeQuotes(item.title)}', ${item.price})" class="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
                 Get Material
-              </a>
+              </button>
             </div>
           </div>
         `;
         grid.innerHTML += cardHTML;
-        if (userGrid && (item.seller === (currentProfile?.full_name || currentUser?.email))) {
+        if (userGrid && currentUser && item.seller_id === currentUser.id) {
           userGrid.innerHTML += cardHTML;
         }
       });
     }
 
+    function escapeQuotes(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
     function filterCategory(cat) {
       activeCategoryFilter = cat;
+      loadCategories();
       renderMarketplace();
     }
 
@@ -973,96 +997,181 @@
 
     async function handlePostResource(e) {
       e.preventDefault();
-      const title = document.getElementById('res-title').value;
+      const title = document.getElementById('res-title').value.trim();
       const category = document.getElementById('res-category').value;
-      const price = document.getElementById('res-price').value;
-      const link = document.getElementById('res-link').value;
+      const price = parseFloat(document.getElementById('res-price').value);
+      const link = document.getElementById('res-link').value.trim();
 
       const newItem = {
-        title, category, price: parseInt(price), link,
+        title,
+        category,
+        price,
+        file_url: link,
         contact: currentProfile?.phone || '0796051492',
-        seller: currentProfile?.full_name || currentUser.email
+        seller_id: currentUser.id,
+        seller_name: currentProfile?.full_name || currentUser.email
       };
 
       const { error } = await supabase.from('marketplace').insert([newItem]);
-      if (error) sampleResources.push({ id: Date.now().toString(), ...newItem });
 
-      showToast("Resource published successfully!", "success");
-      toggleModal('resource-modal');
-      renderMarketplace();
+      if (error) {
+        showToast("Error creating item: " + error.message, "error");
+      } else {
+        showToast("Material published successfully!", "success");
+        toggleModal('resource-modal');
+        renderMarketplace();
+      }
     }
 
-    function renderUserOrders() {
+    // =========================================================
+    // 6. MOMO PURCHASES & ORDERS
+    // =========================================================
+    function openBuyModal(id, title, price) {
+      if (!currentUser) {
+        showToast("Please sign in to request materials", "info");
+        toggleModal('auth-modal');
+        return;
+      }
+
+      document.getElementById('buy-item-id').value = id;
+      document.getElementById('buy-item-title').textContent = title;
+      document.getElementById('buy-item-price').textContent = `Price: ${price > 0 ? price + ' RWF' : 'FREE'}`;
+      document.getElementById('buy-momo-phone').value = currentProfile?.phone || '';
+      toggleModal('buy-modal');
+    }
+
+    async function handleConfirmPurchase(e) {
+      e.preventDefault();
+      const itemId = document.getElementById('buy-item-id').value;
+      const title = document.getElementById('buy-item-title').textContent;
+      const phone = document.getElementById('buy-momo-phone').value.trim();
+      const momoRef = 'MOMO-' + Math.floor(100000 + Math.random() * 900000);
+
+      const newOrder = {
+        item_id: itemId,
+        item_title: title,
+        price: 1000,
+        buyer_id: currentUser.id,
+        buyer_name: currentProfile?.full_name || currentUser.email,
+        buyer_phone: phone,
+        momo_ref: momoRef,
+        status: 'Pending'
+      };
+
+      const { error } = await supabase.from('orders').insert([newOrder]);
+
+      if (error) {
+        showToast("Checkout error: " + error.message, "error");
+      } else {
+        showToast(`Order ${momoRef} submitted! Verification in progress.`, "success");
+        toggleModal('buy-modal');
+        renderUserOrders();
+      }
+    }
+
+    async function renderUserOrders() {
       const tbody = document.getElementById('user-orders-table-body');
-      if (!tbody) return;
+      if (!tbody || !currentUser) return;
+
+      const { data, error } = await supabase.from('orders').select('*').eq('buyer_id', currentUser.id).order('created_at', { ascending: false });
+
       tbody.innerHTML = '';
 
-      sampleOrders.forEach(o => {
+      if (error || !data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">No purchase records found.</td></tr>`;
+        return;
+      }
+
+      data.forEach(o => {
         tbody.innerHTML += `
           <tr>
-            <td class="p-4 font-mono text-slate-400">${o.id}</td>
-            <td class="p-4 font-bold text-white">${o.item}</td>
+            <td class="p-4 font-mono text-slate-400 text-[11px]">${o.momo_ref}</td>
+            <td class="p-4 font-bold text-white">${o.item_title}</td>
             <td class="p-4">${o.price} RWF</td>
-            <td class="p-4">${o.contact}</td>
-            <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
-            <td class="p-4 text-slate-400">${o.date}</td>
-            <td class="p-4 text-right"><a href="#" class="text-brand-400 hover:underline">Download</a></td>
+            <td class="p-4">${o.buyer_phone}</td>
+            <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
+            <td class="p-4 text-slate-400 text-[11px]">${new Date(o.created_at).toLocaleDateString()}</td>
+            <td class="p-4 text-right">
+              ${o.status === 'Approved' ? `<a href="#" class="text-brand-400 hover:underline font-bold">Download</a>` : `<span class="text-slate-500 italic">Locked</span>`}
+            </td>
           </tr>
         `;
       });
     }
 
     // =========================================================
-    // 6. ANNOUNCEMENTS & CATEGORIES
+    // 7. ANNOUNCEMENTS
     // =========================================================
-    function renderAnnouncements() {
+    async function renderAnnouncements() {
       const list = document.getElementById('announcements-list');
-      list.innerHTML = `
-        <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-2">
-          <div class="flex items-center justify-between text-xs text-sky-400 font-semibold">
-            <span>Official Platform Notice</span>
-            <span>Huye Hub</span>
-          </div>
-          <h3 class="font-bold text-white text-base">Welcome to Opportunity & Digital Hub</h3>
-          <p class="text-xs text-slate-300">Access verified study sheets, past papers, and local opportunities directly in Huye.</p>
-        </div>
-      `;
-    }
+      const { data, error } = await supabase.from('announcements').select('*').order('created_at', { ascending: false });
 
-    function handlePostAnnouncementClick() {
-      if (getEffectiveRole() !== 'admin') {
-        showToast("Only System Administrators can post public notices", "error");
-      } else {
-        showToast("Notice editor opened", "info");
-      }
-    }
-
-    function renderCategories() {
-      const list = document.getElementById('admin-categories-list');
-      if (!list) return;
       list.innerHTML = '';
-      categoriesList.forEach(c => {
-        list.innerHTML += `<span class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-slate-200 font-medium">${c}</span>`;
+
+      if (error || !data || data.length === 0) {
+        list.innerHTML = `
+          <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs text-sky-400 font-semibold">
+              <span>Official Notice</span>
+              <span>Hub Admin</span>
+            </div>
+            <h3 class="font-bold text-white text-base">Welcome to Opportunity & Digital Hub</h3>
+            <p class="text-xs text-slate-300">Hub platform is online for academic resources and announcements in Huye.</p>
+          </div>
+        `;
+        return;
+      }
+
+      data.forEach(a => {
+        list.innerHTML += `
+          <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs text-sky-400 font-semibold">
+              <span>Official Announcement</span>
+              <span>${a.author_name || 'Admin'}</span>
+            </div>
+            <h3 class="font-bold text-white text-base">${a.title}</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">${a.content}</p>
+            <p class="text-[10px] text-slate-500 pt-1">${new Date(a.created_at).toLocaleString()}</p>
+          </div>
+        `;
       });
     }
 
-    function handleAddCategory() {
-      const val = document.getElementById('new-category-input').value.trim();
-      if (val && !categoriesList.includes(val)) {
-        categoriesList.push(val);
-        renderCategories();
-        document.getElementById('new-category-input').value = '';
-        showToast("Category added successfully!", "success");
+    function openAnnouncementModal() {
+      if (getEffectiveRole() !== 'admin') {
+        showToast("Only System Administrators can create notices", "error");
+        return;
+      }
+      toggleModal('announcement-modal');
+    }
+
+    async function handleCreateAnnouncement(e) {
+      e.preventDefault();
+      const title = document.getElementById('anc-title').value.trim();
+      const content = document.getElementById('anc-content').value.trim();
+
+      const { error } = await supabase.from('announcements').insert([{
+        title,
+        content,
+        author_name: currentProfile?.full_name || 'Hub Management'
+      }]);
+
+      if (error) {
+        showToast("Notice creation error: " + error.message, "error");
+      } else {
+        showToast("Announcement published!", "success");
+        toggleModal('announcement-modal');
+        renderAnnouncements();
       }
     }
 
     // =========================================================
-    // 7. ADMIN ANALYTICS & TABLES
+    // 8. ADMIN DASHBOARD & CONTROLS
     // =========================================================
     async function refreshAllAdminViews() {
-      showToast("Refreshing admin data...", "info");
       const { data: users } = await supabase.from('profiles').select('*');
       const { data: items } = await supabase.from('marketplace').select('*');
+      const { data: orders } = await supabase.from('orders').select('*');
 
       if (users) {
         document.getElementById('stat-total-users').textContent = users.length;
@@ -1071,12 +1180,12 @@
         users.forEach(u => {
           body.innerHTML += `
             <tr>
-              <td class="p-4 font-bold text-white">${u.full_name || 'N/A'}<br><span class="text-[10px] font-mono text-slate-500">${u.email}</span></td>
+              <td class="p-4 font-bold text-white">${u.full_name}<br><span class="text-[10px] font-mono text-slate-500">${u.email}</span></td>
               <td class="p-4">${u.phone || 'N/A'}</td>
-              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] bg-brand-500/20 text-brand-300 font-bold uppercase">${u.role}</span></td>
-              <td class="p-4"><span class="text-emerald-400">Active</span></td>
+              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-amber-500/20 text-amber-300' : 'bg-brand-500/20 text-brand-300'} uppercase">${u.role}</span></td>
+              <td class="p-4 text-slate-400 text-[11px]">${new Date(u.created_at).toLocaleDateString()}</td>
               <td class="p-4 text-right">
-                <button onclick="deleteUser('${u.id}')" class="px-2.5 py-1 rounded bg-rose-600/20 text-rose-400 hover:bg-rose-600/40 text-[11px] font-medium transition">Delete</button>
+                <button onclick="toggleUserRole('${u.id}', '${u.role}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] mr-1">Toggle Role</button>
               </td>
             </tr>
           `;
@@ -1093,31 +1202,38 @@
               <td class="p-4 font-bold text-white">${i.title}</td>
               <td class="p-4">${i.category}</td>
               <td class="p-4">${i.price} RWF</td>
-              <td class="p-4">${i.contact || 'N/A'}</td>
-              <td class="p-4 text-right"><span class="text-slate-500">Managed</span></td>
+              <td class="p-4">${i.contact}</td>
+              <td class="p-4 text-right">
+                <button onclick="deleteResource('${i.id}')" class="px-2 py-1 bg-rose-600/20 text-rose-400 hover:bg-rose-600/40 rounded text-[11px]">Delete</button>
+              </td>
             </tr>
           `;
         });
       }
 
-      document.getElementById('stat-total-revenue').textContent = '3,500 RWF';
-      document.getElementById('stat-pending-orders').textContent = '1';
+      if (orders) {
+        const approvedOrders = orders.filter(o => o.status === 'Approved');
+        const totalRevenue = approvedOrders.reduce((sum, o) => sum + (o.price || 0), 0);
+        const pendingCount = orders.filter(o => o.status === 'Pending').length;
 
-      // Render Admin Transactions
-      const txBody = document.getElementById('admin-transactions-table-body');
-      if (txBody) {
+        document.getElementById('stat-total-revenue').textContent = totalRevenue + ' RWF';
+        document.getElementById('stat-pending-orders').textContent = pendingCount;
+
+        const txBody = document.getElementById('admin-transactions-table-body');
         txBody.innerHTML = '';
-        sampleOrders.forEach(o => {
+        orders.forEach(o => {
           txBody.innerHTML += `
             <tr>
-              <td class="p-4 font-mono text-slate-400">${o.id}</td>
-              <td class="p-4 font-bold text-white">${o.item}</td>
-              <td class="p-4">${o.contact}</td>
+              <td class="p-4 font-mono text-slate-400 text-[11px]">${o.momo_ref}</td>
+              <td class="p-4 font-bold text-white">${o.item_title}</td>
+              <td class="p-4">${o.buyer_name}<br><span class="text-[10px] text-slate-500">${o.buyer_phone}</span></td>
               <td class="p-4">${o.price} RWF</td>
-              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
-              <td class="p-4 text-slate-400">${o.date}</td>
+              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
               <td class="p-4 text-right">
-                <button onclick="showToast('Status Updated', 'success')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200">Approve</button>
+                ${o.status === 'Pending' ? `
+                  <button onclick="updateOrderStatus('${o.id}', 'Approved')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] mr-1">Approve</button>
+                  <button onclick="updateOrderStatus('${o.id}', 'Rejected')" class="px-2 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded text-[11px]">Reject</button>
+                ` : `<span class="text-slate-500 text-[11px]">Processed</span>`}
               </td>
             </tr>
           `;
@@ -1125,25 +1241,53 @@
       }
     }
 
-    async function deleteUser(userId) {
-      showConfirmModal("Delete User Account", "Are you sure you want to remove this user from the system database?", async () => {
-        const { error } = await supabase.from('profiles').delete().eq('id', userId);
-        if (!error) {
-          showToast("User deleted successfully", "success");
-          refreshAllAdminViews();
-        } else {
-          showToast("Failed to delete user: " + error.message, "error");
-        }
+    async function toggleUserRole(userId, currentRole) {
+      const newRole = currentRole === 'admin' ? 'user' : 'admin';
+      const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', userId);
+      if (error) showToast("Role update error: " + error.message, "error");
+      else { showToast("Role updated to " + newRole, "success"); refreshAllAdminViews(); }
+    }
+
+    async function deleteResource(id) {
+      showConfirmModal("Delete Resource", "Permanently remove this item from marketplace?", async () => {
+        const { error } = await supabase.from('marketplace').delete().eq('id', id);
+        if (!error) { showToast("Item deleted", "success"); refreshAllAdminViews(); renderMarketplace(); }
       });
     }
 
+    async function updateOrderStatus(orderId, status) {
+      const { error } = await supabase.from('orders').update({ status }).eq('id', orderId);
+      if (!error) { showToast(`Order marked as ${status}`, "success"); refreshAllAdminViews(); }
+    }
+
+    function renderAdminCategories() {
+      const list = document.getElementById('admin-categories-list');
+      if (!list) return;
+      list.innerHTML = '';
+      availableCategories.forEach(c => {
+        list.innerHTML += `<span class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-slate-200 font-medium">${c}</span>`;
+      });
+    }
+
+    async function handleAddCategory() {
+      const val = document.getElementById('new-category-input').value.trim();
+      if (!val) return;
+      const { error } = await supabase.from('categories').insert([{ name: val }]);
+      if (!error) {
+        showToast("Category added", "success");
+        document.getElementById('new-category-input').value = '';
+        await loadCategories();
+      } else {
+        showToast("Error adding category: " + error.message, "error");
+      }
+    }
+
     // =========================================================
-    // 8. TOAST NOTIFICATIONS & CONFIRMATION MODAL
+    // 9. UTILITIES
     // =========================================================
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-
       const colors = {
         success: 'bg-emerald-900/90 border-emerald-500 text-emerald-200',
         error: 'bg-rose-900/90 border-rose-500 text-rose-200',
@@ -1152,7 +1296,6 @@
 
       toast.className = `p-4 rounded-2xl border text-xs font-semibold shadow-2xl transition-all duration-300 pointer-events-auto ${colors[type] || colors.info}`;
       toast.textContent = message;
-
       container.appendChild(toast);
       setTimeout(() => toast.remove(), 4000);
     }
@@ -1169,14 +1312,12 @@
 
       document.getElementById('confirm-ok-btn').onclick = () => {
         if (onConfirmCallback) onConfirmCallback();
-        closeConfirmModal(true);
+        closeConfirmModal();
       };
     }
 
     function closeConfirmModal() {
-      const modal = document.getElementById('confirm-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      document.getElementById('confirm-modal').classList.add('hidden');
     }
   </script>
 </body>
