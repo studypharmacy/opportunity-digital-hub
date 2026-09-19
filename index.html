@@ -1917,5 +1917,16 @@
       renderAnnouncements();
     };
   </script>
+<!-- Supabase Client Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Supabase Connection -->
+<script>
+  const SUPABASE_URL = "https://YOUR_PROJECT_REF.supabase.co"; 
+  const SUPABASE_ANON_KEY = "sb_publishable_tnXGo8qIQRAlanNpi4gNFA_BIgSiCRh";
+
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  console.log("Supabase connected successfully!");
+</script>
 </body>
 </html>
