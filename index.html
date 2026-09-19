@@ -41,7 +41,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- Glassmorphism & Custom Styling -->
+  <!-- Glassmorphism & Custom CSS -->
   <style>
     body { font-family: 'Inter', sans-serif; }
     .glass-panel {
@@ -75,7 +75,7 @@
       </div>
       <p id="confirm-message" class="text-sm text-slate-300">Are you sure you want to perform this operation?</p>
       <div class="flex justify-end gap-3 pt-2">
-        <button onclick="closeConfirmModal(false)" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Cancel</button>
+        <button id="confirm-cancel-btn" onclick="closeConfirmModal(false)" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Cancel</button>
         <button id="confirm-ok-btn" class="px-4 py-2 rounded-xl text-xs font-medium bg-rose-600 hover:bg-rose-500 text-white transition">Proceed</button>
       </div>
     </div>
@@ -100,7 +100,7 @@
         </div>
       </div>
 
-      <!-- Main Desktop Navigation -->
+      <!-- Navigation Links -->
       <nav class="hidden md:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800 text-xs font-semibold">
         <button id="nav-marketplace" onclick="switchTab('marketplace')" class="nav-btn active px-4 py-2 rounded-xl flex items-center gap-2 transition text-brand-400 bg-brand-500/10 border border-brand-500/20">
           <i class="fa-solid fa-store"></i> Marketplace & Notes
@@ -111,25 +111,27 @@
         <button id="nav-myhub" onclick="switchTab('myhub')" class="nav-btn px-4 py-2 rounded-xl flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
           <i class="fa-solid fa-user-gear"></i> My Hub & Store
         </button>
-        <button id="nav-admin" onclick="switchTab('admin')" class="nav-btn hidden px-4 py-2 rounded-xl flex items-center gap-2 text-amber-400 hover:bg-amber-500/10 border border-amber-500/30 transition">
+        <button id="nav-admin" onclick="switchTab('admin')" class="nav-btn hidden px-4 py-2 rounded-xl items-center gap-2 text-amber-400 hover:bg-amber-500/10 border border-amber-500/30 transition">
           <i class="fa-solid fa-shield-halved"></i> Admin Control
         </button>
       </nav>
 
       <!-- User Widget & WhatsApp Quick Link -->
       <div class="flex items-center gap-3">
+        <!-- Direct WhatsApp Quick Chat with IRAHARI Hubert -->
         <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20am%20contacting%20you%20from%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold transition">
           <i class="fa-brands fa-whatsapp text-sm"></i>
           <span>Hub Manager</span>
         </a>
 
-        <!-- Auth Navigation Widget (JS Injected) -->
+        <!-- Dynamic User Auth Widget -->
         <div id="user-profile-widget">
           <button onclick="toggleModal('auth-modal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
             Sign In / Register
           </button>
         </div>
 
+        <!-- Mobile Menu Toggle -->
         <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
           <i class="fa-solid fa-bars text-base"></i>
         </button>
@@ -137,7 +139,7 @@
 
     </div>
 
-    <!-- Mobile Drawer -->
+    <!-- Mobile Navigation Drawer -->
     <div id="mobile-menu" class="hidden md:hidden pt-3 mt-3 border-t border-slate-800/80 flex flex-col gap-2 text-xs font-medium">
       <button onclick="switchTab('marketplace'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl bg-slate-900 text-slate-200 flex items-center gap-2">
         <i class="fa-solid fa-store text-brand-400"></i> Marketplace & Notes
@@ -154,7 +156,7 @@
     </div>
   </header>
 
-  <!-- Environment & Role Status Banner -->
+  <!-- Active Environment Role Banner -->
   <section id="environment-banner" class="bg-slate-900/80 border-b border-slate-800 px-4 py-2">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2">
       <div id="env-badge-container" class="flex items-center gap-2 font-mono text-[11px]">
@@ -162,7 +164,8 @@
         <span id="user-role-label">Status: Guest User</span>
       </div>
       <div id="env-action-container" class="flex items-center gap-2 text-[11px] text-slate-400">
-        <span>Supabase Auth & Database Live</span>
+        <i class="fa-solid fa-database text-brand-400"></i>
+        <span>Supabase Auth & Database Connected</span>
       </div>
     </div>
   </section>
@@ -170,8 +173,12 @@
   <!-- Main View Container -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-8">
 
-    <!-- SECTION 1: MARKETPLACE & NOTES TAB -->
+    <!-- =================================================================== -->
+    <!-- SECTION 1: MARKETPLACE & NOTES TAB (PUBLIC / ALL USERS)            -->
+    <!-- =================================================================== -->
     <section id="tab-marketplace" class="tab-content space-y-6">
+      
+      <!-- Hero Banner -->
       <div class="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900/90 to-emerald-950/40">
         <div class="relative z-10 max-w-2xl space-y-3">
           <div class="flex items-center gap-2">
@@ -188,6 +195,7 @@
           <p class="text-sm text-slate-300 leading-relaxed">
             Buy revision materials, modules, and study sheets from verified learners. Post your own materials to earn money or share free academic resources.
           </p>
+          
           <div class="pt-2 flex flex-wrap items-center gap-3">
             <button onclick="handlePostNewMaterialClick()" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20 flex items-center gap-2">
               <i class="fa-solid fa-plus-circle"></i> Post New Material / Opportunity
@@ -197,6 +205,9 @@
             </a>
           </div>
         </div>
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-brand-400 pointer-events-none">
+          <i class="fa-solid fa-graduation-cap text-[200px]"></i>
+        </div>
       </div>
 
       <!-- Search & Filters Bar -->
@@ -205,11 +216,15 @@
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
           <input id="search-resources" oninput="filterMarketplace()" type="text" placeholder="Search notes, modules, papers..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 transition" />
         </div>
-        <div id="category-pills" class="flex items-center gap-1.5 overflow-x-auto pb-1 w-full sm:w-auto custom-scrollbar">
-          <button onclick="filterCategory('All')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white transition">All</button>
-          <button onclick="filterCategory('Pharmacy & Health')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Pharmacy & Health</button>
-          <button onclick="filterCategory('Computer Science')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Computer Science</button>
-          <button onclick="filterCategory('General')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">General</button>
+        
+        <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 custom-scrollbar">
+          <span class="text-xs text-slate-400 whitespace-nowrap mr-1"><i class="fa-solid fa-filter mr-1"></i>Filter:</span>
+          <div id="category-pills" class="flex items-center gap-1.5">
+            <button onclick="filterCategory('All')" class="cat-pill active px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white transition">All</button>
+            <button onclick="filterCategory('Pharmacy & Health')" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Pharmacy & Health</button>
+            <button onclick="filterCategory('Computer Science')" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Computer Science</button>
+            <button onclick="filterCategory('General')" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">General</button>
+          </div>
         </div>
       </div>
 
@@ -219,7 +234,9 @@
       </div>
     </section>
 
-    <!-- SECTION 2: ANNOUNCEMENTS TAB -->
+    <!-- =================================================================== -->
+    <!-- SECTION 2: ANNOUNCEMENTS TAB                                        -->
+    <!-- =================================================================== -->
     <section id="tab-announcements" class="tab-content hidden space-y-6">
       <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex justify-between items-center flex-wrap gap-4">
         <div>
@@ -228,7 +245,7 @@
           </h2>
           <p class="text-xs text-slate-400 mt-1">Scholarships, Huye community alerts, and official platform news.</p>
         </div>
-        <button onclick="handlePostAnnouncementClick()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition flex items-center gap-2">
+        <button id="btn-add-announcement" onclick="handlePostAnnouncementClick()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition flex items-center gap-2 shadow-lg shadow-sky-600/20">
           <i class="fa-solid fa-plus"></i> Post Official Notice
         </button>
       </div>
@@ -238,7 +255,9 @@
       </div>
     </section>
 
-    <!-- SECTION 3: MY HUB & USER STORE TAB -->
+    <!-- =================================================================== -->
+    <!-- SECTION 3: MY HUB & USER STORE TAB (LOGIN REQUIRED)                -->
+    <!-- =================================================================== -->
     <section id="tab-myhub" class="tab-content hidden space-y-6">
       <!-- Unauthenticated View Guard -->
       <div id="myhub-unauth-view" class="glass-panel p-10 rounded-3xl border border-slate-800 text-center space-y-4 max-w-xl mx-auto my-12">
@@ -250,7 +269,7 @@
           Log in or register your account to manage your listings, view purchased revision materials, and update your personal details.
         </p>
         <div class="pt-2 flex justify-center gap-3">
-          <button onclick="switchAuthForm('login'); toggleModal('auth-modal')" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition">
+          <button onclick="switchAuthForm('login'); toggleModal('auth-modal')" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
             Sign In Now
           </button>
           <button onclick="switchAuthForm('signup'); toggleModal('auth-modal')" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs transition border border-slate-700">
@@ -259,8 +278,10 @@
         </div>
       </div>
 
-      <!-- Authenticated View Container -->
+      <!-- Authenticated User Content Container -->
       <div id="myhub-auth-view" class="hidden space-y-6">
+        
+        <!-- User Profile Card Banner -->
         <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40">
           <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-2xl font-black">
@@ -269,34 +290,70 @@
             <div>
               <div class="flex items-center gap-2">
                 <h2 id="hub-profile-name" class="text-xl font-bold text-white">User Name</h2>
-                <span id="hub-profile-role-badge" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-brand-500/20 text-brand-300 border border-brand-500/30">
+                <span id="hub-profile-role-badge" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-brand-500/20 text-brand-300 border border-brand-500/30 uppercase">
                   USER
                 </span>
               </div>
               <p id="hub-profile-email" class="text-xs text-slate-400 font-mono">user@example.com</p>
               <div class="flex items-center gap-4 text-[11px] text-slate-400 mt-1">
-                <span><i class="fa-solid fa-phone text-emerald-400 mr-1"></i><span id="hub-profile-phone">Phone</span></span>
+                <span><i class="fa-solid fa-phone text-emerald-400 mr-1"></i><span id="hub-profile-phone">078...</span></span>
               </div>
             </div>
           </div>
 
-          <button onclick="toggleModal('resource-modal')" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition flex items-center gap-2">
+          <button onclick="toggleModal('resource-modal')" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20 flex items-center gap-2">
             <i class="fa-solid fa-plus"></i> Post New Material
           </button>
         </div>
 
-        <!-- User Listings Grid -->
-        <div class="space-y-4">
-          <h3 class="text-sm font-bold text-slate-200">My Posted Resources</h3>
+        <!-- User Hub Sub-Tabs -->
+        <div class="border-b border-slate-800 flex items-center gap-6 text-xs font-semibold text-slate-400">
+          <button onclick="switchUserSubTab('listings')" id="user-subtab-btn-listings" class="user-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2">
+            <i class="fa-solid fa-folder-open"></i> My Posted Listings
+          </button>
+          <button onclick="switchUserSubTab('orders')" id="user-subtab-btn-orders" class="user-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2">
+            <i class="fa-solid fa-receipt"></i> My Purchase History
+          </button>
+        </div>
+
+        <!-- USER SUBTAB 1: MY LISTINGS -->
+        <div id="user-subtab-listings" class="space-y-4">
           <div id="user-listings-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <!-- Dynamically Rendered -->
           </div>
         </div>
+
+        <!-- USER SUBTAB 2: MY PURCHASES -->
+        <div id="user-subtab-orders" class="hidden space-y-4">
+          <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
+            <table class="w-full text-left text-xs text-slate-300">
+              <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="p-4">Order ID</th>
+                  <th class="p-4">Resource Item</th>
+                  <th class="p-4">Price (RWF)</th>
+                  <th class="p-4">MoMo Contact</th>
+                  <th class="p-4">Status</th>
+                  <th class="p-4">Date</th>
+                  <th class="p-4 text-right">Access Material</th>
+                </tr>
+              </thead>
+              <tbody id="user-orders-table-body" class="divide-y divide-slate-800/60">
+                <!-- Dynamically Rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- SECTION 4: STRICT ADMIN CONTROL CENTER -->
+    <!-- =================================================================== -->
+    <!-- SECTION 4: STRICT PROTECTED ADMIN CONTROL CENTER (ADMIN ONLY)       -->
+    <!-- =================================================================== -->
     <section id="tab-admin" class="tab-content hidden space-y-8">
+      
+      <!-- Admin Control Header -->
       <div class="glass-panel p-6 rounded-3xl border border-amber-500/30 bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/30 flex flex-wrap items-center justify-between gap-4">
         <div class="space-y-1">
           <div class="flex items-center gap-2">
@@ -307,54 +364,109 @@
           </div>
           <h2 class="text-2xl font-bold text-white">Platform Control & Analytics</h2>
         </div>
+        
+        <div class="flex items-center gap-3">
+          <button onclick="refreshAllAdminViews()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
+            <i class="fa-solid fa-rotate"></i> Refresh Data
+          </button>
+        </div>
       </div>
 
-      <!-- Quick Role Preview Switcher -->
-      <div class="glass-panel p-4 rounded-2xl border border-amber-500/40 bg-amber-950/10 space-y-3">
+      <!-- ADMIN-ONLY QUICK SWITCHER TOOL -->
+      <div id="admin-quick-switcher" class="glass-panel p-4 rounded-2xl border border-amber-500/40 bg-amber-950/10 space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2 text-amber-400 text-xs font-bold">
             <i class="fa-solid fa-sliders"></i>
-            <span>ADMIN ROLE PREVIEW SWITCHER</span>
+            <span>ADMIN-ONLY QUICK ROLE PREVIEW TOOL</span>
           </div>
+          <span class="text-[10px] text-amber-300/80 bg-amber-500/20 px-2 py-0.5 rounded font-mono">STRICTLY ADMIN RESTRICTED</span>
         </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <button onclick="setPreviewRole('guest')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Preview as Guest</button>
-          <button onclick="setPreviewRole('user')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Preview as User</button>
-          <button onclick="setPreviewRole('admin')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">Full Admin View</button>
+        <p class="text-xs text-slate-300">
+          As an Administrator, you can temporarily preview the application UI as a Guest or Standard User without logging out.
+        </p>
+        <div class="flex flex-wrap items-center gap-2 pt-1">
+          <button onclick="setPreviewRole('guest')" id="btn-switch-guest" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+            <i class="fa-solid fa-eye mr-1"></i> Preview as Guest
+          </button>
+          <button onclick="setPreviewRole('user')" id="btn-switch-user" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
+            <i class="fa-solid fa-user mr-1"></i> Preview as Standard User
+          </button>
+          <button onclick="setPreviewRole('admin')" id="btn-switch-admin" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-amber-500/20 text-amber-300 border border-amber-500/40">
+            <i class="fa-solid fa-shield-halved mr-1"></i> Full Admin View
+          </button>
         </div>
       </div>
 
       <!-- Admin Stat Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <span class="text-xs text-slate-400">Total Registered Users</span>
+          <div class="flex items-center justify-between text-slate-400">
+            <span class="text-xs font-medium">Total Registered Users</span>
+            <i class="fa-solid fa-users text-indigo-400"></i>
+          </div>
           <div id="stat-total-users" class="text-2xl font-black text-white">0</div>
+          <p class="text-[11px] text-slate-400">Verified platform accounts</p>
         </div>
+
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <span class="text-xs text-slate-400">Active Resources</span>
+          <div class="flex items-center justify-between text-slate-400">
+            <span class="text-xs font-medium">Active Resources Listed</span>
+            <i class="fa-solid fa-book-open text-brand-400"></i>
+          </div>
           <div id="stat-total-resources" class="text-2xl font-black text-white">0</div>
+          <p class="text-[11px] text-slate-400">Academic & career items</p>
         </div>
+
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <span class="text-xs text-slate-400">Revenue Processed</span>
+          <div class="flex items-center justify-between text-slate-400">
+            <span class="text-xs font-medium">Total Revenue Processed</span>
+            <i class="fa-solid fa-coins text-amber-400"></i>
+          </div>
           <div id="stat-total-revenue" class="text-2xl font-black text-amber-400">0 RWF</div>
+          <p class="text-[11px] text-slate-400">Completed MoMo transactions</p>
         </div>
+
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
-          <span class="text-xs text-slate-400">Pending Orders</span>
+          <div class="flex items-center justify-between text-slate-400">
+            <span class="text-xs font-medium">Pending MoMo Orders</span>
+            <i class="fa-solid fa-clock-rotate-left text-sky-400"></i>
+          </div>
           <div id="stat-pending-orders" class="text-2xl font-black text-white">0</div>
+          <p class="text-[11px] text-slate-400">Awaiting approval</p>
         </div>
       </div>
 
-      <!-- User Management Table -->
-      <div class="space-y-4">
-        <h3 class="text-base font-bold text-slate-200">Registered Platform Profiles</h3>
+      <!-- Admin Sub-Navigation Tabs -->
+      <div class="border-b border-slate-800 flex items-center gap-6 text-xs font-semibold text-slate-400 overflow-x-auto">
+        <button onclick="switchAdminSubTab('users')" id="admin-tab-btn-users" class="admin-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-user-gear"></i> User Management Console
+        </button>
+        <button onclick="switchAdminSubTab('resources')" id="admin-tab-btn-resources" class="admin-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-folder-plus"></i> Marketplace Listings
+        </button>
+        <button onclick="switchAdminSubTab('categories')" id="admin-tab-btn-categories" class="admin-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-tags"></i> Categories
+        </button>
+        <button onclick="switchAdminSubTab('transactions')" id="admin-tab-btn-transactions" class="admin-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-receipt"></i> MoMo Transactions
+        </button>
+      </div>
+
+      <!-- SUBTAB 1: USER ACCOUNT MANAGEMENT CONSOLE -->
+      <div id="admin-subtab-users" class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="text-base font-bold text-slate-200">Registered Platform Users</h3>
+          <p class="text-xs text-slate-400">Manage privileges, change roles, ban or delete accounts.</p>
+        </div>
+
         <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
-                <th class="p-4">Name / ID</th>
-                <th class="p-4">Email</th>
-                <th class="p-4">Phone</th>
+                <th class="p-4">User Details</th>
+                <th class="p-4">Phone Number</th>
                 <th class="p-4">Role</th>
+                <th class="p-4">Status</th>
                 <th class="p-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -364,11 +476,83 @@
           </table>
         </div>
       </div>
-    </section>
 
+      <!-- SUBTAB 2: MARKETPLACE LISTINGS MODERATION -->
+      <div id="admin-subtab-resources" class="hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="text-base font-bold text-slate-200">Marketplace Resource Inventory</h3>
+          <button onclick="toggleModal('resource-modal')" class="px-3.5 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-lg shadow-brand-600/20">
+            <i class="fa-solid fa-plus-circle"></i> Create New Item
+          </button>
+        </div>
+
+        <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-4">Resource Title</th>
+                <th class="p-4">Category</th>
+                <th class="p-4">Price (RWF)</th>
+                <th class="p-4">Seller Contact</th>
+                <th class="p-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-resources-table-body" class="divide-y divide-slate-800/60">
+              <!-- Dynamically Rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SUBTAB 3: CATEGORY MANAGEMENT -->
+      <div id="admin-subtab-categories" class="hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="text-base font-bold text-slate-200">Resource Categories</h3>
+          <div class="flex items-center gap-2">
+            <input type="text" id="new-category-input" placeholder="New Category Name..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+            <button onclick="handleAddCategory()" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
+              Add Category
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl border border-slate-800 p-4">
+          <div id="admin-categories-list" class="flex flex-wrap gap-2">
+            <!-- Dynamically Rendered -->
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBTAB 4: TRANSACTION & MOMO CONSOLE -->
+      <div id="admin-subtab-transactions" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-slate-200">Mobile Money Orders & Approvals</h3>
+        </div>
+
+        <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-4">Order ID</th>
+                <th class="p-4">Item Name</th>
+                <th class="p-4">Buyer Contact</th>
+                <th class="p-4">Price (RWF)</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Date</th>
+                <th class="p-4 text-right">Update Order Status</th>
+              </tr>
+            </thead>
+            <tbody id="admin-transactions-table-body" class="divide-y divide-slate-800/60">
+              <!-- Dynamically Rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
   </main>
 
-  <!-- AUTHENTICATION MODAL (SIGN IN / CREATE ACCOUNT) -->
+  <!-- MODAL 1: AUTHENTICATION (SIGN IN / REGISTRATION) -->
   <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
     <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative space-y-5">
       
@@ -412,7 +596,7 @@
           <input type="tel" id="signup-phone" required placeholder="0788000000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500 transition" />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Password (min 6 characters)</label>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Password (min 6 chars)</label>
           <input type="password" id="signup-password" required minlength="6" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500 transition" />
         </div>
         <button type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
@@ -423,7 +607,7 @@
     </div>
   </div>
 
-  <!-- ADD RESOURCE MODAL -->
+  <!-- MODAL 2: ADD RESOURCE / MATERIAL -->
   <div id="resource-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
     <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative space-y-4">
       <button onclick="toggleModal('resource-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
@@ -435,7 +619,7 @@
       <form onsubmit="handlePostResource(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Material Title</label>
-          <input type="text" id="res-title" required placeholder="e.g. Human Physiology Notes - Semester 1" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500" />
+          <input type="text" id="res-title" required placeholder="e.g. Human Physiology & Somatosensory Notes" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500" />
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
@@ -455,19 +639,19 @@
           <label class="block text-xs font-medium text-slate-300 mb-1">Download Link / Document URL</label>
           <input type="url" id="res-link" required placeholder="https://drive.google.com/..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500" />
         </div>
-        <button type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition">
+        <button type="submit" class="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
           Publish Listing
         </button>
       </form>
     </div>
   </div>
 
-  <!-- SINGLE SUPABASE JS SCRIPT INITIALIZATION -->
+  <!-- SINGLE SUPABASE JS CLIENT INITIALIZATION -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     // =========================================================
-    // 1. SUPABASE CLIENT INITIALIZATION
+    // 1. SUPABASE CLIENT INITIALIZATION & GLOBAL STATE
     // =========================================================
     const SUPABASE_URL = "https://zdjststivwjsqwfdisgr.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_tnXGo8qIQRAlanNpi4gNFA_BIgSiCRh";
@@ -475,24 +659,28 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("Supabase connected successfully!");
 
-    // State Variables
     let currentUser = null;
     let currentProfile = null;
     let previewRoleOverride = null;
     let activeCategoryFilter = 'All';
 
-    // Mock Sample Items for Fallback Display
+    let categoriesList = ['Pharmacy & Health', 'Computer Science', 'General'];
+
     let sampleResources = [
       { id: '1', title: 'Human Physiology & Somatosensory Notes', category: 'Pharmacy & Health', price: 1500, contact: '0796051492', seller: 'Hubert Irahari' },
-      { id: '2', title: 'Organic Chemistry Reactions Sheet', category: 'Pharmacy & Health', price: 0, contact: '0780000000', seller: 'Academic Peer' },
+      { id: '2', title: 'Organic Chemistry Reactions & Back Titrations', category: 'Pharmacy & Health', price: 0, contact: '0780000000', seller: 'Academic Peer' },
       { id: '3', title: 'Database Systems & SQL Overview', category: 'Computer Science', price: 2000, contact: '0796051492', seller: 'Hubert Irahari' }
+    ];
+
+    let sampleOrders = [
+      { id: 'ORD-101', item: 'Human Physiology Notes', price: 1500, contact: '0788123456', status: 'Approved', date: '2026-03-28' },
+      { id: 'ORD-102', item: 'Database Systems Overview', price: 2000, contact: '0796051492', status: 'Pending', date: '2026-04-01' }
     ];
 
     // =========================================================
     // 2. AUTHENTICATION & SESSION HANDLING
     // =========================================================
     window.addEventListener('DOMContentLoaded', async () => {
-      // Check existing session
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         currentUser = session.user;
@@ -501,7 +689,6 @@
         updateUI();
       }
 
-      // Realtime Session Listener
       supabase.auth.onAuthStateChange(async (event, session) => {
         if (session) {
           currentUser = session.user;
@@ -515,6 +702,7 @@
 
       renderMarketplace();
       renderAnnouncements();
+      renderCategories();
     });
 
     async function fetchUserProfile(userId) {
@@ -527,11 +715,10 @@
       if (!error && data) {
         currentProfile = data;
       } else {
-        // Fallback default profile if table row doesn't exist yet
         currentProfile = { id: userId, full_name: currentUser.email.split('@')[0], email: currentUser.email, role: 'user' };
       }
       updateUI();
-      if (getEffectiveRole() === 'admin') fetchAdminStats();
+      if (getEffectiveRole() === 'admin') refreshAllAdminViews();
     }
 
     async function handleSignUp(event) {
@@ -553,7 +740,7 @@
           .from('profiles')
           .insert([{ id: data.user.id, full_name: fullName, email: email, phone: phone, role: 'user' }]);
 
-        if (profileErr) console.warn("Profile table insert warning:", profileErr.message);
+        if (profileErr) console.warn("Profile table sync:", profileErr.message);
 
         showToast("Account created successfully! Welcome aboard.", "success");
         toggleModal('auth-modal');
@@ -583,7 +770,7 @@
     }
 
     // =========================================================
-    // 3. UI STATE & ROLE MANAGEMENT
+    // 3. UI STATE & ROLE CONTROL
     // =========================================================
     function getEffectiveRole() {
       if (previewRoleOverride) return previewRoleOverride;
@@ -599,7 +786,6 @@
       
       roleLabel.textContent = `Status: ${role.toUpperCase()} ${previewRoleOverride ? '(PREVIEW MODE)' : ''}`;
 
-      // Admin Nav Visibility
       if (role === 'admin') {
         adminNav.classList.remove('hidden');
         adminNav.classList.add('flex');
@@ -610,7 +796,6 @@
         mobileAdminNav.classList.add('hidden');
       }
 
-      // User Widget State
       if (currentUser) {
         const displayName = currentProfile?.full_name || currentUser.email;
         widget.innerHTML = `
@@ -622,13 +807,14 @@
           </div>
         `;
 
-        // Populate My Hub
         document.getElementById('myhub-unauth-view').classList.add('hidden');
         document.getElementById('myhub-auth-view').classList.remove('hidden');
         document.getElementById('hub-profile-name').textContent = displayName;
         document.getElementById('hub-profile-email').textContent = currentUser.email;
         document.getElementById('hub-profile-phone').textContent = currentProfile?.phone || 'Not provided';
         document.getElementById('hub-profile-role-badge').textContent = role.toUpperCase();
+
+        renderUserOrders();
       } else {
         widget.innerHTML = `
           <button onclick="toggleModal('auth-modal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
@@ -667,6 +853,26 @@
       }
     }
 
+    function switchUserSubTab(subTab) {
+      document.getElementById('user-subtab-listings').classList.toggle('hidden', subTab !== 'listings');
+      document.getElementById('user-subtab-orders').classList.toggle('hidden', subTab !== 'orders');
+
+      document.getElementById('user-subtab-btn-listings').className = subTab === 'listings' ? 
+        'user-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2' : 
+        'user-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2';
+
+      document.getElementById('user-subtab-btn-orders').className = subTab === 'orders' ? 
+        'user-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2' : 
+        'user-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2';
+    }
+
+    function switchAdminSubTab(subTab) {
+      document.getElementById('admin-subtab-users').classList.toggle('hidden', subTab !== 'users');
+      document.getElementById('admin-subtab-resources').classList.toggle('hidden', subTab !== 'resources');
+      document.getElementById('admin-subtab-categories').classList.toggle('hidden', subTab !== 'categories');
+      document.getElementById('admin-subtab-transactions').classList.toggle('hidden', subTab !== 'transactions');
+    }
+
     function toggleModal(modalId) {
       const modal = document.getElementById(modalId);
       if (modal) {
@@ -700,13 +906,14 @@
     }
 
     // =========================================================
-    // 5. MARKETPLACE LOGIC & RENDER
+    // 5. MARKETPLACE & USER STORE LOGIC
     // =========================================================
     async function renderMarketplace() {
       const grid = document.getElementById('marketplace-grid');
+      const userGrid = document.getElementById('user-listings-grid');
       grid.innerHTML = '';
+      if (userGrid) userGrid.innerHTML = '';
 
-      // Try reading from database table 'marketplace'
       const { data: dbItems, error } = await supabase.from('marketplace').select('*');
       const itemsToRender = (!error && dbItems && dbItems.length > 0) ? dbItems : sampleResources;
 
@@ -718,13 +925,13 @@
       });
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No resources found matching criteria.</p>`;
+        grid.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No materials found.</p>`;
         return;
       }
 
       filtered.forEach(item => {
         const priceTag = item.price > 0 ? `${item.price} RWF` : `<span class="text-emerald-400 font-bold">FREE</span>`;
-        grid.innerHTML += `
+        const cardHTML = `
           <div class="glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-slate-700 transition">
             <div class="space-y-2">
               <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">${item.category}</span>
@@ -733,12 +940,16 @@
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
               <span class="text-xs font-bold text-slate-200">${priceTag}</span>
-              <a href="https://wa.me/250${item.contact || '796051492'}?text=Hello,%20I%20want%20to%20get:%20${encodeURIComponent(item.title)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
+              <a href="https://wa.me/250${item.contact || '796051492'}?text=Hello,%20I%20want%20to%20buy:%20${encodeURIComponent(item.title)}" target="_blank" class="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
                 Get Material
               </a>
             </div>
           </div>
         `;
+        grid.innerHTML += cardHTML;
+        if (userGrid && (item.seller === (currentProfile?.full_name || currentUser?.email))) {
+          userGrid.innerHTML += cardHTML;
+        }
       });
     }
 
@@ -753,7 +964,7 @@
 
     function handlePostNewMaterialClick() {
       if (!currentUser) {
-        showToast("Please sign in first to post material", "info");
+        showToast("Please sign in to post material", "info");
         toggleModal('auth-modal');
       } else {
         toggleModal('resource-modal');
@@ -774,19 +985,35 @@
       };
 
       const { error } = await supabase.from('marketplace').insert([newItem]);
-
-      if (error) {
-        // Fallback to local memory list if table isn't created yet
-        sampleResources.push({ id: Date.now().toString(), ...newItem });
-      }
+      if (error) sampleResources.push({ id: Date.now().toString(), ...newItem });
 
       showToast("Resource published successfully!", "success");
       toggleModal('resource-modal');
       renderMarketplace();
     }
 
+    function renderUserOrders() {
+      const tbody = document.getElementById('user-orders-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      sampleOrders.forEach(o => {
+        tbody.innerHTML += `
+          <tr>
+            <td class="p-4 font-mono text-slate-400">${o.id}</td>
+            <td class="p-4 font-bold text-white">${o.item}</td>
+            <td class="p-4">${o.price} RWF</td>
+            <td class="p-4">${o.contact}</td>
+            <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
+            <td class="p-4 text-slate-400">${o.date}</td>
+            <td class="p-4 text-right"><a href="#" class="text-brand-400 hover:underline">Download</a></td>
+          </tr>
+        `;
+      });
+    }
+
     // =========================================================
-    // 6. ANNOUNCEMENTS & ADMIN STATS
+    // 6. ANNOUNCEMENTS & CATEGORIES
     // =========================================================
     function renderAnnouncements() {
       const list = document.getElementById('announcements-list');
@@ -804,13 +1031,36 @@
 
     function handlePostAnnouncementClick() {
       if (getEffectiveRole() !== 'admin') {
-        showToast("Only System Administrators can post public announcements", "error");
+        showToast("Only System Administrators can post public notices", "error");
       } else {
-        showToast("Announcement editor opened", "info");
+        showToast("Notice editor opened", "info");
       }
     }
 
-    async function fetchAdminStats() {
+    function renderCategories() {
+      const list = document.getElementById('admin-categories-list');
+      if (!list) return;
+      list.innerHTML = '';
+      categoriesList.forEach(c => {
+        list.innerHTML += `<span class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-slate-200 font-medium">${c}</span>`;
+      });
+    }
+
+    function handleAddCategory() {
+      const val = document.getElementById('new-category-input').value.trim();
+      if (val && !categoriesList.includes(val)) {
+        categoriesList.push(val);
+        renderCategories();
+        document.getElementById('new-category-input').value = '';
+        showToast("Category added successfully!", "success");
+      }
+    }
+
+    // =========================================================
+    // 7. ADMIN ANALYTICS & TABLES
+    // =========================================================
+    async function refreshAllAdminViews() {
+      showToast("Refreshing admin data...", "info");
       const { data: users } = await supabase.from('profiles').select('*');
       const { data: items } = await supabase.from('marketplace').select('*');
 
@@ -821,22 +1071,74 @@
         users.forEach(u => {
           body.innerHTML += `
             <tr>
-              <td class="p-4 font-bold text-white">${u.full_name || 'N/A'}</td>
-              <td class="p-4">${u.email || 'N/A'}</td>
+              <td class="p-4 font-bold text-white">${u.full_name || 'N/A'}<br><span class="text-[10px] font-mono text-slate-500">${u.email}</span></td>
               <td class="p-4">${u.phone || 'N/A'}</td>
-              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] bg-brand-500/20 text-brand-300">${u.role}</span></td>
-              <td class="p-4 text-right"><span class="text-slate-500">Active</span></td>
+              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] bg-brand-500/20 text-brand-300 font-bold uppercase">${u.role}</span></td>
+              <td class="p-4"><span class="text-emerald-400">Active</span></td>
+              <td class="p-4 text-right">
+                <button onclick="deleteUser('${u.id}')" class="px-2.5 py-1 rounded bg-rose-600/20 text-rose-400 hover:bg-rose-600/40 text-[11px] font-medium transition">Delete</button>
+              </td>
             </tr>
           `;
         });
       }
+
       if (items) {
         document.getElementById('stat-total-resources').textContent = items.length;
+        const body = document.getElementById('admin-resources-table-body');
+        body.innerHTML = '';
+        items.forEach(i => {
+          body.innerHTML += `
+            <tr>
+              <td class="p-4 font-bold text-white">${i.title}</td>
+              <td class="p-4">${i.category}</td>
+              <td class="p-4">${i.price} RWF</td>
+              <td class="p-4">${i.contact || 'N/A'}</td>
+              <td class="p-4 text-right"><span class="text-slate-500">Managed</span></td>
+            </tr>
+          `;
+        });
+      }
+
+      document.getElementById('stat-total-revenue').textContent = '3,500 RWF';
+      document.getElementById('stat-pending-orders').textContent = '1';
+
+      // Render Admin Transactions
+      const txBody = document.getElementById('admin-transactions-table-body');
+      if (txBody) {
+        txBody.innerHTML = '';
+        sampleOrders.forEach(o => {
+          txBody.innerHTML += `
+            <tr>
+              <td class="p-4 font-mono text-slate-400">${o.id}</td>
+              <td class="p-4 font-bold text-white">${o.item}</td>
+              <td class="p-4">${o.contact}</td>
+              <td class="p-4">${o.price} RWF</td>
+              <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
+              <td class="p-4 text-slate-400">${o.date}</td>
+              <td class="p-4 text-right">
+                <button onclick="showToast('Status Updated', 'success')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200">Approve</button>
+              </td>
+            </tr>
+          `;
+        });
       }
     }
 
+    async function deleteUser(userId) {
+      showConfirmModal("Delete User Account", "Are you sure you want to remove this user from the system database?", async () => {
+        const { error } = await supabase.from('profiles').delete().eq('id', userId);
+        if (!error) {
+          showToast("User deleted successfully", "success");
+          refreshAllAdminViews();
+        } else {
+          showToast("Failed to delete user: " + error.message, "error");
+        }
+      });
+    }
+
     // =========================================================
-    // 7. TOAST NOTIFICATION UTILITY
+    // 8. TOAST NOTIFICATIONS & CONFIRMATION MODAL
     // =========================================================
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
@@ -853,6 +1155,28 @@
 
       container.appendChild(toast);
       setTimeout(() => toast.remove(), 4000);
+    }
+
+    let onConfirmCallback = null;
+    function showConfirmModal(title, message, callback) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      onConfirmCallback = callback;
+      
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      document.getElementById('confirm-ok-btn').onclick = () => {
+        if (onConfirmCallback) onConfirmCallback();
+        closeConfirmModal(true);
+      };
+    }
+
+    function closeConfirmModal() {
+      const modal = document.getElementById('confirm-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
     }
   </script>
 </body>
