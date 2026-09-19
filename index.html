@@ -21,6 +21,10 @@
               700: '#047857',
               800: '#065f46',
               900: '#064e3b',
+            },
+            momo: {
+              yellow: '#ffcc00',
+              red: '#ed1c24'
             }
           },
           fontFamily: {
@@ -37,6 +41,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
+  <!-- Custom CSS for glassmorphism and custom scrollbars -->
   <style>
     body { font-family: 'Inter', sans-serif; }
     .glass-panel {
@@ -58,17 +63,17 @@
 </head>
 <body class="h-full flex flex-col bg-slate-950 text-slate-100 antialiased overflow-x-hidden custom-scrollbar">
 
-  <!-- Toast Notifications Portal -->
+  <!-- Toast Notification Portal -->
   <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
 
-  <!-- Global Confirm Modal -->
+  <!-- Custom Confirmation Modal -->
   <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
     <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
       <div class="flex items-center gap-3 text-amber-400">
         <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
         <h3 id="confirm-title" class="text-lg font-bold text-slate-100">Confirm Action</h3>
       </div>
-      <p id="confirm-message" class="text-sm text-slate-300">Are you sure you want to proceed?</p>
+      <p id="confirm-message" class="text-sm text-slate-300">Are you sure you want to perform this operation?</p>
       <div class="flex justify-end gap-3 pt-2">
         <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Cancel</button>
         <button id="confirm-ok-btn" class="px-4 py-2 rounded-xl text-xs font-medium bg-rose-600 hover:bg-rose-500 text-white transition">Proceed</button>
@@ -76,24 +81,26 @@
     </div>
   </div>
 
-  <!-- Header Navigation -->
+  <!-- Navigation Header -->
   <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/80 bg-slate-950/90 px-4 lg:px-8 py-3.5">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       
-      <!-- Brand Logo -->
+      <!-- Brand Logo & City Location -->
       <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('marketplace')">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-emerald-500 to-teal-300 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-brand-500/20">
           ODH
         </div>
         <div>
-          <h1 class="font-bold text-base md:text-lg text-slate-100 tracking-tight leading-none">Opportunity & Digital Hub</h1>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-base md:text-lg text-slate-100 tracking-tight leading-none">Opportunity & Digital Hub</h1>
+          </div>
           <p class="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
             <i class="fa-solid fa-location-dot text-rose-500 text-[10px]"></i> Huye, Rwanda
           </p>
         </div>
       </div>
 
-      <!-- Navigation Bar -->
+      <!-- Navigation Links -->
       <nav class="hidden md:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800 text-xs font-semibold">
         <button id="nav-marketplace" onclick="switchTab('marketplace')" class="nav-btn active px-4 py-2 rounded-xl flex items-center gap-2 transition text-brand-400 bg-brand-500/10 border border-brand-500/20">
           <i class="fa-solid fa-store"></i> Marketplace & Notes
@@ -109,19 +116,22 @@
         </button>
       </nav>
 
-      <!-- User Profile Widget & WhatsApp Button -->
+      <!-- User Widget & WhatsApp Quick Link -->
       <div class="flex items-center gap-3">
+        <!-- Direct WhatsApp Quick Chat with Hub Manager IRAHARI Hubert -->
         <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20am%20contacting%20you%20from%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold transition">
           <i class="fa-brands fa-whatsapp text-sm"></i>
           <span>Hub Manager</span>
         </a>
 
+        <!-- Dynamic User Auth Widget -->
         <div id="user-profile-widget">
           <button onclick="toggleModal('auth-modal')" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20">
             Sign In / Register
           </button>
         </div>
 
+        <!-- Mobile Menu Toggle -->
         <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
           <i class="fa-solid fa-bars text-base"></i>
         </button>
@@ -129,7 +139,7 @@
 
     </div>
 
-    <!-- Mobile Drawer -->
+    <!-- Mobile Navigation Drawer -->
     <div id="mobile-menu" class="hidden md:hidden pt-3 mt-3 border-t border-slate-800/80 flex flex-col gap-2 text-xs font-medium">
       <button onclick="switchTab('marketplace'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl bg-slate-900 text-slate-200 flex items-center gap-2">
         <i class="fa-solid fa-store text-brand-400"></i> Marketplace & Notes
@@ -146,7 +156,7 @@
     </div>
   </header>
 
-  <!-- Status Banner -->
+  <!-- Active Environment Role Banner -->
   <section id="environment-banner" class="bg-slate-900/80 border-b border-slate-800 px-4 py-2">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2">
       <div class="flex items-center gap-2 font-mono text-[11px]">
@@ -154,17 +164,21 @@
         <span id="user-role-label">Status: Guest User</span>
       </div>
       <div class="flex items-center gap-2 text-[11px] text-slate-400">
-        <i class="fa-solid fa-database text-brand-400"></i>
-        <span>Supabase Engine Connected</span>
+        <i class="fa-solid fa-shield-halved text-brand-400"></i>
+        <span>Supabase Auth & RLS Active</span>
       </div>
     </div>
   </section>
 
-  <!-- Main Content Views -->
+  <!-- Main View Container -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-8">
 
-    <!-- TAB 1: MARKETPLACE & NOTES -->
+    <!-- =================================================================== -->
+    <!-- SECTION 1: MARKETPLACE & NOTES TAB (PUBLIC / ALL USERS)            -->
+    <!-- =================================================================== -->
     <section id="tab-marketplace" class="tab-content space-y-6">
+      
+      <!-- Hero Banner -->
       <div class="glass-panel p-6 md:p-8 rounded-3xl border border-slate-800 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900/90 to-emerald-950/40">
         <div class="relative z-10 max-w-2xl space-y-3">
           <div class="flex items-center gap-2">
@@ -176,52 +190,59 @@
             </span>
           </div>
           <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-            Academic Notes, Past Papers & Opportunities
+            Academic Notes, Past Papers & Career Opportunities
           </h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            Buy revision materials and study sheets directly from verified students in Huye. Post your own study materials to earn revenue or share free resources.
+            Buy revision materials, modules, and study sheets from verified learners in Huye. Post your own materials to earn money or share free academic resources.
           </p>
           
           <div class="pt-2 flex flex-wrap items-center gap-3">
             <button onclick="handlePostNewMaterialClick()" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20 flex items-center gap-2">
-              <i class="fa-solid fa-plus-circle"></i> Post New Material
+              <i class="fa-solid fa-plus-circle"></i> Post New Material / Opportunity
             </button>
             <a href="https://wa.me/250796051492?text=Hello%20Hubert,%20I%20need%20assistance%20on%20Opportunity%20%26%20Digital%20Hub" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs transition border border-slate-700 flex items-center gap-2">
               <i class="fa-brands fa-whatsapp text-emerald-400"></i> Contact Hub Manager
             </a>
           </div>
         </div>
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-brand-400 pointer-events-none">
+          <i class="fa-solid fa-graduation-cap text-[200px]"></i>
+        </div>
       </div>
 
-      <!-- Search & Filters -->
+      <!-- Search & Filters Bar -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
         <div class="relative w-full sm:w-80">
           <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
           <input id="search-resources" oninput="filterMarketplace()" type="text" placeholder="Search notes, modules, papers..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 transition" />
         </div>
         
-        <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 custom-scrollbar">
-          <span class="text-xs text-slate-400 whitespace-nowrap mr-1"><i class="fa-solid fa-filter mr-1"></i>Category:</span>
-          <div id="category-pills" class="flex items-center gap-1.5"></div>
+        <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 custom-scrollbar">
+          <span class="text-xs text-slate-400 whitespace-nowrap mr-1"><i class="fa-solid fa-filter mr-1"></i>Filter:</span>
+          <div id="category-pills" class="flex items-center gap-1.5">
+            <!-- Populated dynamically -->
+          </div>
         </div>
       </div>
 
-      <!-- Marketplace Grid -->
+      <!-- Marketplace Cards Grid -->
       <div id="marketplace-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <p class="col-span-full text-center text-xs text-slate-500 py-12"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading items from database...</p>
       </div>
     </section>
 
-    <!-- TAB 2: ANNOUNCEMENTS -->
+    <!-- =================================================================== -->
+    <!-- SECTION 2: ANNOUNCEMENTS TAB                                       -->
+    <!-- =================================================================== -->
     <section id="tab-announcements" class="tab-content hidden space-y-6">
       <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex justify-between items-center flex-wrap gap-4">
         <div>
           <h2 class="text-xl font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-bullhorn text-sky-400"></i> Public Announcements & Opportunities
+            <i class="fa-solid fa-bullhorn text-sky-400"></i> Announcements & Public Notices
           </h2>
           <p class="text-xs text-slate-400 mt-1">Scholarships, Huye community alerts, and official platform news.</p>
         </div>
-        <button id="btn-add-announcement" onclick="openAnnouncementModal()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition flex items-center gap-2 shadow-lg shadow-sky-600/20">
+        <button id="btn-add-announcement" onclick="handlePostAnnouncementClick()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition flex items-center gap-2 shadow-lg shadow-sky-600/20">
           <i class="fa-solid fa-plus"></i> Post Official Notice
         </button>
       </div>
@@ -231,7 +252,9 @@
       </div>
     </section>
 
-    <!-- TAB 3: MY HUB & STORE -->
+    <!-- =================================================================== -->
+    <!-- SECTION 3: MY HUB & USER STORE TAB (LOGIN REQUIRED)                -->
+    <!-- =================================================================== -->
     <section id="tab-myhub" class="tab-content hidden space-y-6">
       <!-- Unauthenticated View Guard -->
       <div id="myhub-unauth-view" class="glass-panel p-10 rounded-3xl border border-slate-800 text-center space-y-4 max-w-xl mx-auto my-12">
@@ -254,6 +277,8 @@
 
       <!-- Authenticated User Content Container -->
       <div id="myhub-auth-view" class="hidden space-y-6">
+        
+        <!-- User Profile Card Banner -->
         <div class="glass-panel p-6 rounded-3xl border border-slate-800 flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40">
           <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-2xl font-black">
@@ -273,11 +298,12 @@
             </div>
           </div>
 
-          <button onclick="toggleModal('resource-modal')" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20 flex items-center gap-2">
+          <button onclick="handlePostNewMaterialClick()" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs transition shadow-lg shadow-brand-600/20 flex items-center gap-2">
             <i class="fa-solid fa-plus"></i> Post New Material
           </button>
         </div>
 
+        <!-- User Hub Sub-Tabs -->
         <div class="border-b border-slate-800 flex items-center gap-6 text-xs font-semibold text-slate-400">
           <button onclick="switchUserSubTab('listings')" id="user-subtab-btn-listings" class="user-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2">
             <i class="fa-solid fa-folder-open"></i> My Posted Listings
@@ -289,7 +315,9 @@
 
         <!-- USER SUBTAB 1: MY LISTINGS -->
         <div id="user-subtab-listings" class="space-y-4">
-          <div id="user-listings-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+          <div id="user-listings-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Rendered via JS -->
+          </div>
         </div>
 
         <!-- USER SUBTAB 2: MY PURCHASES -->
@@ -307,7 +335,9 @@
                   <th class="p-4 text-right">Access Link</th>
                 </tr>
               </thead>
-              <tbody id="user-orders-table-body" class="divide-y divide-slate-800/60"></tbody>
+              <tbody id="user-orders-table-body" class="divide-y divide-slate-800/60">
+                <!-- Rendered via JS -->
+              </tbody>
             </table>
           </div>
         </div>
@@ -315,8 +345,12 @@
       </div>
     </section>
 
-    <!-- TAB 4: STRICT ADMIN CONTROL CENTER -->
+    <!-- =================================================================== -->
+    <!-- SECTION 4: STRICT PROTECTED ADMIN CONTROL CENTER (ADMIN ONLY)       -->
+    <!-- =================================================================== -->
     <section id="tab-admin" class="tab-content hidden space-y-8">
+      
+      <!-- Admin Control Header -->
       <div class="glass-panel p-6 rounded-3xl border border-amber-500/30 bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/30 flex flex-wrap items-center justify-between gap-4">
         <div class="space-y-1">
           <div class="flex items-center gap-2">
@@ -330,22 +364,22 @@
         
         <div class="flex items-center gap-3">
           <button onclick="refreshAllAdminViews()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition flex items-center gap-2">
-            <i class="fa-solid fa-rotate"></i> Refresh System Data
+            <i class="fa-solid fa-rotate"></i> Refresh Data
           </button>
         </div>
       </div>
 
-      <!-- Quick Role Preview Switcher -->
+      <!-- ADMIN-ONLY QUICK SWITCHER TOOL -->
       <div id="admin-quick-switcher" class="glass-panel p-4 rounded-2xl border border-amber-500/40 bg-amber-950/10 space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2 text-amber-400 text-xs font-bold">
             <i class="fa-solid fa-sliders"></i>
-            <span>ADMIN-ONLY ROLE PREVIEW CONTROLLER</span>
+            <span>ADMIN-ONLY QUICK ROLE PREVIEW TOOL</span>
           </div>
           <span class="text-[10px] text-amber-300/80 bg-amber-500/20 px-2 py-0.5 rounded font-mono">ADMIN PRIVILEGED</span>
         </div>
         <p class="text-xs text-slate-300">
-          Temporarily preview the UI interface as a Guest or Standard User without logging out of your admin session.
+          As an Administrator, you can temporarily preview the application UI as a Guest or Standard User without logging out.
         </p>
         <div class="flex flex-wrap items-center gap-2 pt-1">
           <button onclick="setPreviewRole('guest')" id="btn-switch-guest" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700">
@@ -360,7 +394,7 @@
         </div>
       </div>
 
-      <!-- Analytics Metrics Cards -->
+      <!-- Admin Stat Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex items-center justify-between text-slate-400">
@@ -368,16 +402,16 @@
             <i class="fa-solid fa-users text-indigo-400"></i>
           </div>
           <div id="stat-total-users" class="text-2xl font-black text-white">0</div>
-          <p class="text-[11px] text-slate-400">Verified database users</p>
+          <p class="text-[11px] text-slate-400">Verified platform accounts</p>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex items-center justify-between text-slate-400">
-            <span class="text-xs font-medium">Active Resources</span>
+            <span class="text-xs font-medium">Active Resources Listed</span>
             <i class="fa-solid fa-book-open text-brand-400"></i>
           </div>
           <div id="stat-total-resources" class="text-2xl font-black text-white">0</div>
-          <p class="text-[11px] text-slate-400">Academic materials online</p>
+          <p class="text-[11px] text-slate-400">Academic & career items</p>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
@@ -386,20 +420,20 @@
             <i class="fa-solid fa-coins text-amber-400"></i>
           </div>
           <div id="stat-total-revenue" class="text-2xl font-black text-amber-400">0 RWF</div>
-          <p class="text-[11px] text-slate-400">Approved MoMo sales</p>
+          <p class="text-[11px] text-slate-400">Completed MoMo transactions</p>
         </div>
 
         <div class="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
           <div class="flex items-center justify-between text-slate-400">
-            <span class="text-xs font-medium">Pending Approvals</span>
+            <span class="text-xs font-medium">Pending MoMo Orders</span>
             <i class="fa-solid fa-clock-rotate-left text-sky-400"></i>
           </div>
           <div id="stat-pending-orders" class="text-2xl font-black text-white">0</div>
-          <p class="text-[11px] text-slate-400">Awaiting MoMo verification</p>
+          <p class="text-[11px] text-slate-400">Awaiting approval</p>
         </div>
       </div>
 
-      <!-- Admin Sub-Navigation -->
+      <!-- Admin Sub-Navigation Tabs -->
       <div class="border-b border-slate-800 flex items-center gap-6 text-xs font-semibold text-slate-400 overflow-x-auto">
         <button onclick="switchAdminSubTab('users')" id="admin-tab-btn-users" class="admin-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-user-gear"></i> User Management Console
@@ -411,30 +445,44 @@
           <i class="fa-solid fa-tags"></i> Categories
         </button>
         <button onclick="switchAdminSubTab('transactions')" id="admin-tab-btn-transactions" class="admin-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2 whitespace-nowrap">
-          <i class="fa-solid fa-receipt"></i> MoMo Transactions & Orders
+          <i class="fa-solid fa-receipt"></i> MoMo Transactions
         </button>
       </div>
 
-      <!-- ADMIN SUBTAB 1: USER MANAGEMENT -->
+      <!-- SUBTAB 1: USER ACCOUNT MANAGEMENT CONSOLE -->
       <div id="admin-subtab-users" class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="text-base font-bold text-slate-200">Registered Platform Users</h3>
+          <p class="text-xs text-slate-400">Manage privileges, change roles, or toggle permissions.</p>
+        </div>
+
         <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
-                <th class="p-4">User Info</th>
+                <th class="p-4">User Details</th>
                 <th class="p-4">Phone Number</th>
                 <th class="p-4">Role</th>
                 <th class="p-4">Joined Date</th>
                 <th class="p-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody id="admin-users-table-body" class="divide-y divide-slate-800/60"></tbody>
+            <tbody id="admin-users-table-body" class="divide-y divide-slate-800/60">
+              <!-- Rendered via JS -->
+            </tbody>
           </table>
         </div>
       </div>
 
-      <!-- ADMIN SUBTAB 2: MARKETPLACE MODERATION -->
+      <!-- SUBTAB 2: MARKETPLACE LISTINGS MODERATION -->
       <div id="admin-subtab-resources" class="hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="text-base font-bold text-slate-200">Marketplace Resource Inventory</h3>
+          <button onclick="handlePostNewMaterialClick()" class="px-3.5 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-lg shadow-brand-600/20">
+            <i class="fa-solid fa-plus-circle"></i> Create New Item
+          </button>
+        </div>
+
         <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
@@ -446,15 +494,17 @@
                 <th class="p-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody id="admin-resources-table-body" class="divide-y divide-slate-800/60"></tbody>
+            <tbody id="admin-resources-table-body" class="divide-y divide-slate-800/60">
+              <!-- Rendered via JS -->
+            </tbody>
           </table>
         </div>
       </div>
 
-      <!-- ADMIN SUBTAB 3: CATEGORY MANAGER -->
+      <!-- SUBTAB 3: CATEGORY MANAGEMENT -->
       <div id="admin-subtab-categories" class="hidden space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <h3 class="text-base font-bold text-slate-200">Category List</h3>
+          <h3 class="text-base font-bold text-slate-200">Resource Categories</h3>
           <div class="flex items-center gap-2">
             <input type="text" id="new-category-input" placeholder="New Category Name..." class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500" />
             <button onclick="handleAddCategory()" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
@@ -464,25 +514,34 @@
         </div>
 
         <div class="glass-panel rounded-2xl border border-slate-800 p-4">
-          <div id="admin-categories-list" class="flex flex-wrap gap-2"></div>
+          <div id="admin-categories-list" class="flex flex-wrap gap-2">
+            <!-- Rendered via JS -->
+          </div>
         </div>
       </div>
 
-      <!-- ADMIN SUBTAB 4: TRANSACTION & MOMO APPROVALS -->
+      <!-- SUBTAB 4: TRANSACTION & MOMO CONSOLE -->
       <div id="admin-subtab-transactions" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-slate-200">Mobile Money Orders & Approvals</h3>
+        </div>
+
         <div class="glass-panel rounded-2xl border border-slate-800 overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-900/90 uppercase text-[10px] font-bold tracking-wider text-slate-400 border-b border-slate-800">
               <tr>
                 <th class="p-4">Order Ref</th>
                 <th class="p-4">Item Name</th>
-                <th class="p-4">Buyer Details</th>
-                <th class="p-4">Price</th>
+                <th class="p-4">Buyer & Contact</th>
+                <th class="p-4">Price (RWF)</th>
                 <th class="p-4">Status</th>
-                <th class="p-4 text-right">MoMo Approvals</th>
+                <th class="p-4">Date</th>
+                <th class="p-4 text-right">Update Status</th>
               </tr>
             </thead>
-            <tbody id="admin-transactions-table-body" class="divide-y divide-slate-800/60"></tbody>
+            <tbody id="admin-transactions-table-body" class="divide-y divide-slate-800/60">
+              <!-- Rendered via JS -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -493,6 +552,7 @@
   <!-- Site Footer -->
   <footer class="glass-panel border-t border-slate-800 bg-slate-950/90 pt-10 pb-6 mt-12">
     <div class="max-w-7xl mx-auto px-4 lg:px-8 space-y-8">
+      
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <!-- Brand Summary -->
         <div class="space-y-3 md:col-span-1">
@@ -549,6 +609,7 @@
         </div>
       </div>
 
+      <!-- Footer Bottom Copyright -->
       <div class="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-2">
         <p>&copy; Opportunity & Digital Hub (ODH) - Huye, Rwanda. Managed by IRAHARI Hubert.</p>
         <div class="flex items-center gap-4">
@@ -557,21 +618,25 @@
           <span class="hover:text-slate-400 transition">Supabase & Netlify Connected</span>
         </div>
       </div>
+
     </div>
   </footer>
 
-  <!-- MODAL 1: AUTHENTICATION MODAL -->
+  <!-- MODAL 1: AUTHENTICATION (SIGN IN / REGISTRATION) -->
   <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
     <div class="glass-panel bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl relative space-y-5">
+      
       <button onclick="toggleModal('auth-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
         <i class="fa-solid fa-xmark"></i>
       </button>
 
+      <!-- Auth Header Tabs -->
       <div class="flex border-b border-slate-800 gap-6 text-sm font-bold">
         <button id="auth-tab-login" onclick="switchAuthForm('login')" class="pb-3 text-brand-400 border-b-2 border-brand-500">Sign In</button>
         <button id="auth-tab-signup" onclick="switchAuthForm('signup')" class="pb-3 text-slate-400 hover:text-slate-200 border-b-2 border-transparent">Create Account</button>
       </div>
 
+      <!-- Sign In Form -->
       <form id="form-login" onsubmit="handleSignIn(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Email Address</label>
@@ -586,6 +651,7 @@
         </button>
       </form>
 
+      <!-- Registration Form -->
       <form id="form-signup" onsubmit="handleSignUp(event)" class="hidden space-y-4">
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Full Name</label>
@@ -607,6 +673,7 @@
           Create Account
         </button>
       </form>
+
     </div>
   </div>
 
@@ -704,14 +771,24 @@
     </div>
   </div>
 
-  <!-- SUPABASE JS SDK -->
+  <!-- SUPABASE JS CLIENT SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- APPLICATION ENGINE SCRIPT -->
+  <!-- APPLICATION CORE ENGINE SCRIPT -->
   <script>
     // ---------------------------------------------------------
-    // 0. GLOBAL NAVIGATION & UI FUNCTIONS
+    // 0. SECURITY & UTILITY FUNCTIONS
     // ---------------------------------------------------------
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
       document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -750,6 +827,15 @@
       document.getElementById('admin-subtab-resources').classList.toggle('hidden', subTab !== 'resources');
       document.getElementById('admin-subtab-categories').classList.toggle('hidden', subTab !== 'categories');
       document.getElementById('admin-subtab-transactions').classList.toggle('hidden', subTab !== 'transactions');
+
+      document.querySelectorAll('.admin-subtab-btn').forEach(btn => {
+        btn.className = "admin-subtab-btn pb-3 hover:text-slate-200 border-b-2 border-transparent flex items-center gap-2 whitespace-nowrap";
+      });
+
+      const activeBtn = document.getElementById('admin-tab-btn-' + subTab);
+      if (activeBtn) {
+        activeBtn.className = "admin-subtab-btn pb-3 text-brand-400 border-b-2 border-brand-500 flex items-center gap-2 whitespace-nowrap";
+      }
     }
 
     function toggleModal(modalId) {
@@ -821,7 +907,7 @@
     }
 
     // ---------------------------------------------------------
-    // 1. SUPABASE CLIENT INITIALIZATION
+    // 1. SAFE SUPABASE CLIENT INITIALIZATION
     // ---------------------------------------------------------
     const SUPABASE_URL = "https://zdjststivwjsqwfdisgr.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_tnXGo8qIQRAlanNpi4gNFA_BIgSiCRh";
@@ -831,7 +917,7 @@
       if (window.supabase && typeof window.supabase.createClient === 'function') {
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       } else {
-        console.warn("Supabase SDK not initialized.");
+        console.warn("Supabase SDK not loaded or blocked.");
       }
     } catch (err) {
       console.error("Supabase init error:", err);
@@ -955,6 +1041,7 @@
       if (supabase) await supabase.auth.signOut();
       currentUser = null;
       currentProfile = null;
+      previewRoleOverride = null;
       updateUI();
       showToast("Signed out successfully", "info");
     }
@@ -988,7 +1075,7 @@
         const displayName = currentProfile?.full_name || currentUser.email;
         widget.innerHTML = `
           <div class="flex items-center gap-2">
-            <span class="text-xs font-semibold text-slate-200 hidden sm:inline">${displayName}</span>
+            <span class="text-xs font-semibold text-slate-200 hidden sm:inline">${escapeHTML(displayName)}</span>
             <button onclick="handleSignOut()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 text-xs font-medium transition">
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
@@ -1047,8 +1134,8 @@
       }
 
       availableCategories.forEach(c => {
-        pillsContainer.innerHTML += `<button onclick="filterCategory('${c}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${activeCategoryFilter === c ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${c}</button>`;
-        selectContainer.innerHTML += `<option value="${c}">${c}</option>`;
+        pillsContainer.innerHTML += `<button onclick="filterCategory('${escapeHTML(c)}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold ${activeCategoryFilter === c ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${escapeHTML(c)}</button>`;
+        selectContainer.innerHTML += `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`;
       });
 
       renderAdminCategories();
@@ -1092,13 +1179,13 @@
         const cardHTML = `
           <div class="glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-slate-700 transition">
             <div class="space-y-2">
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">${item.category}</span>
-              <h3 class="font-bold text-white text-base leading-snug">${item.title}</h3>
-              <p class="text-xs text-slate-400">Seller: ${item.seller_name || 'Hub Member'}</p>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/20">${escapeHTML(item.category)}</span>
+              <h3 class="font-bold text-white text-base leading-snug">${escapeHTML(item.title)}</h3>
+              <p class="text-xs text-slate-400">Seller: ${escapeHTML(item.seller_name || 'Hub Member')}</p>
             </div>
             <div class="flex items-center justify-between pt-2 border-t border-slate-800/80">
               <span class="text-xs font-bold text-slate-200">${priceTag}</span>
-              <button onclick="openBuyModal('${item.id}', '${item.title.replace(/'/g, "\\'")}', ${item.price})" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
+              <button onclick="openBuyModal('${item.id}', '${escapeHTML(item.title)}', ${item.price})" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold transition">
                 ${item.price > 0 ? 'Buy Material' : 'Get Free Material'}
               </button>
             </div>
@@ -1235,14 +1322,14 @@
         const downloadUrl = o.marketplace?.file_url || '#';
         tbody.innerHTML += `
           <tr>
-            <td class="p-4 font-mono text-slate-400 text-[11px]">${o.momo_ref}</td>
-            <td class="p-4 font-bold text-white">${o.item_title}</td>
+            <td class="p-4 font-mono text-slate-400 text-[11px]">${escapeHTML(o.momo_ref)}</td>
+            <td class="p-4 font-bold text-white">${escapeHTML(o.item_title)}</td>
             <td class="p-4">${o.price} RWF</td>
-            <td class="p-4">${o.buyer_phone}</td>
-            <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
+            <td class="p-4">${escapeHTML(o.buyer_phone)}</td>
+            <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${escapeHTML(o.status)}</span></td>
             <td class="p-4 text-slate-400 text-[11px]">${new Date(o.created_at).toLocaleDateString()}</td>
             <td class="p-4 text-right">
-              ${o.status === 'Approved' ? `<a href="${downloadUrl}" target="_blank" class="text-brand-400 hover:underline font-bold">Download Material</a>` : `<span class="text-slate-500 italic">Awaiting Approval</span>`}
+              ${o.status === 'Approved' ? `<a href="${escapeHTML(downloadUrl)}" target="_blank" class="text-brand-400 hover:underline font-bold">Download Material</a>` : `<span class="text-slate-500 italic">Awaiting Approval</span>`}
             </td>
           </tr>
         `;
@@ -1285,19 +1372,19 @@
           <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-2">
             <div class="flex items-center justify-between text-xs text-sky-400 font-semibold">
               <span>Official Announcement</span>
-              <span>${a.author_name || 'Admin'}</span>
+              <span>${escapeHTML(a.author_name || 'Admin')}</span>
             </div>
-            <h3 class="font-bold text-white text-base">${a.title}</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">${a.content}</p>
+            <h3 class="font-bold text-white text-base">${escapeHTML(a.title)}</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">${escapeHTML(a.content)}</p>
             <p class="text-[10px] text-slate-500 pt-1">${new Date(a.created_at).toLocaleString()}</p>
           </div>
         `;
       });
     }
 
-    function openAnnouncementModal() {
+    function handlePostAnnouncementClick() {
       if (getEffectiveRole() !== 'admin') {
-        showToast("Only System Administrators can create notices", "error");
+        showToast("Only System Administrators can create announcements", "error");
         return;
       }
       toggleModal('announcement-modal');
@@ -1343,9 +1430,9 @@
           users.forEach(u => {
             body.innerHTML += `
               <tr>
-                <td class="p-4 font-bold text-white">${u.full_name}<br><span class="text-[10px] font-mono text-slate-500">${u.email}</span></td>
-                <td class="p-4">${u.phone || 'N/A'}</td>
-                <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-amber-500/20 text-amber-300' : 'bg-brand-500/20 text-brand-300'} uppercase">${u.role}</span></td>
+                <td class="p-4 font-bold text-white">${escapeHTML(u.full_name)}<br><span class="text-[10px] font-mono text-slate-500">${escapeHTML(u.email)}</span></td>
+                <td class="p-4">${escapeHTML(u.phone || 'N/A')}</td>
+                <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-amber-500/20 text-amber-300' : 'bg-brand-500/20 text-brand-300'} uppercase">${escapeHTML(u.role)}</span></td>
                 <td class="p-4 text-slate-400 text-[11px]">${new Date(u.created_at).toLocaleDateString()}</td>
                 <td class="p-4 text-right">
                   <button onclick="toggleUserRole('${u.id}', '${u.role}')" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] mr-1">Toggle Role</button>
@@ -1364,10 +1451,10 @@
           items.forEach(i => {
             body.innerHTML += `
               <tr>
-                <td class="p-4 font-bold text-white">${i.title}</td>
-                <td class="p-4">${i.category}</td>
+                <td class="p-4 font-bold text-white">${escapeHTML(i.title)}</td>
+                <td class="p-4">${escapeHTML(i.category)}</td>
                 <td class="p-4">${i.price} RWF</td>
-                <td class="p-4">${i.contact}</td>
+                <td class="p-4">${escapeHTML(i.contact)}</td>
                 <td class="p-4 text-right">
                   <button onclick="deleteResource('${i.id}')" class="px-2 py-1 bg-rose-600/20 text-rose-400 hover:bg-rose-600/40 rounded text-[11px]">Delete</button>
                 </td>
@@ -1391,11 +1478,12 @@
           orders.forEach(o => {
             txBody.innerHTML += `
               <tr>
-                <td class="p-4 font-mono text-slate-400 text-[11px]">${o.momo_ref}</td>
-                <td class="p-4 font-bold text-white">${o.item_title}</td>
-                <td class="p-4">${o.buyer_name}<br><span class="text-[10px] text-slate-500">${o.buyer_phone}</span></td>
+                <td class="p-4 font-mono text-slate-400 text-[11px]">${escapeHTML(o.momo_ref)}</td>
+                <td class="p-4 font-bold text-white">${escapeHTML(o.item_title)}</td>
+                <td class="p-4">${escapeHTML(o.buyer_name)}<br><span class="text-[10px] text-slate-500">${escapeHTML(o.buyer_phone)}</span></td>
                 <td class="p-4">${o.price} RWF</td>
-                <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${o.status}</span></td>
+                <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${o.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${escapeHTML(o.status)}</span></td>
+                <td class="p-4 text-slate-400 text-[11px]">${new Date(o.created_at).toLocaleDateString()}</td>
                 <td class="p-4 text-right">
                   ${o.status === 'Pending' ? `
                     <button onclick="updateOrderStatus('${o.id}', 'Approved')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] mr-1">Approve</button>
@@ -1436,7 +1524,7 @@
       if (!list) return;
       list.innerHTML = '';
       availableCategories.forEach(c => {
-        list.innerHTML += `<span class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-slate-200 font-medium">${c}</span>`;
+        list.innerHTML += `<span class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-slate-200 font-medium">${escapeHTML(c)}</span>`;
       });
     }
 
