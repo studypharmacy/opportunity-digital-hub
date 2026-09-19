@@ -1916,6 +1916,47 @@
       renderMarketplaceGrid();
       renderAnnouncements();
     };
-  </script>
+  </script<!-- Supabase JS Client library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // Initialize Supabase client
+  const SUPABASE_URL = "https://YOUR_PROJECT_REF.supabase.co";
+  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Example: User Sign Up
+  async function signUpUser(email, password, fullName, phone) {
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      alert("Sign up failed: " + error.message);
+      return;
+    }
+
+    // Insert additional details into public profiles table
+    if (data.user) {
+      await supabase.from('profiles').insert([
+        { id: data.user.id, full_name: fullName, email: email, phone: phone, role: 'user' }
+      ]);
+      alert("Account created successfully!");
+    }
+  }
+
+  // Example: Fetch Marketplace Posts
+  async function loadMarketplace() {
+    const { data: items, error } = await supabase
+      .from('marketplace')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) console.error("Error loading items:", error);
+    else console.log("Marketplace items:", items);
+  }
+</script>
 </body>
 </html>
