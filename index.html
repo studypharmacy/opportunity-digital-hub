@@ -1917,14 +1917,14 @@
       renderAnnouncements();
     };
   </script>
-<!-- Supabase Client Library -->
+<!-- Supabase CDN Client -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Supabase Connection -->
 <script>
-  const SUPABASE_URL = "https://zdjststivwjsqwfdisgr.supabase.co"; 
+  const SUPABASE_URL = "https://zdjststivwjsqwfdisgr.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_tnXGo8qIQRAlanNpi4gNFA_BIgSiCRh";
 
+  // Declared ONLY ONCE in the whole file:
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   console.log("Supabase connected successfully!");
 </script>
